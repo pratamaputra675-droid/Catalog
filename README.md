@@ -42,6 +42,25 @@
             --border-color: #f1f5f9;
             --header-bg: rgba(242, 242, 247, 0.8);
             --header-text: #0f172a;
+            /* Extra Elements Variables */
+            --cat-bg: #ffffff;
+            --cat-text: #0f172a;
+            --search-bg: #E3E3E8;
+            --search-text: #0f172a;
+
+            /* Category Specific Colors */
+            --cat-Mesin-bg: #f1f5f9;
+            --cat-Mesin-text: #0f172a;
+            --cat-Kakikaki-bg: #f1f5f9;
+            --cat-Kakikaki-text: #0f172a;
+            --cat-Rem-bg: #f1f5f9;
+            --cat-Rem-text: #0f172a;
+            --cat-Kelistrikan-bg: #f1f5f9;
+            --cat-Kelistrikan-text: #0f172a;
+            --cat-Bodi-bg: #f1f5f9;
+            --cat-Bodi-text: #0f172a;
+            --cat-Lainnya-bg: #f1f5f9;
+            --cat-Lainnya-text: #0f172a;
         }
 
         /* Dark Mode Theme Default Fallbacks */
@@ -53,6 +72,38 @@
             --border-color: #2c2c2e;
             --header-bg: rgba(0, 0, 0, 0.8);
             --header-text: #f8fafc;
+            --cat-bg: #1c1c1e;
+            --cat-text: #f8fafc;
+            --search-bg: #2c2c2e;
+            --search-text: #f8fafc;
+
+            --cat-Mesin-bg: #2c2c2e;
+            --cat-Mesin-text: #f8fafc;
+            --cat-Kakikaki-bg: #2c2c2e;
+            --cat-Kakikaki-text: #f8fafc;
+            --cat-Rem-bg: #2c2c2e;
+            --cat-Rem-text: #f8fafc;
+            --cat-Kelistrikan-bg: #2c2c2e;
+            --cat-Kelistrikan-text: #f8fafc;
+            --cat-Bodi-bg: #2c2c2e;
+            --cat-Bodi-text: #f8fafc;
+            --cat-Lainnya-bg: #2c2c2e;
+            --cat-Lainnya-text: #f8fafc;
+        }
+
+        /* Dark Mode Theme Default Fallbacks */
+        body.theme-dark {
+            --bg-color: #000000;
+            --card-bg: #1c1c1e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #2c2c2e;
+            --header-bg: rgba(0, 0, 0, 0.8);
+            --header-text: #f8fafc;
+            --cat-bg: #1c1c1e;
+            --cat-text: #f8fafc;
+            --search-bg: #2c2c2e;
+            --search-text: #f8fafc;
         }
 
         /* Accent Color Schemes */
@@ -82,6 +133,18 @@
         }
         .custom-header-text {
             color: var(--custom-header-text-color, var(--header-text)) !important;
+        }
+
+        /* Custom Category Box Style */
+        .custom-category-box {
+            background-color: var(--custom-cat-bg, var(--cat-bg)) !important;
+            color: var(--custom-cat-text, var(--cat-text)) !important;
+        }
+
+        /* Custom Search Input Style */
+        .custom-search-input {
+            background-color: var(--custom-search-bg, var(--search-bg)) !important;
+            color: var(--custom-search-text, var(--search-text)) !important;
         }
 
         /* App Outer Layout Spacing */
@@ -148,13 +211,13 @@
         </div>
 
         <!-- Category Summary Accordion/Card -->
-        <div class="theme-card rounded-2xl p-4 shadow-sm border">
+        <div class="theme-card custom-category-box rounded-2xl p-4 shadow-sm border transition-colors">
             <button onclick="toggleCategoryStats()" class="w-full flex items-center justify-between text-left">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-chart-pie theme-accent-text text-sm"></i>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Stok Per Kategori</span>
+                    <span class="text-xs font-bold uppercase tracking-wider opacity-80">Stok Per Kategori</span>
                 </div>
-                <i id="catStatsChevron" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200"></i>
+                <i id="catStatsChevron" class="fa-solid fa-chevron-down text-xs opacity-60 transition-transform duration-200"></i>
             </button>
             <div id="categoryStatsContainer" class="mt-3 grid grid-cols-2 gap-2 text-xs">
                 <!-- Dynamically Populated -->
@@ -164,11 +227,11 @@
         <!-- iOS Search Bar -->
         <div class="relative flex items-center gap-2">
             <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm z-10"></i>
                 <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari nama, part number, atau mobil..."
-                    class="w-full bg-[#E3E3E8] dark:bg-zinc-800 dark:text-white text-sm pl-9 pr-8 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition placeholder:text-slate-500">
+                    class="w-full custom-search-input text-sm pl-9 pr-8 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition placeholder:opacity-60">
             </div>
-            <button onclick="openScannerModal()" class="theme-accent-bg text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-sm transition active:scale-95">
+            <button onclick="openScannerModal()" class="theme-accent-bg text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-sm transition active:scale-95 shrink-0">
                 <i class="fa-solid fa-barcode text-base"></i>
             </button>
         </div>
@@ -271,33 +334,161 @@
                             <label class="text-[10px] text-slate-400 block mb-1">Latar Halaman</label>
                             <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
                                 <input type="color" id="pickerBgColor" onchange="setCustomColor('bgColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300" id="pickerBgVal">Default</span>
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Latar</span>
                             </div>
                         </div>
                         <div>
                             <label class="text-[10px] text-slate-400 block mb-1">Teks Utama</label>
                             <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
                                 <input type="color" id="pickerTextColor" onchange="setCustomColor('textColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300" id="pickerTextVal">Default</span>
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Teks</span>
                             </div>
                         </div>
                         <div>
                             <label class="text-[10px] text-slate-400 block mb-1">Latar Header</label>
                             <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
                                 <input type="color" id="pickerHeaderBgColor" onchange="setCustomColor('headerBgColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300" id="pickerHeaderBgVal">Default</span>
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Header</span>
                             </div>
                         </div>
                         <div>
                             <label class="text-[10px] text-slate-400 block mb-1">Teks Header</label>
                             <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
                                 <input type="color" id="pickerHeaderTextColor" onchange="setCustomColor('headerTextColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300" id="pickerHeaderTextVal">Default</span>
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Teks Header</span>
+                            </div>
+                        </div>
+                        <!-- Tambahan Warna Stok Per-Kategori -->
+                        <div>
+                            <label class="text-[10px] text-slate-400 block mb-1">Latar Stok Kategori</label>
+                            <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
+                                <input type="color" id="pickerCatBgColor" onchange="setCustomColor('catBgColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Kategori</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-400 block mb-1">Teks Stok Kategori</label>
+                            <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
+                                <input type="color" id="pickerCatTextColor" onchange="setCustomColor('catTextColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Teks Kat.</span>
+                            </div>
+                        </div>
+                        <!-- Tambahan Warna Bilah Pencarian -->
+                        <div>
+                            <label class="text-[10px] text-slate-400 block mb-1">Latar Pencarian</label>
+                            <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
+                                <input type="color" id="pickerSearchBgColor" onchange="setCustomColor('searchBgColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Cari Bg</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-400 block mb-1">Teks Pencarian</label>
+                            <div class="flex items-center gap-2 bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg border dark:border-zinc-700">
+                                <input type="color" id="pickerSearchTextColor" onchange="setCustomColor('searchTextColor', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <span class="text-[11px] font-mono text-slate-600 dark:text-slate-300">Cari Teks</span>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Kustomisasi Warna Spesifik Per Kategori -->
+                <div class="theme-card rounded-xl p-3 shadow-sm border space-y-3">
+                    <p class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Warna Per Kategori Sparepart</p>
+                    
+                    <div class="space-y-2 text-xs">
+                        <!-- Mesin -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Mesin</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatMesinBg" onchange="setCategoryColor('Mesin', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatMesinText" onchange="setCategoryColor('Mesin', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kaki-kaki -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Kaki-kaki</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatKakikakiBg" onchange="setCategoryColor('Kakikaki', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatKakikakiText" onchange="setCategoryColor('Kakikaki', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rem -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Rem</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatRemBg" onchange="setCategoryColor('Rem', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatRemText" onchange="setCategoryColor('Rem', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kelistrikan -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Kelistrikan</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatKelistrikanBg" onchange="setCategoryColor('Kelistrikan', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatKelistrikanText" onchange="setCategoryColor('Kelistrikan', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bodi & Interior -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Bodi & Interior</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatBodiBg" onchange="setCategoryColor('Bodi', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatBodiText" onchange="setCategoryColor('Bodi', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lainnya -->
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-100/50 dark:bg-zinc-800/50 border dark:border-zinc-800">
+                            <span class="font-semibold text-slate-700 dark:text-slate-300 w-24">Lainnya</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Bg</span>
+                                    <input type="color" id="pickerCatLainnyaBg" onchange="setCategoryColor('Lainnya', 'bg', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-[9px] text-slate-400">Teks</span>
+                                    <input type="color" id="pickerCatLainnyaText" onchange="setCategoryColor('Lainnya', 'text', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <button onclick="resetCustomColors()" class="w-full py-1.5 text-[11px] font-semibold text-slate-500 hover:text-red-500 bg-slate-100 dark:bg-zinc-800 rounded-lg border dark:border-zinc-700 transition">
-                        Reset Warna Kustom Ke Default
+                        Reset Semua Warna Ke Default
                     </button>
                 </div>
 
@@ -503,9 +694,109 @@
             bgColor: '',
             textColor: '',
             headerBgColor: '',
-            headerTextColor: ''
+            headerTextColor: '',
+            catBgColor: '',
+            catTextColor: '',
+            searchBgColor: '',
+            searchTextColor: '',
+            categoryColors: {
+                Mesin: { bg: '', text: '' },
+                Kakikaki: { bg: '', text: '' },
+                Rem: { bg: '', text: '' },
+                Kelistrikan: { bg: '', text: '' },
+                Bodi: { bg: '', text: '' },
+                Lainnya: { bg: '', text: '' }
+            }
         };
         let appSettings = JSON.parse(localStorage.getItem('app_settings')) || defaultSettings;
+
+        // Ensure categoryColors exists if loading older stored settings
+        if (!appSettings.categoryColors) {
+            appSettings.categoryColors = { ...defaultSettings.categoryColors };
+        }
+
+        function setCategoryColor(catKey, type, value) {
+            if (!appSettings.categoryColors) appSettings.categoryColors = {};
+            if (!appSettings.categoryColors[catKey]) appSettings.categoryColors[catKey] = { bg: '', text: '' };
+            appSettings.categoryColors[catKey][type] = value;
+            applySettings();
+            renderCategoryStats();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('app_settings', JSON.stringify(appSettings));
+        }
+
+        function updateSettingsUIIndicators() {
+            const btnLight = document.getElementById('btnThemeLight');
+            const btnDark = document.getElementById('btnThemeDark');
+            if (btnLight && btnDark) {
+                if (appSettings.mode === 'dark') {
+                    btnDark.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+                    btnLight.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+                } else {
+                    btnLight.classList.add('border-blue-500', 'bg-blue-50');
+                    btnDark.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+                }
+            }
+
+            const btnSm = document.getElementById('btnTextSm');
+            const btnMd = document.getElementById('btnTextMd');
+            const btnLg = document.getElementById('btnTextLg');
+            [btnSm, btnMd, btnLg].forEach(btn => btn && btn.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800'));
+            if (appSettings.textSize === 'sm' && btnSm) btnSm.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+            else if (appSettings.textSize === 'lg' && btnLg) btnLg.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+            else if (btnMd) btnMd.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+
+            const logoContainer = document.getElementById('logoSelectorContainer');
+            if (logoContainer) {
+                const buttons = logoContainer.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    const iconName = btn.getAttribute('data-icon');
+                    if (iconName === appSettings.headerLogo) {
+                        btn.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+                    } else {
+                        btn.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
+                    }
+                });
+            }
+        }
+
+        function setAppLogo(iconName) {
+            appSettings.headerLogo = iconName;
+            applySettings();
+        }
+
+        function updateHeaderTitle(val) {
+            appSettings.headerTitle = val;
+            applySettings();
+        }
+
+        function updateHeaderSubtitle(val) {
+            appSettings.headerSubtitle = val;
+            applySettings();
+        }
+
+        function setAppMargin(val) {
+            appSettings.appMargin = parseInt(val) || 16;
+            applySettings();
+        }
+
+        function setCustomColor(key, value) {
+            appSettings[key] = value;
+            applySettings();
+        }
+
+        function toggleCategoryStats() {
+            const container = document.getElementById('categoryStatsContainer');
+            const chevron = document.getElementById('catStatsChevron');
+            if (container) {
+                container.classList.toggle('hidden');
+            }
+            if (chevron) {
+                chevron.classList.toggle('rotate-180');
+            }
+        }
 
         function applySettings() {
             const body = document.body;
@@ -552,41 +843,77 @@
                 headerLogoEl.innerHTML = `<i class="fa-solid ${appSettings.headerLogo || 'fa-car'}"></i>`;
             }
 
-            // Custom Colors
-            if (appSettings.bgColor) {
-                body.style.setProperty('--custom-bg-color', appSettings.bgColor);
-            } else {
-                body.style.removeProperty('--custom-bg-color');
-            }
+            // Custom Body Colors
+            if (appSettings.bgColor) body.style.setProperty('--custom-bg-color', appSettings.bgColor);
+            else body.style.removeProperty('--custom-bg-color');
 
-            if (appSettings.textColor) {
-                body.style.setProperty('--custom-text-color', appSettings.textColor);
-            } else {
-                body.style.removeProperty('--custom-text-color');
-            }
+            if (appSettings.textColor) body.style.setProperty('--custom-text-color', appSettings.textColor);
+            else body.style.removeProperty('--custom-text-color');
 
-            if (appSettings.headerBgColor) {
-                body.style.setProperty('--custom-header-bg', appSettings.headerBgColor);
-            } else {
-                body.style.removeProperty('--custom-header-bg');
-            }
+            // Custom Header Colors
+            if (appSettings.headerBgColor) body.style.setProperty('--custom-header-bg', appSettings.headerBgColor);
+            else body.style.removeProperty('--custom-header-bg');
 
-            if (appSettings.headerTextColor) {
-                body.style.setProperty('--custom-header-text-color', appSettings.headerTextColor);
-            } else {
-                body.style.removeProperty('--custom-header-text-color');
-            }
+            if (appSettings.headerTextColor) body.style.setProperty('--custom-header-text-color', appSettings.headerTextColor);
+            else body.style.removeProperty('--custom-header-text-color');
+
+            // Custom Category Box Colors
+            if (appSettings.catBgColor) body.style.setProperty('--custom-cat-bg', appSettings.catBgColor);
+            else body.style.removeProperty('--custom-cat-bg');
+
+            if (appSettings.catTextColor) body.style.setProperty('--custom-cat-text', appSettings.catTextColor);
+            else body.style.removeProperty('--custom-cat-text');
+
+            // Custom Search Input Colors
+            if (appSettings.searchBgColor) body.style.setProperty('--custom-search-bg', appSettings.searchBgColor);
+            else body.style.removeProperty('--custom-search-bg');
+
+            if (appSettings.searchTextColor) body.style.setProperty('--custom-search-text', appSettings.searchTextColor);
+            else body.style.removeProperty('--custom-search-text');
+
+            // Category Specific Colors
+            const categoriesKeyMap = [
+                { key: 'Mesin', pickerBg: 'pickerCatMesinBg', pickerText: 'pickerCatMesinText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' },
+                { key: 'Kakikaki', pickerBg: 'pickerCatKakikakiBg', pickerText: 'pickerCatKakikakiText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' },
+                { key: 'Rem', pickerBg: 'pickerCatRemBg', pickerText: 'pickerCatRemText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' },
+                { key: 'Kelistrikan', pickerBg: 'pickerCatKelistrikanBg', pickerText: 'pickerCatKelistrikanText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' },
+                { key: 'Bodi', pickerBg: 'pickerCatBodiBg', pickerText: 'pickerCatBodiText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' },
+                { key: 'Lainnya', pickerBg: 'pickerCatLainnyaBg', pickerText: 'pickerCatLainnyaText', defaultBg: appSettings.mode === 'dark' ? '#2c2c2e' : '#f1f5f9', defaultText: appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a' }
+            ];
+
+            categoriesKeyMap.forEach(cat => {
+                const catColor = (appSettings.categoryColors && appSettings.categoryColors[cat.key]) ? appSettings.categoryColors[cat.key] : { bg: '', text: '' };
+                
+                if (catColor.bg) body.style.setProperty(`--cat-${cat.key}-bg`, catColor.bg);
+                else body.style.removeProperty(`--cat-${cat.key}-bg`);
+
+                if (catColor.text) body.style.setProperty(`--cat-${cat.key}-text`, catColor.text);
+                else body.style.removeProperty(`--cat-${cat.key}-text`);
+
+                const pBg = document.getElementById(cat.pickerBg);
+                const pTxt = document.getElementById(cat.pickerText);
+                if (pBg) pBg.value = catColor.bg || cat.defaultBg;
+                if (pTxt) pTxt.value = catColor.text || cat.defaultText;
+            });
 
             // Color Pickers Values
             const bgPicker = document.getElementById('pickerBgColor');
             const textPicker = document.getElementById('pickerTextColor');
             const hBgPicker = document.getElementById('pickerHeaderBgColor');
             const hTextPicker = document.getElementById('pickerHeaderTextColor');
+            const cBgPicker = document.getElementById('pickerCatBgColor');
+            const cTextPicker = document.getElementById('pickerCatTextColor');
+            const sBgPicker = document.getElementById('pickerSearchBgColor');
+            const sTextPicker = document.getElementById('pickerSearchTextColor');
 
-            if (bgPicker) bgPicker.value = appSettings.bgColor || '#F2F2F7';
-            if (textPicker) textPicker.value = appSettings.textColor || '#0f172a';
-            if (hBgPicker) hBgPicker.value = appSettings.headerBgColor || '#F2F2F7';
-            if (hTextPicker) hTextPicker.value = appSettings.headerTextColor || '#0f172a';
+            if (bgPicker) bgPicker.value = appSettings.bgColor || (appSettings.mode === 'dark' ? '#000000' : '#F2F2F7');
+            if (textPicker) textPicker.value = appSettings.textColor || (appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a');
+            if (hBgPicker) hBgPicker.value = appSettings.headerBgColor || (appSettings.mode === 'dark' ? '#000000' : '#F2F2F7');
+            if (hTextPicker) hTextPicker.value = appSettings.headerTextColor || (appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a');
+            if (cBgPicker) cBgPicker.value = appSettings.catBgColor || (appSettings.mode === 'dark' ? '#1c1c1e' : '#ffffff');
+            if (cTextPicker) cTextPicker.value = appSettings.catTextColor || (appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a');
+            if (sBgPicker) sBgPicker.value = appSettings.searchBgColor || (appSettings.mode === 'dark' ? '#2c2c2e' : '#E3E3E8');
+            if (sTextPicker) sTextPicker.value = appSettings.searchTextColor || (appSettings.mode === 'dark' ? '#f8fafc' : '#0f172a');
 
             // Active button indicators in settings
             updateSettingsUIIndicators();
@@ -598,94 +925,26 @@
             saveSettings();
         }
 
-        function updateSettingsUIIndicators() {
-            const btnLight = document.getElementById('btnThemeLight');
-            const btnDark = document.getElementById('btnThemeDark');
-            if (btnLight && btnDark) {
-                if (appSettings.mode === 'dark') {
-                    btnDark.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
-                    btnLight.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
-                } else {
-                    btnLight.classList.add('border-blue-500', 'bg-blue-50');
-                    btnDark.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-zinc-800');
-                }
-            }
-
-            ['sm', 'md', 'lg'].forEach(sz => {
-                const btn = document.getElementById('btnText' + sz.charAt(0).toUpperCase() + sz.slice(1));
-                if (btn) {
-                    if (appSettings.textSize === sz) {
-                        btn.classList.add('border-blue-500', 'bg-blue-500', 'text-white');
-                    } else {
-                        btn.classList.remove('border-blue-500', 'bg-blue-500', 'text-white');
-                    }
-                }
-            });
-
-            // Highlight selected logo
-            const logoBtns = document.querySelectorAll('#logoSelectorContainer button');
-            logoBtns.forEach(btn => {
-                const icon = btn.getAttribute('data-icon');
-                if (icon === (appSettings.headerLogo || 'fa-car')) {
-                    btn.classList.add('border-blue-500', 'ring-2', 'ring-blue-500');
-                } else {
-                    btn.classList.remove('border-blue-500', 'ring-2', 'ring-blue-500');
-                }
-            });
-        }
-
-        function saveSettings() {
-            localStorage.setItem('app_settings', JSON.stringify(appSettings));
-        }
-
-        function setAppMargin(value) {
-            appSettings.appMargin = parseInt(value);
-            applySettings();
-        }
-
-        function setCustomColor(key, value) {
-            appSettings[key] = value;
-            applySettings();
-        }
-
         function resetCustomColors() {
             appSettings.bgColor = '';
             appSettings.textColor = '';
             appSettings.headerBgColor = '';
             appSettings.headerTextColor = '';
+            appSettings.catBgColor = '';
+            appSettings.catTextColor = '';
+            appSettings.searchBgColor = '';
+            appSettings.searchTextColor = '';
+            appSettings.categoryColors = {
+                Mesin: { bg: '', text: '' },
+                Kakikaki: { bg: '', text: '' },
+                Rem: { bg: '', text: '' },
+                Kelistrikan: { bg: '', text: '' },
+                Bodi: { bg: '', text: '' },
+                Lainnya: { bg: '', text: '' }
+            };
             applySettings();
-            showToast("Warna kustom telah di-reset.");
-        }
-
-        function setAppLogo(iconClass) {
-            appSettings.headerLogo = iconClass;
-            applySettings();
-            showToast("Logo header berhasil diubah.");
-        }
-
-        function updateHeaderTitle(val) {
-            appSettings.headerTitle = val;
-            applySettings();
-        }
-
-        function updateHeaderSubtitle(val) {
-            appSettings.headerSubtitle = val;
-            applySettings();
-        }
-
-        function toggleCategoryStats() {
-            const container = document.getElementById('categoryStatsContainer');
-            const chevron = document.getElementById('catStatsChevron');
-            if (!container || !chevron) return;
-
-            showCategoryBreakdown = !showCategoryBreakdown;
-            if (showCategoryBreakdown) {
-                container.classList.remove('hidden');
-                chevron.classList.remove('rotate-180');
-            } else {
-                container.classList.add('hidden');
-                chevron.classList.add('rotate-180');
-            }
+            renderCategoryStats();
+            showToast("Semua warna kustom di-reset.");
         }
 
         function openScannerModal(target = 'search') {
@@ -697,10 +956,22 @@
                 html5QrcodeScanner = new Html5Qrcode("reader");
             }
 
-            const config = { fps: 10, qrbox: { width: 220, height: 180 } };
+            // Ditingkatkan sensitivitasnya: FPS tinggi, ukuran box yang lebih luas & resolusi optimal
+            const config = { 
+                fps: 15, 
+                qrbox: { width: 260, height: 200 },
+                aspectRatio: 1.0,
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                }
+            };
             
             html5QrcodeScanner.start(
-                { facingMode: "environment" },
+                { 
+                    facingMode: "environment",
+                    width: { min: 640, ideal: 1280 },
+                    height: { min: 480, ideal: 720 }
+                },
                 config,
                 onScanSuccess,
                 onScanFailure
@@ -758,10 +1029,17 @@
             const container = document.getElementById('categoryStatsContainer');
             if (!container) return;
 
-            const categories = ["Mesin", "Kaki-kaki", "Rem", "Kelistrikan", "Bodi & Interior", "Lainnya"];
+            const categories = [
+                { name: "Mesin", key: "Mesin" },
+                { name: "Kaki-kaki", key: "Kakikaki" },
+                { name: "Rem", key: "Rem" },
+                { name: "Kelistrikan", key: "Kelistrikan" },
+                { name: "Bodi & Interior", key: "Bodi" },
+                { name: "Lainnya", key: "Lainnya" }
+            ];
             
             const counts = {};
-            categories.forEach(cat => counts[cat] = 0);
+            categories.forEach(cat => counts[cat.name] = 0);
             spareparts.forEach(p => {
                 if (counts[p.category] !== undefined) {
                     counts[p.category] += (p.stock || 0);
@@ -771,9 +1049,10 @@
             });
 
             container.innerHTML = categories.map(cat => `
-                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-100/70 dark:bg-zinc-800/60 border border-slate-200/50 dark:border-zinc-700/50">
-                    <span class="text-slate-500 font-medium truncate mr-1">${cat}</span>
-                    <span class="font-bold theme-accent-text">${counts[cat]} <span class="text-[10px] text-slate-400 font-normal">pcs</span></span>
+                <div class="flex items-center justify-between p-2 rounded-xl border border-slate-200/50 dark:border-zinc-700/50 transition-colors"
+                     style="background-color: var(--cat-${cat.key}-bg, var(--custom-cat-bg, var(--cat-bg))); color: var(--cat-${cat.key}-text, var(--custom-cat-text, var(--cat-text)));">
+                    <span class="font-medium truncate mr-1 opacity-90">${cat.name}</span>
+                    <span class="font-bold theme-accent-text">${counts[cat.name]} <span class="text-[10px] opacity-60 font-normal">pcs</span></span>
                 </div>
             `).join('');
         }
@@ -784,23 +1063,30 @@
 
             const container = document.getElementById('sparepartList');
             const emptyState = document.getElementById('emptyState');
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
             const categoryVal = document.getElementById('filterCategory').value;
             const brandVal = document.getElementById('filterBrand').value;
 
             container.innerHTML = '';
 
+            // Split search input into keywords to allow multi-term combined search
+            const searchKeywords = searchVal ? searchVal.split(/\s+/).filter(k => k.length > 0) : [];
+
             const filtered = spareparts.filter(item => {
                 const itemBrand = item.brand || '';
                 const itemCode = item.code || '';
                 const itemYear = item.year || '';
-                const matchesSearch = item.name.toLowerCase().includes(searchVal) || 
-                                      item.car.toLowerCase().includes(searchVal) || 
-                                      item.category.toLowerCase().includes(searchVal) ||
-                                      itemCode.toLowerCase().includes(searchVal) ||
-                                      itemYear.toLowerCase().includes(searchVal) ||
-                                      itemBrand.toLowerCase().includes(searchVal);
-                const matchesCat = categoryVal === "" || item.category === categoryVal;
+                const itemName = item.name || '';
+                const itemCar = item.car || '';
+                const itemCategory = item.category || '';
+
+                // Combined full text for multi-keyword search matching
+                const combinedText = `${itemName} ${itemCode} ${itemCategory} ${itemCar} ${itemBrand} ${itemYear}`.toLowerCase();
+
+                // Check if all typed search keywords exist in the item's combined text
+                const matchesSearch = searchKeywords.every(keyword => combinedText.includes(keyword));
+
+                const matchesCat = categoryVal === "" || itemCategory === categoryVal;
                 const matchesBrand = brandVal === "" || itemBrand === brandVal;
                 return matchesSearch && matchesCat && matchesBrand;
             });
