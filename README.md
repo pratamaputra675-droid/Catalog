@@ -144,16 +144,81 @@
         body.theme-emerald select, body.theme-emerald input {
             color: #ecfdf5 !important;
         }
+
+        /* Custom Dynamic Colors override */
+        body.has-custom-bg {
+            background-color: var(--custom-bg-color) !important;
+        }
+        body.has-custom-text {
+            color: var(--custom-text-color) !important;
+        }
+        body.has-custom-text .text-slate-900, 
+        body.has-custom-text .text-slate-800,
+        body.has-custom-text .text-slate-700, 
+        body.has-custom-text .text-slate-600 {
+            color: var(--custom-text-color) !important;
+        }
+
+        /* Dynamic Custom Section Colors */
+        .custom-header {
+            background-color: var(--header-bg, rgba(242, 242, 247, 0.8)) !important;
+            color: var(--header-text, inherit) !important;
+        }
+        .custom-header h1, .custom-header p {
+            color: var(--header-text, inherit) !important;
+        }
+        .custom-stat-card {
+            background-color: var(--stat-bg, #ffffff) !important;
+            color: var(--stat-text, inherit) !important;
+        }
+        .custom-stat-card h2, .custom-stat-card p {
+            color: var(--stat-text, inherit) !important;
+        }
+        .custom-breakdown-card {
+            background-color: var(--breakdown-bg, #ffffff) !important;
+            color: var(--breakdown-text, inherit) !important;
+        }
+        .custom-breakdown-item {
+            background-color: var(--breakdown-item-bg, #f8fafc) !important;
+            color: var(--breakdown-item-text, inherit) !important;
+        }
+        .custom-list-card {
+            background-color: var(--list-bg, #ffffff) !important;
+            color: var(--list-text, inherit) !important;
+        }
+        .custom-dock {
+            background-color: var(--dock-bg, rgba(255, 255, 255, 0.8)) !important;
+            color: var(--dock-text, inherit) !important;
+        }
+
+        /* Color Overrides for Element Details */
+        .custom-part-code {
+            color: var(--code-text-color, #475569) !important;
+            background-color: var(--code-bg-color, #f1f5f9) !important;
+            border-color: var(--code-border-color, #e2e8f0) !important;
+        }
+        .custom-price-text {
+            color: var(--price-text-color, #2563eb) !important;
+        }
+        .custom-stock-badge {
+            color: var(--stock-text-color, inherit) !important;
+            background-color: var(--stock-bg-color, inherit) !important;
+        }
+        .custom-car-text {
+            color: var(--car-text-color, #64748b) !important;
+        }
     </style>
 </head>
 <body class="bg-[#F2F2F7] text-slate-900 antialiased min-h-screen pb-28 selection:bg-blue-500 selection:text-white theme-light">
 
     <!-- iOS Header / Navigation Bar -->
-    <header class="sticky top-0 z-40 bg-[#F2F2F7]/80 ios-blur border-b border-slate-200/80 pt-safe">
+    <header class="sticky top-0 z-40 bg-[#F2F2F7]/80 ios-blur border-b border-slate-200/80 pt-safe custom-header">
         <div class="app-container max-w-md mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
             <div class="flex items-center gap-2.5">
-                <div class="bg-blue-600 text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-base shadow-sm">
-                    <i class="fa-solid fa-car"></i>
+                <!-- Custom Logo Container -->
+                <div id="headerLogoContainer" class="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden shadow-sm bg-blue-600 text-white font-bold text-base shrink-0">
+                    <i class="fa-solid fa-car" id="defaultLogoIcon"></i>
+                    <img id="customLogoImg" class="w-full h-full object-cover hidden" alt="Logo">
                 </div>
                 <div>
                     <h1 class="text-base font-bold tracking-tight text-slate-900 leading-none">Blantikautoparts</h1>
@@ -174,7 +239,7 @@
     <main class="app-container max-w-md mx-auto px-4 pt-4 space-y-4 transition-all duration-300" id="mainContent">
 
         <!-- Total Card -->
-        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between">
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between custom-stat-card">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-boxes-stacked"></i>
@@ -190,7 +255,7 @@
         </div>
 
         <!-- Total Sparepart Sesuai Kategori (Grid Breakdown) -->
-        <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 space-y-2">
+        <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 space-y-2 custom-breakdown-card">
             <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">Stok Per Kategori</p>
             <div id="categoryBreakdown" class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <!-- Dynamically populated via JavaScript -->
@@ -223,7 +288,7 @@
         </div>
 
         <!-- Items Group Card -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden custom-list-card">
             <div id="sparepartList" class="divide-y divide-slate-100">
                 <!-- Content dynamically inserted via JavaScript -->
             </div>
@@ -238,7 +303,7 @@
     </main>
 
     <!-- iOS Bottom Dock Bar -->
-    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/80 ios-blur border-t border-slate-200/80 pb-safe">
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/80 ios-blur border-t border-slate-200/80 pb-safe custom-dock">
         <div class="app-container max-w-md mx-auto px-6 py-2.5 flex justify-around items-center text-center transition-all duration-300">
             <button class="flex flex-col items-center gap-0.5 text-blue-600">
                 <i class="fa-solid fa-layer-group text-lg"></i>
@@ -268,11 +333,115 @@
             <!-- Settings Form -->
             <div class="p-4 space-y-4 overflow-y-auto">
                 
+                <!-- Logo Customization (Ambil dari Galeri) -->
+                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
+                    <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Logo Toko (Upload dari Galeri)</label>
+                    <div class="flex items-center gap-3">
+                        <div id="previewLogoBox" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50 text-blue-600 font-bold text-lg">
+                            <i class="fa-solid fa-car" id="previewDefaultIcon"></i>
+                            <img id="previewLogoImg" class="w-full h-full object-cover hidden" alt="Logo Preview">
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <label class="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-lg border border-blue-200 inline-block transition">
+                                <i class="fa-solid fa-image mr-1"></i> Pilih dari Galeri
+                                <input type="file" id="logoFileInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+                            </label>
+                            <button type="button" onclick="resetLogo()" class="text-xs text-red-500 hover:underline block font-medium">Hapus / Reset Logo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Specific Colors Customization (Teks & BG Per Opsi Tampilan) -->
+                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
+                    <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Warna Teks & Latar per Opsi Tampilan</label>
+                    
+                    <div class="space-y-3 text-xs">
+                        <!-- Header Color -->
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
+                            <span class="font-semibold text-slate-700 block text-[11px]">1. Header (Bagian Atas)</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar (BG)</span>
+                                    <input type="color" id="headerBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Teks</span>
+                                    <input type="color" id="headerTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat Total Card Color -->
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
+                            <span class="font-semibold text-slate-700 block text-[11px]">2. Kartu Total Sparepart</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar (BG)</span>
+                                    <input type="color" id="statBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Teks</span>
+                                    <input type="color" id="statTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown Card Color -->
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
+                            <span class="font-semibold text-slate-700 block text-[11px]">3. Opsi Stok Per Kategori</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar Kartu</span>
+                                    <input type="color" id="breakdownBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar Item</span>
+                                    <input type="color" id="breakdownItemBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sparepart List Card Color -->
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
+                            <span class="font-semibold text-slate-700 block text-[11px]">4. Kartu List Inventori</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar Kartu</span>
+                                    <input type="color" id="listBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Teks Utama</span>
+                                    <input type="color" id="listTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dock Bar Color -->
+                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
+                            <span class="font-semibold text-slate-700 block text-[11px]">5. Navigation Dock (Bawah)</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Latar Dock</span>
+                                    <input type="color" id="dockBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-1 rounded border">
+                                    <span class="text-[10px] text-slate-500">Teks / Ikon</span>
+                                    <input type="color" id="dockTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-1">
+                            <button type="button" onclick="resetSectionColors()" class="text-[10px] text-red-500 font-semibold hover:underline">Reset Warna Opsi Tampilan</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Theme / Dark Mode Options -->
                 <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
                     <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Tema & Warna Tampilan</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Tema Warna Dasar</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                             <button type="button" onclick="setTheme('light')" id="themeBtnLight" class="p-2 rounded-xl border text-center transition flex flex-col items-center gap-1">
                                 <span class="w-6 h-6 rounded-full bg-[#F2F2F7] border border-slate-300 flex items-center justify-center text-xs text-slate-800"><i class="fa-solid fa-sun"></i></span>
                                 <span class="text-[11px] font-semibold">Light</span>
@@ -289,6 +458,65 @@
                                 <span class="w-6 h-6 rounded-full bg-[#062c20] border border-emerald-900 flex items-center justify-center text-xs text-emerald-400"><i class="fa-solid fa-leaf"></i></span>
                                 <span class="text-[11px] font-semibold">Emerald Dark</span>
                             </button>
+                        </div>
+
+                        <!-- Custom Background & Text Color Selectors -->
+                        <div class="pt-2 border-t border-slate-100 grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Latar Aplikasi (Body)</label>
+                                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200">
+                                    <input type="color" id="customBgColor" onchange="applyCustomColors()" class="w-7 h-7 rounded border-0 cursor-pointer bg-transparent">
+                                    <span class="text-xs text-slate-600 font-mono" id="customBgVal">Default</span>
+                                    <button type="button" onclick="resetBgColor()" class="ml-auto text-[10px] text-red-500 font-semibold px-1">Reset</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Teks Utama Aplikasi</label>
+                                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200">
+                                    <input type="color" id="customTextColor" onchange="applyCustomColors()" class="w-7 h-7 rounded border-0 cursor-pointer bg-transparent">
+                                    <span class="text-xs text-slate-600 font-mono" id="customTextVal">Default</span>
+                                    <button type="button" onclick="resetTextColor()" class="ml-auto text-[10px] text-red-500 font-semibold px-1">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Detail Colors (Kode Part, Harga, Teks Mobil, Badges) -->
+                        <div class="pt-3 border-t border-slate-100 space-y-2">
+                            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Warna Elemen Detail Item</p>
+                            
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Teks Kode Part</label>
+                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                                        <input type="color" id="customCodeTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
+                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCodeTextVal">Default</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Latar Kode Part</label>
+                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                                        <input type="color" id="customCodeBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
+                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCodeBgVal">Default</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Harga Jual</label>
+                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                                        <input type="color" id="customPriceColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
+                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customPriceVal">Default</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Teks Mobil</label>
+                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                                        <input type="color" id="customCarTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
+                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCarTextVal">Default</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end pt-1">
+                                <button type="button" onclick="resetElementColors()" class="text-[10px] text-red-500 font-semibold hover:underline">Reset Warna Detail Ke Default</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -476,7 +704,24 @@
             showBuyPrice: false,
             theme: 'light',
             appWidth: 'standard',
-            appPadding: 'normal'
+            appPadding: 'normal',
+            customLogo: '',
+            customBg: '',
+            customText: '',
+            customCodeText: '',
+            customCodeBg: '',
+            customPriceColor: '',
+            customCarTextColor: '',
+            headerBg: '',
+            headerText: '',
+            statBg: '',
+            statText: '',
+            breakdownBg: '',
+            breakdownItemBg: '',
+            listBg: '',
+            listText: '',
+            dockBg: '',
+            dockText: ''
         };
 
         // Initial Default Spareparts Data
@@ -497,10 +742,111 @@
             if (titleElem) titleElem.textContent = appSettings.headerTitle || 'Blantikautoparts';
             if (subElem) subElem.textContent = appSettings.headerSubtitle || 'Japan Spec iOS';
 
+            // Apply Logo Image
+            const headerImg = document.getElementById('customLogoImg');
+            const headerDefaultIcon = document.getElementById('defaultLogoIcon');
+            const previewImg = document.getElementById('previewLogoImg');
+            const previewDefaultIcon = document.getElementById('previewDefaultIcon');
+
+            if (appSettings.customLogo) {
+                if(headerImg) { headerImg.src = appSettings.customLogo; headerImg.classList.remove('hidden'); }
+                if(headerDefaultIcon) headerDefaultIcon.classList.add('hidden');
+                if(previewImg) { previewImg.src = appSettings.customLogo; previewImg.classList.remove('hidden'); }
+                if(previewDefaultIcon) previewDefaultIcon.classList.add('hidden');
+            } else {
+                if(headerImg) headerImg.classList.add('hidden');
+                if(headerDefaultIcon) headerDefaultIcon.classList.remove('hidden');
+                if(previewImg) previewImg.classList.add('hidden');
+                if(previewDefaultIcon) previewDefaultIcon.classList.remove('hidden');
+            }
+
             // Apply Theme
             const body = document.body;
             body.classList.remove('theme-light', 'theme-dark', 'theme-navy', 'theme-emerald');
             body.classList.add(`theme-${appSettings.theme || 'light'}`);
+
+            // Apply Custom Background Color if present
+            if (appSettings.customBg) {
+                body.style.setProperty('--custom-bg-color', appSettings.customBg);
+                body.classList.add('has-custom-bg');
+                document.getElementById('customBgColor').value = appSettings.customBg;
+                document.getElementById('customBgVal').textContent = appSettings.customBg;
+            } else {
+                body.classList.remove('has-custom-bg');
+                body.style.removeProperty('--custom-bg-color');
+                document.getElementById('customBgVal').textContent = 'Default';
+            }
+
+            // Apply Custom Text Color if present
+            if (appSettings.customText) {
+                body.style.setProperty('--custom-text-color', appSettings.customText);
+                body.classList.add('has-custom-text');
+                document.getElementById('customTextColor').value = appSettings.customText;
+                document.getElementById('customTextVal').textContent = appSettings.customText;
+            } else {
+                body.classList.remove('has-custom-text');
+                body.style.removeProperty('--custom-text-color');
+                document.getElementById('customTextVal').textContent = 'Default';
+            }
+
+            // Apply Section Specific Colors
+            const setCssVar = (key, val, elId) => {
+                if (val) {
+                    body.style.setProperty(key, val);
+                    const input = document.getElementById(elId);
+                    if (input) input.value = val;
+                } else {
+                    body.style.removeProperty(key);
+                }
+            };
+
+            setCssVar('--header-bg', appSettings.headerBg, 'headerBgColor');
+            setCssVar('--header-text', appSettings.headerText, 'headerTextColor');
+            setCssVar('--stat-bg', appSettings.statBg, 'statBgColor');
+            setCssVar('--stat-text', appSettings.statText, 'statTextColor');
+            setCssVar('--breakdown-bg', appSettings.breakdownBg, 'breakdownBgColor');
+            setCssVar('--breakdown-item-bg', appSettings.breakdownItemBg, 'breakdownItemBgColor');
+            setCssVar('--list-bg', appSettings.listBg, 'listBgColor');
+            setCssVar('--list-text', appSettings.listText, 'listTextColor');
+            setCssVar('--dock-bg', appSettings.dockBg, 'dockBgColor');
+            setCssVar('--dock-text', appSettings.dockText, 'dockTextColor');
+
+            // Apply Element Level Colors
+            if (appSettings.customCodeText) {
+                body.style.setProperty('--code-text-color', appSettings.customCodeText);
+                document.getElementById('customCodeTextColor').value = appSettings.customCodeText;
+                document.getElementById('customCodeTextVal').textContent = appSettings.customCodeText;
+            } else {
+                body.style.removeProperty('--code-text-color');
+                if(document.getElementById('customCodeTextVal')) document.getElementById('customCodeTextVal').textContent = 'Default';
+            }
+
+            if (appSettings.customCodeBg) {
+                body.style.setProperty('--code-bg-color', appSettings.customCodeBg);
+                document.getElementById('customCodeBgColor').value = appSettings.customCodeBg;
+                document.getElementById('customCodeBgVal').textContent = appSettings.customCodeBg;
+            } else {
+                body.style.removeProperty('--code-bg-color');
+                if(document.getElementById('customCodeBgVal')) document.getElementById('customCodeBgVal').textContent = 'Default';
+            }
+
+            if (appSettings.customPriceColor) {
+                body.style.setProperty('--price-text-color', appSettings.customPriceColor);
+                document.getElementById('customPriceColor').value = appSettings.customPriceColor;
+                document.getElementById('customPriceVal').textContent = appSettings.customPriceColor;
+            } else {
+                body.style.removeProperty('--price-text-color');
+                if(document.getElementById('customPriceVal')) document.getElementById('customPriceVal').textContent = 'Default';
+            }
+
+            if (appSettings.customCarTextColor) {
+                body.style.setProperty('--car-text-color', appSettings.customCarTextColor);
+                document.getElementById('customCarTextColor').value = appSettings.customCarTextColor;
+                document.getElementById('customCarTextVal').textContent = appSettings.customCarTextColor;
+            } else {
+                body.style.removeProperty('--car-text-color');
+                if(document.getElementById('customCarTextVal')) document.getElementById('customCarTextVal').textContent = 'Default';
+            }
 
             // Apply App Width & Padding Classes to all container elements
             const containers = document.querySelectorAll('.app-container');
@@ -594,9 +940,86 @@
             });
         }
 
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    appSettings.customLogo = e.target.result;
+                    applySettings();
+                    showToast("Logo berhasil dipilih!");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetLogo() {
+            appSettings.customLogo = '';
+            document.getElementById('logoFileInput').value = '';
+            applySettings();
+            showToast("Logo direset ke default.");
+        }
+
         function setTheme(theme) {
             appSettings.theme = theme;
             applySettings();
+        }
+
+        function applyCustomColors() {
+            appSettings.customBg = document.getElementById('customBgColor').value;
+            appSettings.customText = document.getElementById('customTextColor').value;
+            appSettings.customCodeText = document.getElementById('customCodeTextColor').value;
+            appSettings.customCodeBg = document.getElementById('customCodeBgColor').value;
+            appSettings.customPriceColor = document.getElementById('customPriceColor').value;
+            appSettings.customCarTextColor = document.getElementById('customCarTextColor').value;
+
+            // Section level colors
+            appSettings.headerBg = document.getElementById('headerBgColor').value;
+            appSettings.headerText = document.getElementById('headerTextColor').value;
+            appSettings.statBg = document.getElementById('statBgColor').value;
+            appSettings.statText = document.getElementById('statTextColor').value;
+            appSettings.breakdownBg = document.getElementById('breakdownBgColor').value;
+            appSettings.breakdownItemBg = document.getElementById('breakdownItemBgColor').value;
+            appSettings.listBg = document.getElementById('listBgColor').value;
+            appSettings.listText = document.getElementById('listTextColor').value;
+            appSettings.dockBg = document.getElementById('dockBgColor').value;
+            appSettings.dockText = document.getElementById('dockTextColor').value;
+
+            applySettings();
+        }
+
+        function resetSectionColors() {
+            appSettings.headerBg = '';
+            appSettings.headerText = '';
+            appSettings.statBg = '';
+            appSettings.statText = '';
+            appSettings.breakdownBg = '';
+            appSettings.breakdownItemBg = '';
+            appSettings.listBg = '';
+            appSettings.listText = '';
+            appSettings.dockBg = '';
+            appSettings.dockText = '';
+            applySettings();
+            renderTable();
+        }
+
+        function resetBgColor() {
+            appSettings.customBg = '';
+            applySettings();
+        }
+
+        function resetTextColor() {
+            appSettings.customText = '';
+            applySettings();
+        }
+
+        function resetElementColors() {
+            appSettings.customCodeText = '';
+            appSettings.customCodeBg = '';
+            appSettings.customPriceColor = '';
+            appSettings.customCarTextColor = '';
+            applySettings();
+            renderTable();
         }
 
         function setAppWidth(width) {
@@ -720,7 +1143,7 @@
                 };
 
                 breakdownContainer.innerHTML = Object.entries(categoryCounts).map(([cat, count]) => `
-                    <div onclick="filterByCategory('${cat}')" class="bg-slate-50 hover:bg-blue-50/60 active:scale-95 transition cursor-pointer p-2 rounded-xl border border-slate-100 flex items-center justify-between">
+                    <div onclick="filterByCategory('${cat}')" class="custom-breakdown-item bg-slate-50 hover:bg-blue-50/60 active:scale-95 transition cursor-pointer p-2 rounded-xl border border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-1.5 min-w-0">
                             <i class="fa-solid ${catIcons[cat] || 'fa-box'} text-xs text-blue-500"></i>
                             <span class="text-[11px] font-medium text-slate-600 truncate">${cat}</span>
@@ -763,15 +1186,15 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-1.5 mb-0.5">
                             <h3 class="font-semibold text-slate-900 text-sm truncate">${item.name}</h3>
-                            ${item.code ? `<span class="bg-slate-100 text-slate-600 text-[10px] font-mono font-medium px-1.5 py-0.2 rounded border border-slate-200">${item.code}</span>` : ''}
+                            ${item.code ? `<span class="custom-part-code bg-slate-100 text-slate-600 text-[10px] font-mono font-medium px-1.5 py-0.2 rounded border border-slate-200">${item.code}</span>` : ''}
                         </div>
-                        <p class="text-xs text-slate-500 truncate flex items-center gap-1">
+                        <p class="custom-car-text text-xs text-slate-500 truncate flex items-center gap-1">
                             <i class="fa-solid fa-car text-[10px] text-slate-400"></i> ${item.car} ${item.year ? `(${item.year})` : ''}
                         </p>
                         <div class="flex flex-col gap-0.5 mt-1.5">
                             <div class="flex items-center gap-2 flex-wrap">
                                 <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">${item.brand || 'Lainnya'}</span>
-                                <span class="text-xs font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
+                                <span class="custom-price-text text-xs font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
                                 ${appSettings.showBuyPrice ? `<span class="text-[10px] font-medium text-slate-400">(Modal: ${formatRupiah(item.buyPrice)})</span>` : ''}
                             </div>
                             ${serviceFeeVal > 0 ? `
@@ -782,7 +1205,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col items-end gap-2">
-                        <span class="text-xs font-bold px-2 py-0.5 rounded-full ${item.stock < 3 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                        <span class="custom-stock-badge text-xs font-bold px-2 py-0.5 rounded-full ${item.stock < 3 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
                             ${item.stock} unit
                         </span>
                         <div class="flex items-center gap-1">
