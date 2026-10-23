@@ -296,12 +296,25 @@
                 <!-- Container Width Customization -->
                 <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
                     <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Lebar Ukuran Tampilan Aplikasi</label>
+                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Lebar Maksimal Tampilan</label>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                             <button type="button" onclick="setAppWidth('compact')" id="widthBtnCompact" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Ramping (sm)</button>
                             <button type="button" onclick="setAppWidth('standard')" id="widthBtnStandard" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Standar (md)</button>
                             <button type="button" onclick="setAppWidth('tablet')" id="widthBtnTablet" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Tablet (lg)</button>
                             <button type="button" onclick="setAppWidth('full')" id="widthBtnFull" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Penuh (100%)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Margins / Padding Customization -->
+                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Jarak Pinggir Kiri & Kanan (Side Padding)</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" onclick="setAppPadding('tight')" id="padBtnTight" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Rapat (px-2)</button>
+                            <button type="button" onclick="setAppPadding('normal')" id="padBtnNormal" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Normal (px-4)</button>
+                            <button type="button" onclick="setAppPadding('wide')" id="padBtnWide" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Longgar (px-6)</button>
+                            <button type="button" onclick="setAppPadding('extra')" id="padBtnExtra" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Sangat Longgar (px-8)</button>
                         </div>
                     </div>
                 </div>
@@ -462,7 +475,8 @@
             headerSubtitle: 'Japan Spec iOS',
             showBuyPrice: false,
             theme: 'light',
-            appWidth: 'standard'
+            appWidth: 'standard',
+            appPadding: 'normal'
         };
 
         // Initial Default Spareparts Data
@@ -488,9 +502,10 @@
             body.classList.remove('theme-light', 'theme-dark', 'theme-navy', 'theme-emerald');
             body.classList.add(`theme-${appSettings.theme || 'light'}`);
 
-            // Apply App Width Class to all container elements
+            // Apply App Width & Padding Classes to all container elements
             const containers = document.querySelectorAll('.app-container');
             containers.forEach(el => {
+                // Width
                 el.classList.remove('max-w-sm', 'max-w-md', 'max-w-4xl', 'max-w-full');
                 if (appSettings.appWidth === 'compact') {
                     el.classList.add('max-w-sm');
@@ -500,6 +515,18 @@
                     el.classList.add('max-w-full');
                 } else {
                     el.classList.add('max-w-md'); // default standard
+                }
+
+                // Side Padding / Margin
+                el.classList.remove('px-2', 'px-4', 'px-6', 'px-8');
+                if (appSettings.appPadding === 'tight') {
+                    el.classList.add('px-2');
+                } else if (appSettings.appPadding === 'wide') {
+                    el.classList.add('px-6');
+                } else if (appSettings.appPadding === 'extra') {
+                    el.classList.add('px-8');
+                } else {
+                    el.classList.add('px-4'); // default normal
                 }
             });
 
@@ -542,6 +569,18 @@
                 }
             });
 
+            // Update Side Padding Buttons UI
+            ['tight', 'normal', 'wide', 'extra'].forEach(p => {
+                const btn = document.getElementById(`padBtn${p.charAt(0).toUpperCase() + p.slice(1)}`);
+                if (btn) {
+                    if ((appSettings.appPadding || 'normal') === p) {
+                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-blue-600 text-white border border-blue-600 transition shadow-sm";
+                    } else {
+                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition";
+                    }
+                }
+            });
+
             // Update Font Choice Buttons UI
             ['sm', 'base', 'lg'].forEach(size => {
                 const btn = document.getElementById(`fontBtn${size.charAt(0).toUpperCase() + size.slice(1)}`);
@@ -562,6 +601,11 @@
 
         function setAppWidth(width) {
             appSettings.appWidth = width;
+            applySettings();
+        }
+
+        function setAppPadding(padding) {
+            appSettings.appPadding = padding;
             applySettings();
         }
 
