@@ -3,1320 +3,1123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Blantikautoparts - iOS</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Inventori Sparepart Mobil - Mobile</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font Inter -->
+    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ios: {
+                            blue: '#3b82f6',
+                            emerald: '#10b981',
+                            red: '#ef4444',
+                            amber: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', sans-serif;
+        :root {
+            --bg-body: #090d16;
+            --bg-card: #131b2e;
+            --bg-input: #090d16;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-        /* Custom iOS Blur Backdrop */
-        .ios-blur {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        
+        /* Dynamic Theme Applied Classes */
+        .theme-card {
+            background-color: var(--bg-card) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary);
         }
-        /* Smooth scrolling & hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        
+        .theme-input {
+            background-color: var(--bg-input) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        
+        .theme-text-primary {
+            color: var(--text-primary) !important;
         }
-
-        /* Dynamic Color Themes */
-        body.theme-light {
-            background-color: #F2F2F7;
-            color: #0f172a;
-        }
-        body.theme-dark {
-            background-color: #0f172a;
-            color: #f8fafc;
-        }
-        body.theme-dark .bg-white {
-            background-color: #1e293b !important;
-            border-color: #334155 !important;
-            color: #f8fafc !important;
-        }
-        body.theme-dark .bg-\[\#F2F2F7\] {
-            background-color: #0f172a !important;
-        }
-        body.theme-dark .bg-\[\#E3E3E8\] {
-            background-color: #334155 !important;
-            color: #f8fafc !important;
-        }
-        body.theme-dark .bg-slate-50 {
-            background-color: #334155 !important;
-            border-color: #475569 !important;
-        }
-        body.theme-dark .text-slate-900 {
-            color: #f8fafc !important;
-        }
-        body.theme-dark .text-slate-700, body.theme-dark .text-slate-600 {
-            color: #cbd5e1 !important;
-        }
-        body.theme-dark .text-slate-500, body.theme-dark .text-slate-400 {
-            color: #94a3b8 !important;
-        }
-        body.theme-dark .border-slate-100, body.theme-dark .border-slate-200, body.theme-dark .border-slate-200\/80 {
-            border-color: #334155 !important;
-        }
-        body.theme-dark select, body.theme-dark input {
-            color: #f8fafc !important;
+        
+        .theme-text-secondary {
+            color: var(--text-secondary) !important;
         }
 
-        /* Midnight Blue / Navy Theme */
-        body.theme-navy {
-            background-color: #0b132b;
-            color: #edf2f4;
-        }
-        body.theme-navy .bg-white {
-            background-color: #1c2541 !important;
-            border-color: #3a506b !important;
-            color: #edf2f4 !important;
-        }
-        body.theme-navy .bg-\[\#F2F2F7\] {
-            background-color: #0b132b !important;
-        }
-        body.theme-navy .bg-\[\#E3E3E8\] {
-            background-color: #3a506b !important;
-            color: #edf2f4 !important;
-        }
-        body.theme-navy .bg-slate-50 {
-            background-color: #2e3d59 !important;
-            border-color: #3a506b !important;
-        }
-        body.theme-navy .text-slate-900 {
-            color: #edf2f4 !important;
-        }
-        body.theme-navy .text-slate-700, body.theme-navy .text-slate-600 {
-            color: #d8e2dc !important;
-        }
-        body.theme-navy .text-slate-500, body.theme-navy .text-slate-400 {
-            color: #8d99ae !important;
-        }
-        body.theme-navy .border-slate-100, body.theme-navy .border-slate-200, body.theme-navy .border-slate-200\/80 {
-            border-color: #3a506b !important;
-        }
-        body.theme-navy select, body.theme-navy input {
-            color: #edf2f4 !important;
-        }
-
-        /* Emerald / Forest Dark Theme */
-        body.theme-emerald {
-            background-color: #062c20;
-            color: #ecfdf5;
-        }
-        body.theme-emerald .bg-white {
-            background-color: #09402f !important;
-            border-color: #115e45 !important;
-            color: #ecfdf5 !important;
-        }
-        body.theme-emerald .bg-\[\#F2F2F7\] {
-            background-color: #062c20 !important;
-        }
-        body.theme-emerald .bg-\[\#E3E3E8\] {
-            background-color: #115e45 !important;
-            color: #ecfdf5 !important;
-        }
-        body.theme-emerald .bg-slate-50 {
-            background-color: #0e4f3a !important;
-            border-color: #115e45 !important;
-        }
-        body.theme-emerald .text-slate-900 {
-            color: #ecfdf5 !important;
-        }
-        body.theme-emerald .text-slate-700, body.theme-emerald .text-slate-600 {
-            color: #a7f3d0 !important;
-        }
-        body.theme-emerald .text-slate-500, body.theme-emerald .text-slate-400 {
-            color: #6ee7b7 !important;
-        }
-        body.theme-emerald .border-slate-100, body.theme-emerald .border-slate-200, body.theme-emerald .border-slate-200\/80 {
-            border-color: #115e45 !important;
-        }
-        body.theme-emerald select, body.theme-emerald input {
-            color: #ecfdf5 !important;
-        }
-
-        /* Custom Dynamic Colors override */
-        body.has-custom-bg {
-            background-color: var(--custom-bg-color) !important;
-        }
-        body.has-custom-text {
-            color: var(--custom-text-color) !important;
-        }
-        body.has-custom-text .text-slate-900, 
-        body.has-custom-text .text-slate-800,
-        body.has-custom-text .text-slate-700, 
-        body.has-custom-text .text-slate-600 {
-            color: var(--custom-text-color) !important;
-        }
-
-        /* Dynamic Custom Section Colors */
-        .custom-header {
-            background-color: var(--header-bg, rgba(242, 242, 247, 0.8)) !important;
-            color: var(--header-text, inherit) !important;
-        }
-        .custom-header h1, .custom-header p {
-            color: var(--header-text, inherit) !important;
-        }
-        .custom-stat-card {
-            background-color: var(--stat-bg, #ffffff) !important;
-            color: var(--stat-text, inherit) !important;
-        }
-        .custom-stat-card h2, .custom-stat-card p {
-            color: var(--stat-text, inherit) !important;
-        }
-        .custom-breakdown-card {
-            background-color: var(--breakdown-bg, #ffffff) !important;
-            color: var(--breakdown-text, inherit) !important;
-        }
-        .custom-breakdown-item {
-            background-color: var(--breakdown-item-bg, #f8fafc) !important;
-            color: var(--breakdown-item-text, inherit) !important;
-        }
-        .custom-list-card {
-            background-color: var(--list-bg, #ffffff) !important;
-            color: var(--list-text, inherit) !important;
-        }
-        .custom-dock {
-            background-color: var(--dock-bg, rgba(255, 255, 255, 0.8)) !important;
-            color: var(--dock-text, inherit) !important;
-        }
-
-        /* Color Overrides for Element Details */
-        .custom-part-code {
-            color: var(--code-text-color, #475569) !important;
-            background-color: var(--code-bg-color, #f1f5f9) !important;
-            border-color: var(--code-border-color, #e2e8f0) !important;
-        }
-        .custom-price-text {
-            color: var(--price-text-color, #2563eb) !important;
-        }
-        .custom-stock-badge {
-            color: var(--stock-text-color, inherit) !important;
-            background-color: var(--stock-bg-color, inherit) !important;
-        }
-        .custom-car-text {
-            color: var(--car-text-color, #64748b) !important;
-        }
+        /* Hide scrollbars for clean app look */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth safe-area padding for mobile notches */
+        .pt-safe { padding-top: env(safe-area-inset-top, 12px); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
     </style>
 </head>
-<body class="bg-[#F2F2F7] text-slate-900 antialiased min-h-screen pb-28 selection:bg-blue-500 selection:text-white theme-light">
+<body id="appBody" class="min-h-screen flex flex-col justify-between max-w-md mx-auto border-x border-slate-800/60 shadow-2xl relative overflow-x-hidden text-sm">
 
-    <!-- iOS Header / Navigation Bar -->
-    <header class="sticky top-0 z-40 bg-[#F2F2F7]/80 ios-blur border-b border-slate-200/80 pt-safe custom-header">
-        <div class="app-container max-w-md mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
-            <div class="flex items-center gap-2.5">
-                <!-- Custom Logo Container -->
-                <div id="headerLogoContainer" class="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden shadow-sm bg-blue-600 text-white font-bold text-base shrink-0">
-                    <i class="fa-solid fa-car" id="defaultLogoIcon"></i>
-                    <img id="customLogoImg" class="w-full h-full object-cover hidden" alt="Logo">
-                </div>
-                <div>
-                    <h1 class="text-base font-bold tracking-tight text-slate-900 leading-none">Blantikautoparts</h1>
-                    <p class="text-[10px] text-blue-600 font-semibold tracking-wider uppercase mt-0.5">Japan Spec iOS</p>
-                </div>
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-30 theme-card backdrop-blur-md border-b pt-safe pb-3 flex items-center justify-between dynamic-padding">
+        <div class="flex items-center space-x-2.5">
+            <div id="headerLogoContainer" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 overflow-hidden shrink-0">
+                <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-base"></i>
+                <img id="headerLogoImg" src="" alt="Logo" class="w-full h-full object-cover hidden">
             </div>
-            <div class="flex items-center gap-1">
-                <button onclick="openModal('add')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-all">
-                    <i class="fa-solid fa-plus text-sm"></i>
-                </button>
-                <button onclick="openSettingsModal()" class="bg-slate-200 hover:bg-slate-300 active:scale-95 text-slate-700 w-8 h-8 rounded-full flex items-center justify-center shadow-sm transition-all ml-1">
-                    <i class="fa-solid fa-gear text-sm"></i>
-                </button>
+            <div>
+                <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 text-base">
+                    <span>Toko Sparepart Jaya</span>
+                    <i class="fa-solid fa-pen-to-square text-[10px] theme-text-secondary"></i>
+                </h1>
+                <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[11px] theme-text-secondary cursor-pointer active:opacity-70">Inventori Sparepart</span>
             </div>
         </div>
+
+        <!-- Alert Badge / Quick Indicator -->
+        <button onclick="filterEmptyStock()" class="relative p-2.5 theme-card rounded-xl border active:scale-95 transition" title="Stok Habis">
+            <i class="fa-solid fa-triangle-exclamation text-red-400 text-sm"></i>
+            <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+        </button>
     </header>
 
-    <main class="app-container max-w-md mx-auto px-4 pt-4 space-y-4 transition-all duration-300" id="mainContent">
+    <!-- MAIN CONTENT VIEW CANVAS -->
+    <main class="flex-1 py-2 space-y-2.5 pb-24 dynamic-padding">
 
-        <!-- Total Card -->
-        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between custom-stat-card">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-boxes-stacked"></i>
+        <!-- VIEW 1: STOK / INVENTORY LIST -->
+        <section id="viewStock" class="space-y-2">
+            
+            <!-- Quick Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 theme-text-secondary text-xs"></i>
+                <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari gabungan: Avanza Filter, JZ 02..." class="w-full theme-input border rounded-xl pl-8 pr-7 py-2 text-xs placeholder-slate-400 focus:outline-none focus:border-ios-blue transition">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 theme-text-secondary hover:opacity-80">
+                    <i class="fa-solid fa-circle-xmark text-xs"></i>
+                </button>
+            </div>
+
+            <!-- Filter Chips (Horizontal Scrollable) -->
+            <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px]">
+                <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-2.5 py-1 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm">Semua</button>
+                <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border text-red-400">Stok Habis</button>
+                <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Mesin</button>
+                <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">VBelt</button>
+                <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Rem</button>
+                <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Oli & Cairan</button>
+                <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Kelistrikan</button>
+            </div>
+
+            <!-- Spare Part Mobile Cards List -->
+            <div id="partsListContainer" class="space-y-2">
+                <!-- Dynamically generated mobile cards -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden py-8 text-center theme-text-secondary space-y-2">
+                <i class="fa-solid fa-boxes-packing text-2xl opacity-50"></i>
+                <p class="text-xs font-medium">Tidak ada sparepart ditemukan</p>
+            </div>
+        </section>
+
+
+        <!-- VIEW 2: TAMBAH SPAREPART BARU -->
+        <section id="viewAddPart" class="hidden space-y-4">
+            <div class="theme-card border rounded-2xl p-4 space-y-3.5 shadow-lg">
+                <h2 class="text-sm font-bold theme-text-primary flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-ios-blue"></i> Tambah Part Baru
+                </h2>
+
+                <form id="addPartForm" onsubmit="handleSaveNewPart(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kode / SKU</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="addSKU" required placeholder="SKU-1001" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <button type="button" onclick="generateAddSKU()" class="theme-card border px-3 py-2.5 rounded-xl theme-text-secondary font-medium active:scale-95">Auto</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Nama Sparepart</label>
+                        <input type="text" id="addName" required placeholder="Contoh: Kampas Rem Depan Avanza" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kategori</label>
+                            <select id="addCategory" required onchange="toggleVBeltField('add')" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                                <option value="Mesin">Mesin</option>
+                                <option value="VBelt">VBelt</option>
+                                <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
+                                <option value="Oli & Cairan">Oli & Cairan</option>
+                                <option value="Kelistrikan">Kelistrikan</option>
+                                <option value="Bodi & Aksesoris">Bodi & Aksesoris</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kesesuaian Mobil</label>
+                            <input type="text" id="addCarModel" required placeholder="Avanza / Xenia" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        </div>
+                    </div>
+
+                    <!-- KOLOM KHUSUS UKURAN VBELT (ADD) -->
+                    <div id="addVBeltSizeContainer" class="hidden">
+                        <label class="block text-[11px] font-semibold text-amber-400 uppercase mb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
+                        </label>
+                        <input type="text" id="addVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-amber-500/50 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-amber-400">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Beli (Rp)</label>
+                            <input type="number" id="addBuyPrice" min="0" required placeholder="150000" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Jual (Rp)</label>
+                            <input type="number" id="addSellPrice" min="0" required placeholder="200000" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Jumlah Stok Awal</label>
+                        <input type="number" id="addStock" min="0" required placeholder="10" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    </div>
+
+                    <div class="flex gap-2 pt-1">
+                        <button type="button" onclick="cancelAddPart()" class="w-1/3 min-h-[44px] theme-card border theme-text-secondary font-semibold rounded-xl transition flex items-center justify-center space-x-1 active:scale-95">
+                            <i class="fa-solid fa-xmark"></i>
+                            <span>Batal</span>
+                        </button>
+                        <button type="submit" class="w-2/3 min-h-[44px] bg-ios-emerald hover:bg-emerald-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-emerald-500/20">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Simpan Sparepart</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- VIEW 3: PENGATURAN & RINGKASAN DATA -->
+        <section id="viewSettings" class="hidden space-y-4">
+            
+            <!-- Quick Summary Metrics -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="theme-card border p-3.5 rounded-2xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold">Total Item</span>
+                    <h4 id="summaryTotalTypes" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-400">Total Sparepart</p>
-                    <h2 class="text-xl font-bold text-slate-900" id="statTotalItems">0 <span class="text-xs font-normal text-slate-500">Item</span></h2>
+                <div class="theme-card border p-3.5 rounded-2xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold">Total Unit Stok</span>
+                    <h4 id="summaryTotalUnits" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
                 </div>
             </div>
-            <button onclick="resetData()" class="p-2 text-slate-400 hover:text-red-500 active:scale-90 transition" title="Reset Data">
-                <i class="fa-solid fa-rotate-right text-sm"></i>
-            </button>
-        </div>
 
-        <!-- Total Sparepart Sesuai Kategori (Grid Breakdown) -->
-        <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 space-y-2 custom-breakdown-card">
-            <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">Stok Per Kategori</p>
-            <div id="categoryBreakdown" class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <!-- Dynamically populated via JavaScript -->
+            <!-- TAMPILAN & KUSTOMISASI -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3.5">
+                <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-palette text-ios-blue"></i> Pengaturan Tampilan Header & Tema
+                </h3>
+
+                <!-- Logo Header Picker -->
+                <div class="space-y-2">
+                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase">Logo Header</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        <button onclick="setLogoPreset('fa-car-wrench')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                            <i class="fa-solid fa-car-wrench"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-car')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                            <i class="fa-solid fa-car"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-gear')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-screwdriver-wrench')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-warehouse')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                            <i class="fa-solid fa-warehouse"></i>
+                        </button>
+                    </div>
+
+                    <!-- Upload Gambar Logo dari Galeri -->
+                    <div class="pt-1">
+                        <label for="logoFileInput" class="w-full min-h-[40px] theme-input border border-dashed hover:border-ios-blue rounded-xl px-3 flex items-center justify-center gap-2 text-xs theme-text-secondary cursor-pointer active:scale-98">
+                            <i class="fa-solid fa-image text-ios-blue"></i>
+                            <span id="uploadLogoText">Upload Logo dari Galeri</span>
+                        </label>
+                        <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="hidden">
+                    </div>
+                </div>
+
+                <!-- Penyesuaian Jarak Sisi Kanan/Kiri (Padding) -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="theme-text-secondary font-medium">Jarak Sisi Kanan/Kiri</span>
+                        <span id="paddingValText" class="theme-text-primary font-mono text-[11px]">px-4</span>
+                    </div>
+                    <input type="range" id="paddingRange" min="2" max="6" step="1" value="4" oninput="changePadding(this.value)" class="w-full accent-ios-blue cursor-pointer">
+                </div>
+
+                <!-- Ukuran Teks (Font Size) -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="theme-text-secondary font-medium">Ukuran Teks Aplikasi</span>
+                        <span id="textSizeText" class="theme-text-primary font-mono text-[11px]">Sedang</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setTextSize('sm')" id="btnTextSm" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Kecil</button>
+                        <button onclick="setTextSize('base')" id="btnTextBase" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Sedang</button>
+                        <button onclick="setTextSize('lg')" id="btnTextLg" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Besar</button>
+                    </div>
+                </div>
+
+                <!-- Tema Latar Belakang Presets -->
+                <div class="space-y-1.5 pt-1">
+                    <span class="block theme-text-secondary font-medium text-xs">Preset Tema Latar Belakang</span>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button onclick="setTheme('dark-blue')" title="Gelap Biru" class="h-9 rounded-xl bg-[#090d16] border-2 border-blue-500/60 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Gelap</button>
+                        <button onclick="setTheme('midnight')" title="Midnight Black" class="h-9 rounded-xl bg-[#050508] border border-slate-800 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Hitam</button>
+                        <button onclick="setTheme('slate')" title="Slate Grey" class="h-9 rounded-xl bg-[#0f172a] border border-slate-700 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Slate</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setTheme('emerald')" title="Emerald Green" class="h-9 rounded-xl bg-[#022c22] border border-emerald-800 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Hijau</button>
+                        <button onclick="setTheme('light-clean')" title="Terang Putih" class="h-9 rounded-xl bg-[#f8fafc] border border-slate-300 active:scale-95 flex items-center justify-center text-xs text-slate-800 font-semibold">Terang</button>
+                        <button onclick="setTheme('light-soft')" title="Terang Soft Slate" class="h-9 rounded-xl bg-[#e2e8f0] border border-slate-400 active:scale-95 flex items-center justify-center text-xs text-slate-800 font-semibold">Soft Terang</button>
+                    </div>
+                </div>
+
+                <!-- KUSTOMISASI WARNA BEBAS (CUSTOM COLOR PICKERS) -->
+                <div class="space-y-2 pt-2 border-t border-slate-700/50">
+                    <span class="block theme-text-secondary font-semibold text-[11px] uppercase tracking-wider">Kustom Warna Manual</span>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="theme-input p-2 rounded-xl border flex items-center justify-between">
+                            <span class="theme-text-secondary text-[11px]">Warna Latar</span>
+                            <input type="color" id="customBgPicker" onchange="setCustomBgColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
+                        </div>
+                        <div class="theme-input p-2 rounded-xl border flex items-center justify-between">
+                            <span class="theme-text-secondary text-[11px]">Warna Teks</span>
+                            <input type="color" id="customTextPicker" onchange="setCustomTextColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOMBOL SIMPAN PENGATURAN -->
+                <div class="pt-2">
+                    <button onclick="saveAppSettingsExplicit()" class="w-full min-h-[44px] bg-ios-blue hover:bg-blue-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-blue-500/20">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan</span>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- iOS Search Bar -->
-        <div class="relative flex items-center gap-2">
-            <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari nama, part number, atau mobil..."
-                    class="w-full bg-[#E3E3E8] text-slate-900 text-sm pl-9 pr-8 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition placeholder:text-slate-500">
-            </div>
-        </div>
+            <!-- Store Actions Card -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider">Pengelolaan Data</h3>
+                
+                <div class="space-y-2">
+                    <button onclick="openEditStoreModal()" class="w-full min-h-[44px] theme-input border rounded-xl px-3 flex items-center justify-between text-xs theme-text-primary active:scale-98">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-store text-ios-blue"></i> Ubah Nama & Subtitle Toko</span>
+                        <i class="fa-solid fa-chevron-right theme-text-secondary text-[10px]"></i>
+                    </button>
 
-        <!-- Filter Chips (Horizontal Scroll iOS Style) -->
-        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-            <select id="filterCategory" onchange="renderTable()" class="bg-white text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 shadow-sm focus:outline-none">
-                <option value="">Semua Kategori</option>
-                <option value="Mesin">Mesin & Filter</option>
-                <option value="Kaki-kaki">Kaki-kaki & Suspensi</option>
-                <option value="Rem">Pengereman</option>
-                <option value="Kelistrikan">Kelistrikan & Aki</option>
-                <option value="Bodi & Interior">Bodi & Interior</option>
-                <option value="Lainnya">Lainnya</option>
-            </select>
-            <select id="filterBrand" onchange="renderTable()" class="bg-white text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 shadow-sm focus:outline-none">
-                <option value="">Semua Merk</option>
-            </select>
-        </div>
+                    <button onclick="exportToCSV()" class="w-full min-h-[44px] theme-input border rounded-xl px-3 flex items-center justify-between text-xs theme-text-primary active:scale-98">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-file-csv text-emerald-400"></i> Ekspor Laporan (CSV)</span>
+                        <i class="fa-solid fa-download theme-text-secondary text-[10px]"></i>
+                    </button>
 
-        <!-- Items Group Card -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden custom-list-card">
-            <div id="sparepartList" class="divide-y divide-slate-100">
-                <!-- Content dynamically inserted via JavaScript -->
+                    <button onclick="resetToDemoData()" class="w-full min-h-[44px] theme-input border border-red-500/30 rounded-xl px-3 flex items-center justify-between text-xs text-red-400 active:scale-98">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-rotate-left"></i> Reset Data ke Demo Default</span>
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Empty state -->
-            <div id="emptyState" class="hidden p-8 text-center">
-                <div class="text-slate-300 text-4xl mb-2"><i class="fa-solid fa-box-open"></i></div>
-                <p class="text-slate-500 text-xs font-medium">Tidak ada sparepart ditemukan.</p>
-            </div>
-        </div>
+        </section>
 
     </main>
 
-    <!-- iOS Bottom Dock Bar -->
-    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white/80 ios-blur border-t border-slate-200/80 pb-safe custom-dock">
-        <div class="app-container max-w-md mx-auto px-6 py-2.5 flex justify-around items-center text-center transition-all duration-300">
-            <button class="flex flex-col items-center gap-0.5 text-blue-600">
-                <i class="fa-solid fa-layer-group text-lg"></i>
-                <span class="text-[10px] font-medium">Inventori</span>
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto theme-card backdrop-blur-md border-t z-40 px-3 py-2 pb-safe">
+        <div class="grid grid-cols-3 gap-1 text-center">
+            
+            <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn text-ios-blue flex flex-col items-center py-1 rounded-xl transition active:scale-90">
+                <i class="fa-solid fa-boxes-stacked text-base"></i>
+                <span class="text-[10px] font-medium mt-1">Stok</span>
             </button>
-            <button onclick="openModal('add')" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-600 transition">
-                <i class="fa-solid fa-circle-plus text-lg"></i>
-                <span class="text-[10px] font-medium">Tambah</span>
+
+            <button onclick="switchTab('add')" id="nav-add" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90">
+                <i class="fa-solid fa-plus-circle text-base"></i>
+                <span class="text-[10px] font-medium mt-1">Tambah</span>
             </button>
-            <button onclick="openSettingsModal()" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-600 transition">
-                <i class="fa-solid fa-gear text-lg"></i>
-                <span class="text-[10px] font-medium">Pengaturan</span>
+
+            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90">
+                <i class="fa-solid fa-gear text-base"></i>
+                <span class="text-[10px] font-medium mt-1">Pengaturan</span>
             </button>
+
         </div>
-    </div>
+    </nav>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden transition-opacity">
-        <div class="bg-[#F2F2F7] w-full max-w-lg rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <!-- Modal Header -->
-            <div class="px-5 py-3.5 bg-white border-b border-slate-200/80 flex justify-between items-center sticky top-0 z-10">
-                <button type="button" onclick="closeSettingsModal()" class="text-blue-600 text-sm font-normal">Tutup</button>
-                <h3 class="font-semibold text-slate-900 text-sm">Pengaturan Aplikasi</h3>
-                <button type="button" onclick="saveSettings()" class="text-blue-600 font-bold text-sm">Simpan</button>
+    <!-- EDIT / DETAIL DRAWER MODAL -->
+    <div id="editDrawer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+        <div class="theme-card border-t w-full max-w-md rounded-t-3xl p-5 space-y-4 max-h-[85vh] overflow-y-auto no-scrollbar">
+            
+            <div class="flex items-center justify-between border-b border-slate-700/50 pb-3">
+                <h3 class="text-sm font-bold theme-text-primary flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-ios-blue"></i> Edit Sparepart
+                </h3>
+                <button onclick="closeDrawer()" class="w-8 h-8 rounded-full theme-input border flex items-center justify-center theme-text-secondary active:scale-90">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <!-- Settings Form -->
-            <div class="p-4 space-y-4 overflow-y-auto">
-                
-                <!-- Logo Customization (Ambil dari Galeri) -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Logo Toko (Upload dari Galeri)</label>
-                    <div class="flex items-center gap-3">
-                        <div id="previewLogoBox" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50 text-blue-600 font-bold text-lg">
-                            <i class="fa-solid fa-car" id="previewDefaultIcon"></i>
-                            <img id="previewLogoImg" class="w-full h-full object-cover hidden" alt="Logo Preview">
-                        </div>
-                        <div class="flex-1 space-y-1">
-                            <label class="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-lg border border-blue-200 inline-block transition">
-                                <i class="fa-solid fa-image mr-1"></i> Pilih dari Galeri
-                                <input type="file" id="logoFileInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
-                            </label>
-                            <button type="button" onclick="resetLogo()" class="text-xs text-red-500 hover:underline block font-medium">Hapus / Reset Logo</button>
-                        </div>
-                    </div>
+            <form onsubmit="handleSaveEditPart(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="editPartId">
+
+                <div>
+                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Nama Part</label>
+                    <input type="text" id="editName" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
                 </div>
 
-                <!-- Section Specific Colors Customization (Teks & BG Per Opsi Tampilan) -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Warna Teks & Latar per Opsi Tampilan</label>
-                    
-                    <div class="space-y-3 text-xs">
-                        <!-- Header Color -->
-                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
-                            <span class="font-semibold text-slate-700 block text-[11px]">1. Header (Bagian Atas)</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar (BG)</span>
-                                    <input type="color" id="headerBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Teks</span>
-                                    <input type="color" id="headerTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Stat Total Card Color -->
-                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
-                            <span class="font-semibold text-slate-700 block text-[11px]">2. Kartu Total Sparepart</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar (BG)</span>
-                                    <input type="color" id="statBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Teks</span>
-                                    <input type="color" id="statTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category Breakdown Card Color -->
-                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
-                            <span class="font-semibold text-slate-700 block text-[11px]">3. Opsi Stok Per Kategori</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar Kartu</span>
-                                    <input type="color" id="breakdownBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar Item</span>
-                                    <input type="color" id="breakdownItemBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sparepart List Card Color -->
-                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
-                            <span class="font-semibold text-slate-700 block text-[11px]">4. Kartu List Inventori</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar Kartu</span>
-                                    <input type="color" id="listBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Teks Utama</span>
-                                    <input type="color" id="listTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Dock Bar Color -->
-                        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1">
-                            <span class="font-semibold text-slate-700 block text-[11px]">5. Navigation Dock (Bawah)</span>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Latar Dock</span>
-                                    <input type="color" id="dockBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                                <div class="flex items-center justify-between bg-white p-1 rounded border">
-                                    <span class="text-[10px] text-slate-500">Teks / Ikon</span>
-                                    <input type="color" id="dockTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end pt-1">
-                            <button type="button" onclick="resetSectionColors()" class="text-[10px] text-red-500 font-semibold hover:underline">Reset Warna Opsi Tampilan</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Theme / Dark Mode Options -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
+                <div class="grid grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Tema Warna Dasar</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-                            <button type="button" onclick="setTheme('light')" id="themeBtnLight" class="p-2 rounded-xl border text-center transition flex flex-col items-center gap-1">
-                                <span class="w-6 h-6 rounded-full bg-[#F2F2F7] border border-slate-300 flex items-center justify-center text-xs text-slate-800"><i class="fa-solid fa-sun"></i></span>
-                                <span class="text-[11px] font-semibold">Light</span>
-                            </button>
-                            <button type="button" onclick="setTheme('dark')" id="themeBtnDark" class="p-2 rounded-xl border text-center transition flex flex-col items-center gap-1">
-                                <span class="w-6 h-6 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-xs text-white"><i class="fa-solid fa-moon"></i></span>
-                                <span class="text-[11px] font-semibold">Dark Mode</span>
-                            </button>
-                            <button type="button" onclick="setTheme('navy')" id="themeBtnNavy" class="p-2 rounded-xl border text-center transition flex flex-col items-center gap-1">
-                                <span class="w-6 h-6 rounded-full bg-[#0b132b] border border-blue-900 flex items-center justify-center text-xs text-blue-400"><i class="fa-solid fa-shield-halved"></i></span>
-                                <span class="text-[11px] font-semibold">Navy Dark</span>
-                            </button>
-                            <button type="button" onclick="setTheme('emerald')" id="themeBtnEmerald" class="p-2 rounded-xl border text-center transition flex flex-col items-center gap-1">
-                                <span class="w-6 h-6 rounded-full bg-[#062c20] border border-emerald-900 flex items-center justify-center text-xs text-emerald-400"><i class="fa-solid fa-leaf"></i></span>
-                                <span class="text-[11px] font-semibold">Emerald Dark</span>
-                            </button>
-                        </div>
-
-                        <!-- Custom Background & Text Color Selectors -->
-                        <div class="pt-2 border-t border-slate-100 grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Latar Aplikasi (Body)</label>
-                                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200">
-                                    <input type="color" id="customBgColor" onchange="applyCustomColors()" class="w-7 h-7 rounded border-0 cursor-pointer bg-transparent">
-                                    <span class="text-xs text-slate-600 font-mono" id="customBgVal">Default</span>
-                                    <button type="button" onclick="resetBgColor()" class="ml-auto text-[10px] text-red-500 font-semibold px-1">Reset</button>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Teks Utama Aplikasi</label>
-                                <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-lg border border-slate-200">
-                                    <input type="color" id="customTextColor" onchange="applyCustomColors()" class="w-7 h-7 rounded border-0 cursor-pointer bg-transparent">
-                                    <span class="text-xs text-slate-600 font-mono" id="customTextVal">Default</span>
-                                    <button type="button" onclick="resetTextColor()" class="ml-auto text-[10px] text-red-500 font-semibold px-1">Reset</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Advanced Detail Colors (Kode Part, Harga, Teks Mobil, Badges) -->
-                        <div class="pt-3 border-t border-slate-100 space-y-2">
-                            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Warna Elemen Detail Item</p>
-                            
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Teks Kode Part</label>
-                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                                        <input type="color" id="customCodeTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
-                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCodeTextVal">Default</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Latar Kode Part</label>
-                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                                        <input type="color" id="customCodeBgColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
-                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCodeBgVal">Default</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Harga Jual</label>
-                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                                        <input type="color" id="customPriceColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
-                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customPriceVal">Default</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-medium text-slate-500 mb-1">Warna Teks Mobil</label>
-                                    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                                        <input type="color" id="customCarTextColor" onchange="applyCustomColors()" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
-                                        <span class="text-[10px] text-slate-600 font-mono truncate" id="customCarTextVal">Default</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-end pt-1">
-                                <button type="button" onclick="resetElementColors()" class="text-[10px] text-red-500 font-semibold hover:underline">Reset Warna Detail Ke Default</button>
-                            </div>
-                        </div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kode / SKU</label>
+                        <input type="text" id="editSKU" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
                     </div>
-                </div>
-
-                <!-- Container Width Customization -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
                     <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Lebar Maksimal Tampilan</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            <button type="button" onclick="setAppWidth('compact')" id="widthBtnCompact" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Ramping (sm)</button>
-                            <button type="button" onclick="setAppWidth('standard')" id="widthBtnStandard" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Standar (md)</button>
-                            <button type="button" onclick="setAppWidth('tablet')" id="widthBtnTablet" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Tablet (lg)</button>
-                            <button type="button" onclick="setAppWidth('full')" id="widthBtnFull" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Penuh (100%)</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Side Margins / Padding Customization -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Jarak Pinggir Kiri & Kanan (Side Padding)</label>
-                        <div class="grid grid-cols-4 gap-2">
-                            <button type="button" onclick="setAppPadding('tight')" id="padBtnTight" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Rapat (px-2)</button>
-                            <button type="button" onclick="setAppPadding('normal')" id="padBtnNormal" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Normal (px-4)</button>
-                            <button type="button" onclick="setAppPadding('wide')" id="padBtnWide" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Longgar (px-6)</button>
-                            <button type="button" onclick="setAppPadding('extra')" id="padBtnExtra" class="py-2 px-1 text-center text-xs font-semibold rounded-lg border border-slate-200 transition">Sangat Longgar (px-8)</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Font Size Customization -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-2">Ukuran Font Aplikasi</label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button type="button" onclick="setFontSize('sm')" id="fontBtnSm" class="py-2 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition">Kecil</button>
-                            <button type="button" onclick="setFontSize('base')" id="fontBtnBase" class="py-2 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition">Normal</button>
-                            <button type="button" onclick="setFontSize('lg')" id="fontBtnLg" class="py-2 text-xs font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition">Besar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Header Name Customization -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Nama Toko / Header</label>
-                        <input type="text" id="settingHeaderTitle" placeholder="Blantikautoparts" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Sub-judul / Tagline</label>
-                        <input type="text" id="settingHeaderSubtitle" placeholder="Japan Spec iOS" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                </div>
-
-                <!-- Display Preferences -->
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-medium text-slate-800">Tampilkan Modal / Hpp</p>
-                            <p class="text-[10px] text-slate-400">Tampilkan modal pada ringkasan item</p>
-                        </div>
-                        <input type="checkbox" id="settingShowBuyPrice" onchange="renderTable()" class="w-4 h-4 accent-blue-600 rounded">
-                    </div>
-                </div>
-
-                <!-- Data Management -->
-                <div class="bg-white rounded-xl p-3 space-y-2 shadow-sm border border-slate-100">
-                    <button type="button" onclick="resetData()" class="w-full text-left text-xs font-semibold text-red-600 py-1 flex items-center justify-between">
-                        <span>Reset Data Sparepart ke Default</span>
-                        <i class="fa-solid fa-rotate-right text-xs"></i>
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal (iOS Sheet) -->
-    <div id="partModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden transition-opacity">
-        <div class="bg-[#F2F2F7] w-full max-w-md rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col transform transition-transform">
-            <!-- Modal Header -->
-            <div class="px-5 py-3.5 bg-white border-b border-slate-200/80 flex justify-between items-center sticky top-0 z-10">
-                <button type="button" onclick="closeModal()" class="text-blue-600 text-sm font-normal">Batal</button>
-                <h3 id="modalTitle" class="font-semibold text-slate-900 text-sm">Tambah Sparepart</h3>
-                <button type="button" onclick="document.getElementById('submitBtn').click()" class="text-blue-600 font-bold text-sm">Simpan</button>
-            </div>
-
-            <!-- Modal Form -->
-            <form id="partForm" onsubmit="handleFormSubmit(event)" class="p-4 space-y-4 overflow-y-auto">
-                <input type="hidden" id="partId">
-                
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Nama Sparepart</label>
-                        <input type="text" id="partName" required placeholder="Filter Oli / Kampas Rem" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Kode Part / No. Part</label>
-                        <input type="text" id="partCode" placeholder="04465-YZZE1" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent font-mono">
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Kendaraan / Mobil</label>
-                        <input type="text" id="partCar" required placeholder="Avanza / Jazz / Xpander" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Tahun Mobil</label>
-                        <input type="text" id="partYear" placeholder="2012 - 2021" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div>
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Kategori</label>
-                        <select id="partCategory" required class="w-full text-sm text-slate-900 focus:outline-none bg-transparent font-medium">
-                            <option value="Mesin">Mesin & Filter</option>
-                            <option value="Kaki-kaki">Kaki-kaki & Suspensi</option>
-                            <option value="Rem">Pengereman</option>
-                            <option value="Kelistrikan">Kelistrikan & Aki</option>
-                            <option value="Bodi & Interior">Bodi & Interior</option>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kategori</label>
+                        <select id="editCategory" required onchange="toggleVBeltField('edit')" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <option value="Mesin">Mesin</option>
+                            <option value="VBelt">VBelt</option>
+                            <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
+                            <option value="Oli & Cairan">Oli & Cairan</option>
+                            <option value="Kelistrikan">Kelistrikan</option>
+                            <option value="Bodi & Aksesoris">Bodi & Aksesoris</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                     </div>
-                    <hr class="border-slate-100">
-                    <div id="brandContainer">
-                        <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1">Merk / Brand</label>
-                        <input type="text" id="partBrand" required placeholder="Denso / NGK / KYB" 
-                            class="w-full text-sm text-slate-900 focus:outline-none bg-transparent">
+                </div>
+
+                <!-- KOLOM KHUSUS UKURAN VBELT (EDIT) -->
+                <div id="editVBeltSizeContainer" class="hidden">
+                    <label class="block text-[11px] font-semibold text-amber-400 uppercase mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
+                    </label>
+                    <input type="text" id="editVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-amber-500/50 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-amber-400">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kesesuaian Mobil</label>
+                    <input type="text" id="editCarModel" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Beli (Rp)</label>
+                        <input type="number" id="editBuyPrice" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Jual (Rp)</label>
+                        <input type="number" id="editSellPrice" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center" id="stockContainer">
-                        <label class="text-xs font-medium text-slate-600">Jumlah Stok</label>
-                        <input type="number" id="partStock" min="0" required placeholder="0" 
-                            class="w-20 text-right text-sm font-bold text-slate-900 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div class="flex justify-between items-center" id="buyPriceContainer">
-                        <label class="text-xs font-medium text-slate-600">Harga Beli (Modal)</label>
-                        <input type="number" id="partBuyPrice" min="0" required placeholder="0" 
-                            class="w-32 text-right text-sm font-semibold text-slate-700 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div class="flex justify-between items-center">
-                        <label class="text-xs font-medium text-slate-600">Harga Jual</label>
-                        <input type="number" id="partSellPrice" min="0" required placeholder="0" 
-                            class="w-32 text-right text-sm font-bold text-blue-600 focus:outline-none bg-transparent">
-                    </div>
-                    <hr class="border-slate-100">
-                    <div class="flex justify-between items-center">
-                        <label class="text-xs font-medium text-slate-600">Jasa / Ongkos Pasang (Opsional)</label>
-                        <input type="number" id="partServiceFee" min="0" placeholder="0" 
-                            class="w-32 text-right text-sm font-semibold text-amber-600 focus:outline-none bg-transparent">
-                    </div>
+                <div>
+                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Stok Saat Ini</label>
+                    <input type="number" id="editStock" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
                 </div>
 
-                <button type="submit" id="submitBtn" class="hidden"></button>
+                <div class="pt-2 flex gap-2">
+                    <button type="button" onclick="deletePartFromDrawer()" class="w-1/3 min-h-[44px] bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 font-semibold rounded-xl transition flex items-center justify-center space-x-1 active:scale-95">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Hapus</span>
+                    </button>
+                    <button type="submit" class="w-2/3 min-h-[44px] bg-ios-blue hover:bg-blue-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-blue-500/20">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Toast Banner -->
-    <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-md text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-lg transform -translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2">
-        <span id="toastIcon" class="text-emerald-400"><i class="fa-solid fa-circle-check"></i></span>
-        <span id="toastMessage">Berhasil menyimpan data</span>
+    <!-- MODAL EDIT STORE NAME & SUBTITLE -->
+    <div id="storeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="theme-card border rounded-2xl w-full max-w-xs p-4 space-y-3 shadow-2xl">
+            <h3 class="text-xs font-bold theme-text-primary uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-store text-ios-blue"></i> Ubah Identitas Toko
+            </h3>
+            <div>
+                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold">Nama Toko</label>
+                <input type="text" id="inputStoreName" placeholder="Toko Sparepart Jaya" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-ios-blue">
+            </div>
+            <div>
+                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold">Teks Subtitle (Dibawah Nama Toko)</label>
+                <input type="text" id="inputStoreSubtitle" placeholder="Inventori Sparepart" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-ios-blue">
+            </div>
+            <div class="flex justify-end space-x-2 pt-1 text-xs">
+                <button type="button" onclick="closeStoreModal()" class="px-3 py-2 theme-input border theme-text-secondary rounded-xl font-medium active:scale-95">Batal</button>
+                <button type="button" onclick="saveStoreName()" class="px-3 py-2 bg-ios-blue text-white rounded-xl font-semibold active:scale-95 shadow-md shadow-blue-500/20">Simpan</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        let appSettings = JSON.parse(localStorage.getItem('app_settings')) || {
-            fontSize: 'base',
-            headerTitle: 'Blantikautoparts',
-            headerSubtitle: 'Japan Spec iOS',
-            showBuyPrice: false,
-            theme: 'light',
-            appWidth: 'standard',
-            appPadding: 'normal',
-            customLogo: '',
-            customBg: '',
-            customText: '',
-            customCodeText: '',
-            customCodeBg: '',
-            customPriceColor: '',
-            customCarTextColor: '',
-            headerBg: '',
-            headerText: '',
-            statBg: '',
-            statText: '',
-            breakdownBg: '',
-            breakdownItemBg: '',
-            listBg: '',
-            listText: '',
-            dockBg: '',
-            dockText: ''
-        };
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed top-14 left-0 right-0 z-50 flex flex-col items-center pointer-events-none px-4 space-y-2"></div>
 
-        // Initial Default Spareparts Data
-        const defaultParts = [
-            { id: 1, name: "Kampas Rem Depan Set", code: "04465-YZZE1", year: "2012 - 2021", category: "Rem", brand: "Akimbo / Genuine", car: "Toyota Avanza / Xenia", stock: 8, buyPrice: 175000, sellPrice: 240000, serviceFee: 50000 },
-            { id: 2, name: "Filter Oli Mesin", code: "15400-RTA-003", year: "2014 - 2022", category: "Mesin", brand: "Denso", car: "Honda Jazz / Brio", stock: 15, buyPrice: 35000, sellPrice: 55000, serviceFee: 20000 },
-            { id: 3, name: "Busi Iridium Standard", code: "IZFR6K11", year: "2017 - 2023", category: "Kelistrikan", brand: "NGK", car: "Mitsubishi Xpander", stock: 2, buyPrice: 95000, sellPrice: 135000, serviceFee: 30000 },
-            { id: 4, name: "Link Stabilizer Depan", code: "SL-S080", year: "2012 - 2018", category: "Kaki-kaki", brand: "555 / Japan", car: "Suzuki Ertiga", stock: 4, buyPrice: 110000, sellPrice: 165000, serviceFee: 50000 },
-            { id: 5, name: "Shock Absorber Belakang", code: "48530-09L10", year: "2016 - 2023", category: "Kaki-kaki", brand: "KYB (Kayaba)", car: "Toyota Innova Reborn", stock: 1, buyPrice: 450000, sellPrice: 620000, serviceFee: 100000 }
+    <!-- APP JAVASCRIPT LOGIC -->
+    <script>
+        // DEMO INITIAL DATA
+        const demoParts = [
+            { id: '1', sku: 'AVZ-FLT-01', name: 'Filter Oli Avanza/Xenia', category: 'Oli & Cairan', vbeltSize: '', carModel: 'Avanza, Xenia, Rush', buyPrice: 28000, sellPrice: 40000, stock: 24 },
+            { id: '2', sku: 'JZ-BRK-02', name: 'Kampas Rem Depan Jazz RS', category: 'Rem & Kaki-kaki', vbeltSize: '', carModel: 'Honda Jazz GE8/GK5', buyPrice: 185000, sellPrice: 250000, stock: 3 },
+            { id: '3', sku: 'VBT-AVZ-03', name: 'Tali Kipas / Fan Belt Alternator', category: 'VBelt', vbeltSize: '4PK 855', carModel: 'Avanza / Xenia 1.3', buyPrice: 45000, sellPrice: 65000, stock: 8 },
+            { id: '4', sku: 'INV-SPK-04', name: 'Busi Iridium Tough Innova', category: 'Kelistrikan', vbeltSize: '', carModel: 'Innova Bensin 2.0', buyPrice: 75000, sellPrice: 110000, stock: 12 },
+            { id: '5', sku: 'XPN-OIL-05', name: 'Oli Shell Helix HX8 5W-30 (4L)', category: 'Oli & Cairan', vbeltSize: '', carModel: 'Xpander, Livina', buyPrice: 320000, sellPrice: 410000, stock: 1 },
+            { id: '6', sku: 'AGY-CLT-06', name: 'Kopling Set Agya/Ayla 1.2', category: 'Mesin', vbeltSize: '', carModel: 'Toyota Agya, Ayla', buyPrice: 650000, sellPrice: 820000, stock: 0 }
         ];
 
-        let spareparts = JSON.parse(localStorage.getItem('spareparts_data')) || defaultParts;
+        // STATE
+        let spareparts = [];
+        let storeName = "Toko Sparepart Jaya";
+        let storeSubtitle = "Inventori Sparepart";
+        let activeFilterChip = "ALL";
 
-        function applySettings() {
-            // Apply Header Text
-            const titleElem = document.querySelector('header h1');
-            const subElem = document.querySelector('header p');
-            if (titleElem) titleElem.textContent = appSettings.headerTitle || 'Blantikautoparts';
-            if (subElem) subElem.textContent = appSettings.headerSubtitle || 'Japan Spec iOS';
+        // APP SETTINGS STATE
+        let appSettings = {
+            logoType: 'preset',
+            logoValue: 'fa-car-wrench',
+            padding: 4,
+            textSize: 'base',
+            theme: 'dark-blue',
+            customBg: '',
+            customText: ''
+        };
 
-            // Apply Logo Image
-            const headerImg = document.getElementById('customLogoImg');
-            const headerDefaultIcon = document.getElementById('defaultLogoIcon');
-            const previewImg = document.getElementById('previewLogoImg');
-            const previewDefaultIcon = document.getElementById('previewDefaultIcon');
+        // INIT
+        window.onload = function() {
+            loadStorage();
+            applyAppSettings();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            generateAddSKU();
+        };
 
-            if (appSettings.customLogo) {
-                if(headerImg) { headerImg.src = appSettings.customLogo; headerImg.classList.remove('hidden'); }
-                if(headerDefaultIcon) headerDefaultIcon.classList.add('hidden');
-                if(previewImg) { previewImg.src = appSettings.customLogo; previewImg.classList.remove('hidden'); }
-                if(previewDefaultIcon) previewDefaultIcon.classList.add('hidden');
-            } else {
-                if(headerImg) headerImg.classList.add('hidden');
-                if(headerDefaultIcon) headerDefaultIcon.classList.remove('hidden');
-                if(previewImg) previewImg.classList.add('hidden');
-                if(previewDefaultIcon) previewDefaultIcon.classList.remove('hidden');
+        function loadStorage() {
+            const localParts = localStorage.getItem('mob_spareparts');
+            const localStore = localStorage.getItem('mob_store_name');
+            const localSub = localStorage.getItem('mob_store_sub');
+            const localSettings = localStorage.getItem('mob_app_settings');
+
+            spareparts = localParts ? JSON.parse(localParts) : [...demoParts];
+            storeName = localStore || "Toko Sparepart Jaya";
+            storeSubtitle = localSub || "Inventori Sparepart";
+            if (localSettings) {
+                appSettings = { ...appSettings, ...JSON.parse(localSettings) };
             }
 
-            // Apply Theme
-            const body = document.body;
-            body.classList.remove('theme-light', 'theme-dark', 'theme-navy', 'theme-emerald');
-            body.classList.add(`theme-${appSettings.theme || 'light'}`);
+            saveStorage();
+        }
 
-            // Apply Custom Background Color if present
-            if (appSettings.customBg) {
-                body.style.setProperty('--custom-bg-color', appSettings.customBg);
-                body.classList.add('has-custom-bg');
-                document.getElementById('customBgColor').value = appSettings.customBg;
-                document.getElementById('customBgVal').textContent = appSettings.customBg;
-            } else {
-                body.classList.remove('has-custom-bg');
-                body.style.removeProperty('--custom-bg-color');
-                document.getElementById('customBgVal').textContent = 'Default';
-            }
+        function saveStorage() {
+            localStorage.setItem('mob_spareparts', JSON.stringify(spareparts));
+            localStorage.setItem('mob_store_name', storeName);
+            localStorage.setItem('mob_store_sub', storeSubtitle);
+            localStorage.setItem('mob_app_settings', JSON.stringify(appSettings));
+        }
 
-            // Apply Custom Text Color if present
-            if (appSettings.customText) {
-                body.style.setProperty('--custom-text-color', appSettings.customText);
-                body.classList.add('has-custom-text');
-                document.getElementById('customTextColor').value = appSettings.customText;
-                document.getElementById('customTextVal').textContent = appSettings.customText;
-            } else {
-                body.classList.remove('has-custom-text');
-                body.style.removeProperty('--custom-text-color');
-                document.getElementById('customTextVal').textContent = 'Default';
-            }
+        function saveAppSettingsExplicit() {
+            saveStorage();
+            showToast("Pengaturan tampilan berhasil disimpan!", "success");
+        }
 
-            // Apply Section Specific Colors
-            const setCssVar = (key, val, elId) => {
-                if (val) {
-                    body.style.setProperty(key, val);
-                    const input = document.getElementById(elId);
-                    if (input) input.value = val;
-                } else {
-                    body.style.removeProperty(key);
+        function formatRp(val) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(val);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // DYNAMIC COLOR HELPER FUNCTIONS
+        function adjustHexColor(hex, percent) {
+            let num = parseInt(hex.replace('#',''), 16),
+                amt = Math.round(2.55 * percent),
+                R = (num >> 16) + amt,
+                G = (num >> 8 & 0x00FF) + amt,
+                B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R<255?R<0?0:R:255)*0x10000 + (G<255?G<0?0:G:255)*0x100 + (B<255?B<0?0:B:255)).toString(16).slice(1);
+        }
+
+        function applyAppSettings() {
+            const paddingMap = { 2: 'px-2', 3: 'px-3', 4: 'px-4', 5: 'px-5', 6: 'px-6' };
+            const selectedPaddingClass = paddingMap[appSettings.padding] || 'px-4';
+            
+            document.querySelectorAll('.dynamic-padding').forEach(el => {
+                el.className = el.className.replace(/px-\d/g, selectedPaddingClass);
+            });
+
+            const pRange = document.getElementById('paddingRange');
+            if (pRange) pRange.value = appSettings.padding;
+            const pText = document.getElementById('paddingValText');
+            if (pText) pText.innerText = selectedPaddingClass;
+
+            const body = document.getElementById('appBody');
+            body.classList.remove('text-xs', 'text-sm', 'text-base');
+            if (appSettings.textSize === 'sm') body.classList.add('text-xs');
+            else if (appSettings.textSize === 'lg') body.classList.add('text-base');
+            else body.classList.add('text-sm');
+
+            const txtLabelMap = { 'sm': 'Kecil', 'base': 'Sedang', 'lg': 'Besar' };
+            const txtText = document.getElementById('textSizeText');
+            if (txtText) txtText.innerText = txtLabelMap[appSettings.textSize] || 'Sedang';
+
+            ['btnTextSm', 'btnTextBase', 'btnTextLg'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('bg-ios-blue', 'text-white');
                 }
+            });
+
+            if (appSettings.textSize === 'sm') document.getElementById('btnTextSm')?.classList.add('bg-ios-blue', 'text-white');
+            if (appSettings.textSize === 'base') document.getElementById('btnTextBase')?.classList.add('bg-ios-blue', 'text-white');
+            if (appSettings.textSize === 'lg') document.getElementById('btnTextLg')?.classList.add('bg-ios-blue', 'text-white');
+
+            const root = document.documentElement;
+            
+            // THEME DEFINITIONS
+            const themes = {
+                'dark-blue': { bg: '#090d16', card: '#131b2e', input: '#0d1322', border: '#1e293b', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
+                'midnight': { bg: '#050508', card: '#0f0f17', input: '#09090f', border: '#1e1e2e', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
+                'slate': { bg: '#0f172a', card: '#1e293b', input: '#0f172a', border: '#334155', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
+                'emerald': { bg: '#022c22', card: '#064e3b', input: '#022c22', border: '#047857', textPrimary: '#f8fafc', textSecondary: '#a7f3d0' },
+                'light-clean': { bg: '#f8fafc', card: '#ffffff', input: '#f1f5f9', border: '#cbd5e1', textPrimary: '#0f172a', textSecondary: '#64748b' },
+                'light-soft': { bg: '#e2e8f0', card: '#f1f5f9', input: '#ffffff', border: '#cbd5e1', textPrimary: '#1e293b', textSecondary: '#475569' }
             };
 
-            setCssVar('--header-bg', appSettings.headerBg, 'headerBgColor');
-            setCssVar('--header-text', appSettings.headerText, 'headerTextColor');
-            setCssVar('--stat-bg', appSettings.statBg, 'statBgColor');
-            setCssVar('--stat-text', appSettings.statText, 'statTextColor');
-            setCssVar('--breakdown-bg', appSettings.breakdownBg, 'breakdownBgColor');
-            setCssVar('--breakdown-item-bg', appSettings.breakdownItemBg, 'breakdownItemBgColor');
-            setCssVar('--list-bg', appSettings.listBg, 'listBgColor');
-            setCssVar('--list-text', appSettings.listText, 'listTextColor');
-            setCssVar('--dock-bg', appSettings.dockBg, 'dockBgColor');
-            setCssVar('--dock-text', appSettings.dockText, 'dockTextColor');
+            let activeTheme = themes[appSettings.theme] || themes['dark-blue'];
 
-            // Apply Element Level Colors
-            if (appSettings.customCodeText) {
-                body.style.setProperty('--code-text-color', appSettings.customCodeText);
-                document.getElementById('customCodeTextColor').value = appSettings.customCodeText;
-                document.getElementById('customCodeTextVal').textContent = appSettings.customCodeText;
-            } else {
-                body.style.removeProperty('--code-text-color');
-                if(document.getElementById('customCodeTextVal')) document.getElementById('customCodeTextVal').textContent = 'Default';
+            if (appSettings.theme === 'custom') {
+                const bg = appSettings.customBg || '#090d16';
+                const text = appSettings.customText || '#f8fafc';
+                activeTheme = {
+                    bg: bg,
+                    card: adjustHexColor(bg, 12),
+                    input: adjustHexColor(bg, -5),
+                    border: adjustHexColor(bg, 25),
+                    textPrimary: text,
+                    textSecondary: adjustHexColor(text, -30)
+                };
             }
 
-            if (appSettings.customCodeBg) {
-                body.style.setProperty('--code-bg-color', appSettings.customCodeBg);
-                document.getElementById('customCodeBgColor').value = appSettings.customCodeBg;
-                document.getElementById('customCodeBgVal').textContent = appSettings.customCodeBg;
+            root.style.setProperty('--bg-body', activeTheme.bg);
+            root.style.setProperty('--bg-card', activeTheme.card);
+            root.style.setProperty('--bg-input', activeTheme.input);
+            root.style.setProperty('--border-color', activeTheme.border);
+            root.style.setProperty('--text-primary', activeTheme.textPrimary);
+            root.style.setProperty('--text-secondary', activeTheme.textSecondary);
+        }
+
+        // RENDER HEADER
+        function renderHeader() {
+            document.getElementById('storeNameText').querySelector('span').innerText = storeName;
+            document.getElementById('storeSubtitleText').innerText = storeSubtitle;
+            
+            const logoIcon = document.getElementById('headerLogoIcon');
+            const logoImg = document.getElementById('headerLogoImg');
+
+            if (appSettings.logoType === 'custom' && appSettings.logoValue) {
+                logoImg.src = appSettings.logoValue;
+                logoImg.classList.remove('hidden');
+                logoIcon.classList.add('hidden');
             } else {
-                body.style.removeProperty('--code-bg-color');
-                if(document.getElementById('customCodeBgVal')) document.getElementById('customCodeBgVal').textContent = 'Default';
+                logoImg.classList.add('hidden');
+                logoIcon.classList.remove('hidden');
+                logoIcon.className = `fa-solid ${appSettings.logoValue || 'fa-car-wrench'} text-base`;
             }
 
-            if (appSettings.customPriceColor) {
-                body.style.setProperty('--price-text-color', appSettings.customPriceColor);
-                document.getElementById('customPriceColor').value = appSettings.customPriceColor;
-                document.getElementById('customPriceVal').textContent = appSettings.customPriceColor;
+            const emptyCount = spareparts.filter(p => p.stock === 0).length;
+            const badge = document.getElementById('emptyStockBadge');
+            if (emptyCount > 0) {
+                badge.innerText = emptyCount;
+                badge.classList.remove('hidden');
             } else {
-                body.style.removeProperty('--price-text-color');
-                if(document.getElementById('customPriceVal')) document.getElementById('customPriceVal').textContent = 'Default';
+                badge.classList.add('hidden');
             }
+        }
 
-            if (appSettings.customCarTextColor) {
-                body.style.setProperty('--car-text-color', appSettings.customCarTextColor);
-                document.getElementById('customCarTextColor').value = appSettings.customCarTextColor;
-                document.getElementById('customCarTextVal').textContent = appSettings.customCarTextColor;
-            } else {
-                body.style.removeProperty('--car-text-color');
-                if(document.getElementById('customCarTextVal')) document.getElementById('customCarTextVal').textContent = 'Default';
-            }
-
-            // Apply App Width & Padding Classes to all container elements
-            const containers = document.querySelectorAll('.app-container');
-            containers.forEach(el => {
-                // Width
-                el.classList.remove('max-w-sm', 'max-w-md', 'max-w-4xl', 'max-w-full');
-                if (appSettings.appWidth === 'compact') {
-                    el.classList.add('max-w-sm');
-                } else if (appSettings.appWidth === 'tablet') {
-                    el.classList.add('max-w-4xl');
-                } else if (appSettings.appWidth === 'full') {
-                    el.classList.add('max-w-full');
-                } else {
-                    el.classList.add('max-w-md'); // default standard
-                }
-
-                // Side Padding / Margin
-                el.classList.remove('px-2', 'px-4', 'px-6', 'px-8');
-                if (appSettings.appPadding === 'tight') {
-                    el.classList.add('px-2');
-                } else if (appSettings.appPadding === 'wide') {
-                    el.classList.add('px-6');
-                } else if (appSettings.appPadding === 'extra') {
-                    el.classList.add('px-8');
-                } else {
-                    el.classList.add('px-4'); // default normal
-                }
-            });
-
-            // Apply Font Size
-            body.classList.remove('text-xs', 'text-sm', 'text-base');
-            if (appSettings.fontSize === 'sm') {
-                body.style.fontSize = '13px';
-            } else if (appSettings.fontSize === 'lg') {
-                body.style.fontSize = '16px';
-            } else {
-                body.style.fontSize = '14px';
-            }
-
-            // Update Settings Modal Fields
-            document.getElementById('settingHeaderTitle').value = appSettings.headerTitle || '';
-            document.getElementById('settingHeaderSubtitle').value = appSettings.headerSubtitle || '';
-            document.getElementById('settingShowBuyPrice').checked = appSettings.showBuyPrice || false;
-
-            // Update Theme Buttons UI
-            ['light', 'dark', 'navy', 'emerald'].forEach(t => {
-                const btn = document.getElementById(`themeBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
-                if (btn) {
-                    if (appSettings.theme === t) {
-                        btn.className = "p-2 rounded-xl border border-blue-600 bg-blue-50/20 text-blue-600 text-center transition flex flex-col items-center gap-1 shadow-sm";
-                    } else {
-                        btn.className = "p-2 rounded-xl border border-slate-200 text-center transition flex flex-col items-center gap-1 hover:bg-slate-50";
-                    }
-                }
-            });
-
-            // Update App Width Buttons UI
-            ['compact', 'standard', 'tablet', 'full'].forEach(w => {
-                const btn = document.getElementById(`widthBtn${w.charAt(0).toUpperCase() + w.slice(1)}`);
-                if (btn) {
-                    if (appSettings.appWidth === w) {
-                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-blue-600 text-white border border-blue-600 transition shadow-sm";
-                    } else {
-                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition";
-                    }
-                }
-            });
-
-            // Update Side Padding Buttons UI
-            ['tight', 'normal', 'wide', 'extra'].forEach(p => {
-                const btn = document.getElementById(`padBtn${p.charAt(0).toUpperCase() + p.slice(1)}`);
-                if (btn) {
-                    if ((appSettings.appPadding || 'normal') === p) {
-                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-blue-600 text-white border border-blue-600 transition shadow-sm";
-                    } else {
-                        btn.className = "py-2 px-1 text-center text-xs font-semibold rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition";
-                    }
-                }
-            });
-
-            // Update Font Choice Buttons UI
-            ['sm', 'base', 'lg'].forEach(size => {
-                const btn = document.getElementById(`fontBtn${size.charAt(0).toUpperCase() + size.slice(1)}`);
-                if (btn) {
-                    if (appSettings.fontSize === size) {
-                        btn.className = "py-2 text-xs font-semibold rounded-lg bg-blue-600 text-white border border-blue-600 transition shadow-sm";
-                    } else {
-                        btn.className = "py-2 text-xs font-semibold rounded-lg bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition";
-                    }
-                }
-            });
+        // CUSTOMIZATION SETTINGS FUNCTIONS
+        function setLogoPreset(iconClass) {
+            appSettings.logoType = 'preset';
+            appSettings.logoValue = iconClass;
+            document.getElementById('uploadLogoText').innerText = 'Upload Logo dari Galeri';
+            renderHeader();
+            showToast("Preset logo dipilih", "info");
         }
 
         function handleLogoUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    appSettings.customLogo = e.target.result;
-                    applySettings();
-                    showToast("Logo berhasil dipilih!");
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showToast("Ukuran foto maksimal 2MB", "error");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                appSettings.logoType = 'custom';
+                appSettings.logoValue = e.target.result;
+                document.getElementById('uploadLogoText').innerText = `Logo Terpasang: ${file.name.substring(0, 15)}...`;
+                renderHeader();
+                showToast("Logo kustom dipilih dari galeri", "info");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function changePadding(val) {
+            appSettings.padding = parseInt(val);
+            applyAppSettings();
+        }
+
+        function setTextSize(size) {
+            appSettings.textSize = size;
+            applyAppSettings();
+            showToast(`Ukuran teks: ${size === 'sm' ? 'Kecil' : size === 'lg' ? 'Besar' : 'Sedang'}`, "info");
+        }
+
+        function setTheme(themeKey) {
+            appSettings.theme = themeKey;
+            appSettings.customBg = '';
+            appSettings.customText = '';
+            applyAppSettings();
+            showToast("Preset tema dipilih", "info");
+        }
+
+        function setCustomBgColor(hexColor) {
+            appSettings.customBg = hexColor;
+            appSettings.theme = 'custom';
+            applyAppSettings();
+        }
+
+        function setCustomTextColor(hexColor) {
+            appSettings.customText = hexColor;
+            appSettings.theme = 'custom';
+            applyAppSettings();
+        }
+
+        // TOGGLE VBELT FIELD VISIBILITY
+        function toggleVBeltField(formPrefix) {
+            const cat = document.getElementById(formPrefix + 'Category').value;
+            const container = document.getElementById(formPrefix + 'VBeltSizeContainer');
+            if (cat === 'VBelt') {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                document.getElementById(formPrefix + 'VBeltSize').value = '';
             }
         }
 
-        function resetLogo() {
-            appSettings.customLogo = '';
-            document.getElementById('logoFileInput').value = '';
-            applySettings();
-            showToast("Logo direset ke default.");
-        }
-
-        function setTheme(theme) {
-            appSettings.theme = theme;
-            applySettings();
-        }
-
-        function applyCustomColors() {
-            appSettings.customBg = document.getElementById('customBgColor').value;
-            appSettings.customText = document.getElementById('customTextColor').value;
-            appSettings.customCodeText = document.getElementById('customCodeTextColor').value;
-            appSettings.customCodeBg = document.getElementById('customCodeBgColor').value;
-            appSettings.customPriceColor = document.getElementById('customPriceColor').value;
-            appSettings.customCarTextColor = document.getElementById('customCarTextColor').value;
-
-            // Section level colors
-            appSettings.headerBg = document.getElementById('headerBgColor').value;
-            appSettings.headerText = document.getElementById('headerTextColor').value;
-            appSettings.statBg = document.getElementById('statBgColor').value;
-            appSettings.statText = document.getElementById('statTextColor').value;
-            appSettings.breakdownBg = document.getElementById('breakdownBgColor').value;
-            appSettings.breakdownItemBg = document.getElementById('breakdownItemBgColor').value;
-            appSettings.listBg = document.getElementById('listBgColor').value;
-            appSettings.listText = document.getElementById('listTextColor').value;
-            appSettings.dockBg = document.getElementById('dockBgColor').value;
-            appSettings.dockText = document.getElementById('dockTextColor').value;
-
-            applySettings();
-        }
-
-        function resetSectionColors() {
-            appSettings.headerBg = '';
-            appSettings.headerText = '';
-            appSettings.statBg = '';
-            appSettings.statText = '';
-            appSettings.breakdownBg = '';
-            appSettings.breakdownItemBg = '';
-            appSettings.listBg = '';
-            appSettings.listText = '';
-            appSettings.dockBg = '';
-            appSettings.dockText = '';
-            applySettings();
-            renderTable();
-        }
-
-        function resetBgColor() {
-            appSettings.customBg = '';
-            applySettings();
-        }
-
-        function resetTextColor() {
-            appSettings.customText = '';
-            applySettings();
-        }
-
-        function resetElementColors() {
-            appSettings.customCodeText = '';
-            appSettings.customCodeBg = '';
-            appSettings.customPriceColor = '';
-            appSettings.customCarTextColor = '';
-            applySettings();
-            renderTable();
-        }
-
-        function setAppWidth(width) {
-            appSettings.appWidth = width;
-            applySettings();
-        }
-
-        function setAppPadding(padding) {
-            appSettings.appPadding = padding;
-            applySettings();
-        }
-
-        function setFontSize(size) {
-            appSettings.fontSize = size;
-            applySettings();
-        }
-
-        function openSettingsModal() {
-            applySettings();
-            document.getElementById('settingsModal').classList.remove('hidden');
-        }
-
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').classList.add('hidden');
-        }
-
-        function saveSettings() {
-            appSettings.headerTitle = document.getElementById('settingHeaderTitle').value.trim() || 'Blantikautoparts';
-            appSettings.headerSubtitle = document.getElementById('settingHeaderSubtitle').value.trim() || 'Japan Spec iOS';
-            appSettings.showBuyPrice = document.getElementById('settingShowBuyPrice').checked;
-
-            localStorage.setItem('app_settings', JSON.stringify(appSettings));
-            applySettings();
-            renderTable();
-            closeSettingsModal();
-            showToast("Pengaturan berhasil disimpan!");
-        }
-
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
-        }
-
-        function updateBrandFilterOptions() {
-            const filterBrandSelect = document.getElementById('filterBrand');
-            const currentSelected = filterBrandSelect.value;
-            const brands = [...new Set(spareparts.map(p => p.brand || 'Lainnya'))].sort();
-            
-            filterBrandSelect.innerHTML = '<option value="">Semua Merk</option>';
-            brands.forEach(b => {
-                if(b) {
-                    const opt = document.createElement('option');
-                    opt.value = b;
-                    opt.textContent = b;
-                    if(b === currentSelected) opt.selected = true;
-                    filterBrandSelect.appendChild(opt);
-                }
-            });
-        }
-
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-            
-            toastMsg.textContent = message;
-            toastIcon.innerHTML = isError ? '<i class="fa-solid fa-circle-exclamation text-amber-400"></i>' : '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
-            
-            toast.classList.remove('-translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('-translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        function saveData() {
-            localStorage.setItem('spareparts_data', JSON.stringify(spareparts));
-        }
-
-        function renderTable() {
-            updateBrandFilterOptions();
-
-            const container = document.getElementById('sparepartList');
+        // RENDER CARDS (HOME)
+        function renderCards(data = null) {
+            const list = data || getFilteredParts();
+            const container = document.getElementById('partsListContainer');
             const emptyState = document.getElementById('emptyState');
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            const categoryVal = document.getElementById('filterCategory').value;
-            const brandVal = document.getElementById('filterBrand').value;
 
             container.innerHTML = '';
 
-            // Calculate item counts per category
-            const categoryCounts = {
-                "Mesin": 0,
-                "Kaki-kaki": 0,
-                "Rem": 0,
-                "Kelistrikan": 0,
-                "Bodi & Interior": 0,
-                "Lainnya": 0
-            };
-
-            let totalUnits = 0;
-            spareparts.forEach(item => {
-                const cat = item.category || 'Lainnya';
-                const count = Number(item.stock) || 0;
-                if (categoryCounts.hasOwnProperty(cat)) {
-                    categoryCounts[cat] += count;
-                } else {
-                    categoryCounts["Lainnya"] += count;
-                }
-                totalUnits += count;
-            });
-
-            // Render category breakdown UI
-            const breakdownContainer = document.getElementById('categoryBreakdown');
-            if (breakdownContainer) {
-                const catIcons = {
-                    "Mesin": "fa-gears",
-                    "Kaki-kaki": "fa-car-side",
-                    "Rem": "fa-circle-dot",
-                    "Kelistrikan": "fa-bolt",
-                    "Bodi & Interior": "fa-car-rear",
-                    "Lainnya": "fa-ellipsis"
-                };
-
-                breakdownContainer.innerHTML = Object.entries(categoryCounts).map(([cat, count]) => `
-                    <div onclick="filterByCategory('${cat}')" class="custom-breakdown-item bg-slate-50 hover:bg-blue-50/60 active:scale-95 transition cursor-pointer p-2 rounded-xl border border-slate-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5 min-w-0">
-                            <i class="fa-solid ${catIcons[cat] || 'fa-box'} text-xs text-blue-500"></i>
-                            <span class="text-[11px] font-medium text-slate-600 truncate">${cat}</span>
-                        </div>
-                        <span class="text-xs font-bold text-slate-900 ml-1">${count}</span>
-                    </div>
-                `).join('');
-            }
-
-            const filtered = spareparts.filter(item => {
-                const itemBrand = item.brand || '';
-                const itemCode = item.code || '';
-                const itemYear = item.year || '';
-                const matchesSearch = item.name.toLowerCase().includes(searchVal) || 
-                                      item.car.toLowerCase().includes(searchVal) || 
-                                      item.category.toLowerCase().includes(searchVal) ||
-                                      itemCode.toLowerCase().includes(searchVal) ||
-                                      itemYear.toLowerCase().includes(searchVal) ||
-                                      itemBrand.toLowerCase().includes(searchVal);
-                const matchesCat = categoryVal === "" || item.category === categoryVal;
-                const matchesBrand = brandVal === "" || itemBrand === brandVal;
-                return matchesSearch && matchesCat && matchesBrand;
-            });
-
-            document.getElementById('statTotalItems').innerHTML = `${spareparts.length} <span class="text-xs font-normal text-slate-500">Jenis (${totalUnits} Stok Unit)</span>`;
-
-            if (filtered.length === 0) {
+            if (list.length === 0) {
                 emptyState.classList.remove('hidden');
                 return;
             } else {
                 emptyState.classList.add('hidden');
             }
 
-            filtered.forEach(item => {
+            list.forEach(p => {
+                let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                let badgeText = "Aman";
+
+                if (p.stock === 0) {
+                    badgeColor = "bg-red-500/10 text-red-400 border-red-500/20";
+                    badgeText = "Habis";
+                }
+
+                // VBelt Size Badge
+                const vbeltBadgeHtml = (p.category === 'VBelt' && p.vbeltSize) 
+                    ? `<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                        <i class="fa-solid fa-ruler-horizontal text-[8px] mr-1"></i>${escapeHtml(p.vbeltSize)}
+                       </span>` 
+                    : '';
+
                 const card = document.createElement('div');
-                card.className = "p-3.5 hover:bg-slate-50 transition flex items-center justify-between gap-3";
-                const serviceFeeVal = Number(item.serviceFee) || 0;
+                card.className = "theme-card border rounded-xl p-2.5 shadow-sm flex flex-col justify-between space-y-1.5 active:opacity-90 transition";
                 
                 card.innerHTML = `
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-1.5 mb-0.5">
-                            <h3 class="font-semibold text-slate-900 text-sm truncate">${item.name}</h3>
-                            ${item.code ? `<span class="custom-part-code bg-slate-100 text-slate-600 text-[10px] font-mono font-medium px-1.5 py-0.2 rounded border border-slate-200">${item.code}</span>` : ''}
-                        </div>
-                        <p class="custom-car-text text-xs text-slate-500 truncate flex items-center gap-1">
-                            <i class="fa-solid fa-car text-[10px] text-slate-400"></i> ${item.car} ${item.year ? `(${item.year})` : ''}
-                        </p>
-                        <div class="flex flex-col gap-0.5 mt-1.5">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">${item.brand || 'Lainnya'}</span>
-                                <span class="custom-price-text text-xs font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
-                                ${appSettings.showBuyPrice ? `<span class="text-[10px] font-medium text-slate-400">(Modal: ${formatRupiah(item.buyPrice)})</span>` : ''}
+                    <div class="flex items-start justify-between gap-1.5 cursor-pointer" onclick="openDrawer('${p.id}')">
+                        <div class="space-y-0.5">
+                            <div class="flex items-center gap-1 flex-wrap">
+                                <!-- HIGHLIGHTED COLOR BACKGROUND SKU BADGE -->
+                                <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold font-mono bg-blue-500/20 text-blue-400 border border-blue-400/30 shadow-sm">
+                                    <i class="fa-solid fa-barcode text-[8px] mr-1 opacity-70"></i>${escapeHtml(p.sku)}
+                                </span>
+                                ${vbeltBadgeHtml}
+                                <span class="text-[9px] theme-text-secondary">| ${escapeHtml(p.category)}</span>
                             </div>
-                            ${serviceFeeVal > 0 ? `
-                                <div class="text-[11px] font-medium text-amber-600/90 flex items-center gap-1 mt-0.5">
-                                    <i class="fa-solid fa-wrench text-[9px]"></i> Jasa: ${formatRupiah(serviceFeeVal)}
-                                </div>
-                            ` : ''}
+                            <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
+                            <p class="text-[10px] theme-text-secondary leading-none"><i class="fa-solid fa-car text-[9px] mr-1"></i>${escapeHtml(p.carModel)}</p>
                         </div>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <span class="custom-stock-badge text-xs font-bold px-2 py-0.5 rounded-full ${item.stock < 3 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
-                            ${item.stock} unit
+                        <span class="px-1.5 py-0.2 text-[9px] font-semibold border rounded-full shrink-0 ${badgeColor}">
+                            ${badgeText}
                         </span>
-                        <div class="flex items-center gap-1">
-                            <button onclick="openModal('edit', ${item.id})" class="p-1 text-slate-400 hover:text-blue-600 transition">
-                                <i class="fa-solid fa-pen-to-square text-xs"></i>
-                            </button>
-                            <button onclick="deletePart(${item.id})" class="p-1 text-slate-400 hover:text-red-500 transition">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-1.5">
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-[9px] theme-text-secondary uppercase">Harga:</span>
+                            <span class="text-xs font-bold text-emerald-400 font-mono">${formatRp(p.sellPrice)}</span>
+                        </div>
+
+                        <div class="flex items-center theme-input border rounded-lg px-1 py-0.5 space-x-1.5">
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-6 h-6 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-red-500/20 active:text-red-400 text-xs">-</button>
+                            <span class="font-bold text-xs theme-text-primary min-w-[18px] text-center">${p.stock}</span>
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-6 h-6 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-emerald-500/20 active:text-emerald-400 text-xs">+</button>
                         </div>
                     </div>
                 `;
+
                 container.appendChild(card);
             });
         }
 
-        function openModal(mode, id = null) {
-            const modal = document.getElementById('partModal');
-            const title = document.getElementById('modalTitle');
-            const form = document.getElementById('partForm');
-            
-            form.reset();
-            document.getElementById('partId').value = '';
-
-            if (mode === 'edit' && id !== null) {
-                title.textContent = 'Edit Sparepart';
-                const part = spareparts.find(i => i.id === id);
-                if (part) {
-                    document.getElementById('partId').value = part.id;
-                    document.getElementById('partName').value = part.name;
-                    document.getElementById('partCode').value = part.code || '';
-                    document.getElementById('partYear').value = part.year || '';
-                    document.getElementById('partCategory').value = part.category;
-                    document.getElementById('partBrand').value = part.brand || '';
-                    document.getElementById('partCar').value = part.car;
-                    document.getElementById('partStock').value = part.stock;
-                    document.getElementById('partBuyPrice').value = part.buyPrice;
-                    document.getElementById('partSellPrice').value = part.sellPrice;
-                    document.getElementById('partServiceFee').value = part.serviceFee || '';
+        function quickStock(id, delta) {
+            const index = spareparts.findIndex(p => p.id === id);
+            if (index !== -1) {
+                const newStock = spareparts[index].stock + delta;
+                if (newStock < 0) {
+                    showToast("Stok minimal 0", "error");
+                    return;
                 }
-            } else {
-                title.textContent = 'Tambah Sparepart';
+                spareparts[index].stock = newStock;
+                saveStorage();
+                renderHeader();
+                renderCards();
+                renderSummary();
+                showToast(`Stok ${spareparts[index].name}: ${newStock}`, "success");
             }
-
-            modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('partModal').classList.add('hidden');
+        // FILTER CHIPS LOGIC
+        function setFilterChip(chipValue, btnElem) {
+            activeFilterChip = chipValue;
+            document.querySelectorAll('.chip-btn').forEach(b => {
+                b.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary";
+            });
+            btnElem.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm";
+            applyFilters();
         }
 
-        function handleFormSubmit(e) {
+        function filterEmptyStock() {
+            switchTab('stock');
+            const emptyBtn = document.querySelectorAll('.chip-btn')[1];
+            if (emptyBtn) setFilterChip('EMPTY', emptyBtn);
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            applyFilters();
+        }
+
+        // MULTI-FIELD & MULTI-KEYWORD COMBINATION SEARCH
+        function getFilteredParts() {
+            const queryRaw = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (queryRaw) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            const tokens = queryRaw.split(/\s+/).filter(t => t.length > 0);
+
+            return spareparts.filter(p => {
+                const combinedField = `${p.sku} ${p.name} ${p.category} ${p.vbeltSize || ''} ${p.carModel}`.toLowerCase();
+                const matchesSearch = tokens.every(token => combinedField.includes(token));
+
+                let matchesChip = true;
+                if (activeFilterChip === 'EMPTY') matchesChip = (p.stock === 0);
+                else if (activeFilterChip !== 'ALL') matchesChip = (p.category === activeFilterChip);
+
+                return matchesSearch && matchesChip;
+            });
+        }
+
+        function applyFilters() {
+            renderCards(getFilteredParts());
+        }
+
+        // TAB NAVIGATION
+        function switchTab(tab) {
+            const tabViewMap = {
+                'stock': 'viewStock',
+                'add': 'viewAddPart',
+                'settings': 'viewSettings'
+            };
+
+            ['stock', 'add', 'settings'].forEach(t => {
+                const viewId = tabViewMap[t];
+                const view = document.getElementById(viewId);
+                const nav = document.getElementById('nav-' + t);
+
+                if (view && nav) {
+                    if (t === tab) {
+                        view.classList.remove('hidden');
+                        nav.className = "nav-btn text-ios-blue flex flex-col items-center py-1 rounded-xl transition active:scale-90";
+                    } else {
+                        view.classList.add('hidden');
+                        nav.className = "nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90";
+                    }
+                }
+            });
+
+            if (tab === 'settings') renderSummary();
+        }
+
+        // DRAWER (EDIT / DELETE)
+        function openDrawer(id) {
+            const p = spareparts.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('editPartId').value = p.id;
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editSKU').value = p.sku;
+            document.getElementById('editCategory').value = p.category;
+            document.getElementById('editVBeltSize').value = p.vbeltSize || '';
+            document.getElementById('editCarModel').value = p.carModel;
+            document.getElementById('editBuyPrice').value = p.buyPrice;
+            document.getElementById('editSellPrice').value = p.sellPrice;
+            document.getElementById('editStock').value = p.stock;
+
+            toggleVBeltField('edit');
+            document.getElementById('editDrawer').classList.remove('hidden');
+        }
+
+        function closeDrawer() {
+            document.getElementById('editDrawer').classList.add('hidden');
+        }
+
+        function handleSaveEditPart(e) {
             e.preventDefault();
-            const id = document.getElementById('partId').value;
-            const name = document.getElementById('partName').value.trim();
-            const code = document.getElementById('partCode').value.trim();
-            const year = document.getElementById('partYear').value.trim();
-            const category = document.getElementById('partCategory').value;
-            const brand = document.getElementById('partBrand').value.trim();
-            const car = document.getElementById('partCar').value.trim();
-            const stock = parseInt(document.getElementById('partStock').value) || 0;
-            const buyPrice = parseInt(document.getElementById('partBuyPrice').value) || 0;
-            const sellPrice = parseInt(document.getElementById('partSellPrice').value) || 0;
-            const serviceFee = parseInt(document.getElementById('partServiceFee').value) || 0;
+            const id = document.getElementById('editPartId').value;
+            const index = spareparts.findIndex(p => p.id === id);
 
-            if (sellPrice < buyPrice) {
-                showToast("Peringatan: Harga jual lebih rendah dari modal!", true);
-            }
+            if (index !== -1) {
+                const category = document.getElementById('editCategory').value;
+                spareparts[index] = {
+                    id,
+                    name: document.getElementById('editName').value.trim(),
+                    sku: document.getElementById('editSKU').value.trim(),
+                    category: category,
+                    vbeltSize: category === 'VBelt' ? document.getElementById('editVBeltSize').value.trim() : '',
+                    carModel: document.getElementById('editCarModel').value.trim(),
+                    buyPrice: Number(document.getElementById('editBuyPrice').value),
+                    sellPrice: Number(document.getElementById('editSellPrice').value),
+                    stock: Number(document.getElementById('editStock').value)
+                };
 
-            if (id) {
-                const index = spareparts.findIndex(i => i.id == id);
-                if (index !== -1) {
-                    spareparts[index] = { id: Number(id), name, code, year, category, brand, car, stock, buyPrice, sellPrice, serviceFee };
-                    showToast("Data berhasil diperbarui!");
-                }
-            } else {
-                const newId = spareparts.length > 0 ? Math.max(...spareparts.map(i => i.id)) + 1 : 1;
-                spareparts.push({ id: newId, name, code, year, category, brand, car, stock, buyPrice, sellPrice, serviceFee });
-                showToast("Item berhasil ditambahkan!");
-            }
-
-            saveData();
-            renderTable();
-            closeModal();
-        }
-
-        function deletePart(id) {
-            spareparts = spareparts.filter(i => i.id !== id);
-            saveData();
-            renderTable();
-            showToast("Item dihapus.");
-        }
-
-        function resetData() {
-            spareparts = [...defaultParts];
-            saveData();
-            renderTable();
-            showToast("Data direset.");
-        }
-
-        function filterByCategory(catName) {
-            const select = document.getElementById('filterCategory');
-            if (select) {
-                select.value = select.value === catName ? '' : catName;
-                renderTable();
+                saveStorage();
+                renderHeader();
+                renderCards();
+                renderSummary();
+                closeDrawer();
+                showToast("Data sparepart diperbarui", "success");
             }
         }
 
-        window.onload = function() {
-            applySettings();
-            renderTable();
+        function deletePartFromDrawer() {
+            const id = document.getElementById('editPartId').value;
+            if (confirm("Hapus sparepart ini?")) {
+                spareparts = spareparts.filter(p => p.id !== id);
+                saveStorage();
+                renderHeader();
+                renderCards();
+                renderSummary();
+                closeDrawer();
+                showToast("Sparepart dihapus", "info");
+            }
+        }
+
+        // ADD PART LOGIC
+        function generateAddSKU() {
+            const cat = document.getElementById('addCategory').value || 'PRT';
+            const prefix = cat === 'VBelt' ? 'VBT' : cat.substring(0, 3).toUpperCase();
+            document.getElementById('addSKU').value = `${prefix}-${Math.floor(100 + Math.random() * 900)}`;
+        }
+
+        function cancelAddPart() {
+            const form = document.getElementById('addPartForm');
+            if (form) form.reset();
+            toggleVBeltField('add');
+            generateAddSKU();
+            switchTab('stock');
+            showToast("Batal menambah sparepart", "info");
+        }
+
+        function handleSaveNewPart(e) {
+            e.preventDefault();
+            const category = document.getElementById('addCategory').value;
+            const newP = {
+                id: Date.now().toString(),
+                sku: document.getElementById('addSKU').value.trim(),
+                name: document.getElementById('addName').value.trim(),
+                category: category,
+                vbeltSize: category === 'VBelt' ? document.getElementById('addVBeltSize').value.trim() : '',
+                carModel: document.getElementById('addCarModel').value.trim(),
+                buyPrice: Number(document.getElementById('addBuyPrice').value),
+                sellPrice: Number(document.getElementById('addSellPrice').value),
+                stock: Number(document.getElementById('addStock').value)
+            };
+
+            spareparts.push(newP);
+            saveStorage();
+            renderHeader();
+            renderCards();
+            renderSummary();
+
+            e.target.reset();
+            toggleVBeltField('add');
+            generateAddSKU();
+            showToast("Sparepart baru ditambahkan!", "success");
+            switchTab('stock');
+        }
+
+        // SETTINGS & SUMMARY
+        function renderSummary() {
+            document.getElementById('summaryTotalTypes').innerText = spareparts.length;
+            
+            let totalUnits = 0;
+            spareparts.forEach(p => {
+                totalUnits += p.stock;
+            });
+
+            document.getElementById('summaryTotalUnits').innerText = totalUnits.toLocaleString('id-ID');
+        }
+
+        function openEditStoreModal() {
+            document.getElementById('inputStoreName').value = storeName;
+            document.getElementById('inputStoreSubtitle').value = storeSubtitle;
+            document.getElementById('storeModal').classList.remove('hidden');
+        }
+
+        function closeStoreModal() {
+            document.getElementById('storeModal').classList.add('hidden');
+        }
+
+        function saveStoreName() {
+            const valName = document.getElementById('inputStoreName').value.trim();
+            const valSub = document.getElementById('inputStoreSubtitle').value.trim();
+            if (valName) {
+                storeName = valName;
+                storeSubtitle = valSub || "Inventori Sparepart";
+                saveStorage();
+                renderHeader();
+                closeStoreModal();
+                showToast("Nama & Subtitle toko disimpan", "success");
+            }
+        }
+
+        function exportToCSV() {
+            if (spareparts.length === 0) {
+                showToast("Tidak ada data untuk diekspor", "error");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,SKU,Nama Sparepart,Kategori,Ukuran VBelt,Kesesuaian Mobil,Harga Beli,Harga Jual,Stok\n";
+            spareparts.forEach(p => {
+                const row = [
+                    `"${p.sku}"`,
+                    `"${p.name}"`,
+                    `"${p.category}"`,
+                    `"${p.vbeltSize || ''}"`,
+                    `"${p.carModel}"`,
+                    p.buyPrice,
+                    p.sellPrice,
+                    p.stock
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Inventori_Sparepart_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("Laporan CSV berhasil diunduh", "success");
+        }
+
+        function resetToDemoData() {
+            if (confirm("Reset seluruh data ke sampel awal default?")) {
+                spareparts = [...demoParts];
+                storeName = "Toko Sparepart Jaya";
+                storeSubtitle = "Inventori Sparepart";
+                saveStorage();
+                renderHeader();
+                renderCards();
+                renderSummary();
+                showToast("Data di-reset ke data demo", "info");
+            }
+        }
+
+        // TOAST NOTIFICATION
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let bg = "bg-slate-800 text-white border-slate-700";
+            if (type === "success") bg = "bg-emerald-600 text-white border-emerald-500";
+            if (type === "error") bg = "bg-red-600 text-white border-red-500";
+
+            toast.className = `px-3.5 py-2 rounded-xl border text-xs font-medium shadow-lg transition-all transform duration-300 opacity-0 translate-y-[-10px] pointer-events-auto ${bg}`;
+            toast.innerText = message;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-[-10px]');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
     </script>
 </body>
