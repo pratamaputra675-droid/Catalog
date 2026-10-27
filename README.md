@@ -92,62 +92,62 @@
 <body id="appBody" class="min-h-screen flex flex-col justify-between max-w-md mx-auto border-x border-slate-800/40 shadow-2xl relative overflow-x-hidden text-sm selection:bg-ios-blue selection:text-white">
 
     <!-- TOP iOS NAVIGATION BAR -->
-    <header class="sticky top-0 z-30 theme-glass border-b border-slate-800/40 pt-safe pb-2.5 flex items-center justify-between dynamic-padding transition-all">
-        <div class="flex items-center space-x-2.5">
-            <div id="headerLogoContainer" class="w-8 h-8 rounded-xl bg-gradient-to-tr from-ios-blue to-indigo-600 flex items-center justify-center text-white shadow-md shadow-ios-blue/20 overflow-hidden shrink-0">
-                <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-sm"></i>
+    <header class="sticky top-0 z-30 theme-glass border-b border-slate-800/40 pt-safe pb-1.5 flex items-center justify-between dynamic-padding transition-all">
+        <div class="flex items-center space-x-1.5">
+            <div id="headerLogoContainer" class="w-6 h-6 rounded-lg bg-gradient-to-tr from-ios-blue to-indigo-600 flex items-center justify-center text-white shadow-md shadow-ios-blue/20 overflow-hidden shrink-0">
+                <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-[11px]"></i>
                 <img id="headerLogoImg" src="" alt="Logo" class="w-full h-full object-cover hidden">
             </div>
             <div>
-                <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-none flex items-center gap-1.5 cursor-pointer active:opacity-70 text-[15px]">
+                <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-none flex items-center gap-1 cursor-pointer active:opacity-70 text-[13px]">
                     <span>Toko Sparepart Jaya</span>
-                    <i class="fa-solid fa-chevron-right text-[9px] theme-text-secondary opacity-60"></i>
+                    <i class="fa-solid fa-chevron-right text-[7px] theme-text-secondary opacity-60"></i>
                 </h1>
-                <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[11px] theme-text-secondary cursor-pointer active:opacity-70 font-normal">Inventori Sparepart</span>
+                <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[9px] theme-text-secondary cursor-pointer active:opacity-70 font-normal">Inventori Sparepart</span>
             </div>
         </div>
 
         <!-- Alert Badge -->
-        <button onclick="filterEmptyStock()" class="relative w-8 h-8 theme-card rounded-full border border-slate-700/50 flex items-center justify-center active:scale-90 transition" title="Stok Habis">
-            <i class="fa-solid fa-triangle-exclamation text-ios-orange text-xs"></i>
-            <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-ios-red text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden border-2 border-black">0</span>
+        <button onclick="filterEmptyStock()" class="relative w-6 h-6 theme-card rounded-full border border-slate-700/50 flex items-center justify-center active:scale-90 transition" title="Stok Habis">
+            <i class="fa-solid fa-triangle-exclamation text-ios-orange text-[10px]"></i>
+            <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-ios-red text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center hidden border-2 border-black">0</span>
         </button>
     </header>
 
     <!-- MAIN CONTENT VIEW CANVAS -->
-    <main class="flex-1 py-2.5 space-y-2.5 pb-28 dynamic-padding">
+    <main class="flex-1 py-1 space-y-1.5 pb-24 dynamic-padding">
 
         <!-- VIEW 1: STOK / INVENTORY LIST -->
-        <section id="viewStock" class="space-y-2.5">
+        <section id="viewStock" class="space-y-1.5">
             
             <!-- iOS Style Search Bar -->
             <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 theme-text-secondary text-xs"></i>
-                <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari sparepart, kode SKU, mobil..." class="w-full theme-input border rounded-2xl pl-9 pr-8 py-2 text-xs placeholder:theme-text-secondary focus:outline-none focus:ring-2 focus:ring-ios-blue/50 transition shadow-inner">
-                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 theme-text-secondary hover:opacity-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 theme-text-secondary text-[10px]"></i>
+                <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari sparepart, SKU, mobil..." class="w-full theme-input border rounded-xl pl-7 pr-6 py-1 text-xs placeholder:theme-text-secondary focus:outline-none focus:ring-1 focus:ring-ios-blue/50 transition shadow-inner">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 theme-text-secondary hover:opacity-80">
                     <i class="fa-solid fa-circle-xmark text-xs"></i>
                 </button>
             </div>
 
             <!-- iOS Filter Segment Chips -->
-            <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px]">
-                <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm transition active:scale-95">Semua</button>
-                <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border text-ios-red transition active:scale-95">Stok Habis</button>
-                <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Mesin</button>
-                <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">VBelt</button>
-                <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Rem</button>
-                <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Oli & Cairan</button>
-                <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Kelistrikan</button>
+            <div class="flex items-center space-x-1 overflow-x-auto no-scrollbar py-0.5 text-[9px]">
+                <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-2 py-0.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm transition active:scale-95">Semua</button>
+                <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border text-ios-red transition active:scale-95">Stok Habis</button>
+                <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Mesin</button>
+                <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">VBelt</button>
+                <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Rem</button>
+                <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Oli & Cairan</button>
+                <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-2 py-0.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Kelistrikan</button>
             </div>
 
             <!-- Spare Part Mobile Cards List -->
-            <div id="partsListContainer" class="space-y-2">
+            <div id="partsListContainer" class="space-y-1">
                 <!-- Dynamically generated mobile cards -->
             </div>
 
             <!-- Empty State -->
-            <div id="emptyState" class="hidden py-12 text-center theme-text-secondary space-y-2">
-                <i class="fa-solid fa-boxes-packing text-3xl opacity-40"></i>
+            <div id="emptyState" class="hidden py-10 text-center theme-text-secondary space-y-1.5">
+                <i class="fa-solid fa-boxes-packing text-2xl opacity-40"></i>
                 <p class="text-xs font-medium">Tidak ada sparepart ditemukan</p>
             </div>
         </section>
@@ -291,9 +291,9 @@
                 <div class="space-y-1.5 pt-1">
                     <div class="flex justify-between items-center text-xs">
                         <span class="theme-text-secondary font-medium">Jarak Sisi Kanan/Kiri</span>
-                        <span id="paddingValText" class="theme-text-primary font-mono text-[11px]">px-4</span>
+                        <span id="paddingValText" class="theme-text-primary font-mono text-[11px]">px-2</span>
                     </div>
-                    <input type="range" id="paddingRange" min="2" max="6" step="1" value="4" oninput="changePadding(this.value)" class="w-full accent-ios-blue cursor-pointer">
+                    <input type="range" id="paddingRange" min="1" max="6" step="1" value="2" oninput="changePadding(this.value)" class="w-full accent-ios-blue cursor-pointer">
                 </div>
 
                 <!-- Ukuran Teks (Font Size) -->
@@ -528,7 +528,7 @@
         let appSettings = {
             logoType: 'preset',
             logoValue: 'fa-car-wrench',
-            padding: 4,
+            padding: 2,
             textSize: 'base',
             theme: 'dark-blue',
             customBg: '',
@@ -597,8 +597,8 @@
         }
 
         function applyAppSettings() {
-            const paddingMap = { 2: 'px-2', 3: 'px-3', 4: 'px-4', 5: 'px-5', 6: 'px-6' };
-            const selectedPaddingClass = paddingMap[appSettings.padding] || 'px-4';
+            const paddingMap = { 1: 'px-1', 2: 'px-2', 3: 'px-3', 4: 'px-4', 5: 'px-5', 6: 'px-6' };
+            const selectedPaddingClass = paddingMap[appSettings.padding] || 'px-2';
             
             document.querySelectorAll('.dynamic-padding').forEach(el => {
                 el.className = el.className.replace(/px-\d/g, selectedPaddingClass);
@@ -785,42 +785,40 @@
                 }
 
                 const vbeltBadgeHtml = (p.category === 'VBelt' && p.vbeltSize) 
-                    ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-ios-orange/20 text-ios-orange border border-ios-orange/30">
-                        <i class="fa-solid fa-ruler-horizontal text-[8px] mr-1"></i>${escapeHtml(p.vbeltSize)}
+                    ? `<span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold bg-ios-orange/20 text-ios-orange border border-ios-orange/30">
+                        <i class="fa-solid fa-ruler-horizontal text-[6px] mr-0.5"></i>${escapeHtml(p.vbeltSize)}
                        </span>` 
                     : '';
 
                 const card = document.createElement('div');
-                card.className = "theme-card border rounded-2xl p-3 shadow-sm flex flex-col justify-between space-y-2 active:scale-[0.99] transition duration-150";
+                card.className = "theme-card border rounded-lg p-1.5 shadow-sm active:scale-[0.99] transition duration-150 cursor-pointer";
                 
                 card.innerHTML = `
-                    <div class="flex items-start justify-between gap-1.5 cursor-pointer" onclick="openDrawer('${p.id}')">
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
-                                    <i class="fa-solid fa-barcode text-[8px] mr-1 opacity-80"></i>${escapeHtml(p.sku)}
-                                </span>
-                                ${vbeltBadgeHtml}
-                                <span class="text-[9px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
-                            </div>
-                            <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
-                            <p class="text-[10px] theme-text-secondary leading-none flex items-center gap-1"><i class="fa-solid fa-car text-[9px]"></i> ${escapeHtml(p.carModel)}</p>
+                    <div onclick="openDrawer('${p.id}')">
+                        <div class="flex items-center gap-1 flex-wrap mb-0.5">
+                            <span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
+                                <i class="fa-solid fa-barcode text-[7px] mr-0.5 opacity-80"></i>${escapeHtml(p.sku)}
+                            </span>
+                            ${vbeltBadgeHtml}
+                            <span class="text-[8px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
+                            <span class="px-1 py-0.2 text-[7px] font-bold border rounded-full shrink-0 ${badgeColor} ml-auto">
+                                ${badgeText}
+                            </span>
                         </div>
-                        <span class="px-2 py-0.5 text-[9px] font-bold border rounded-full shrink-0 ${badgeColor}">
-                            ${badgeText}
-                        </span>
+                        <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
+                        <p class="text-[9px] theme-text-secondary leading-tight flex items-center gap-1 mt-0.5"><i class="fa-solid fa-car text-[7px]"></i> ${escapeHtml(p.carModel)}</p>
                     </div>
 
-                    <div class="flex items-center justify-between border-t border-slate-800/40 pt-2">
+                    <div class="flex items-center justify-between mt-1 pt-1 border-t border-slate-800/30">
                         <div class="flex items-baseline gap-1">
-                            <span class="text-[9px] theme-text-secondary uppercase font-semibold">Harga:</span>
+                            <span class="text-[8px] theme-text-secondary uppercase font-semibold">Harga:</span>
                             <span class="text-xs font-bold text-ios-green font-mono">${formatRp(p.sellPrice)}</span>
                         </div>
 
-                        <div class="flex items-center theme-input border rounded-xl p-0.5 space-x-1">
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-6 h-6 rounded-lg theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-red/20 active:text-ios-red text-xs transition">-</button>
-                            <span class="font-bold text-xs theme-text-primary min-w-[20px] text-center">${p.stock}</span>
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-6 h-6 rounded-lg theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-green/20 active:text-ios-green text-xs transition">+</button>
+                        <div class="flex items-center theme-input border rounded-md p-0.5 space-x-1 ml-2 shrink-0">
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-4 h-4 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-red/20 active:text-ios-red text-xs transition">-</button>
+                            <span class="font-bold text-[11px] theme-text-primary min-w-[14px] text-center">${p.stock}</span>
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-4 h-4 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-green/20 active:text-ios-green text-xs transition">+</button>
                         </div>
                     </div>
                 `;
