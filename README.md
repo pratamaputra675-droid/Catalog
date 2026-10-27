@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Inventori Sparepart Mobil - Mobile</title>
+    <title>Inventori Sparepart Mobil</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         ios: {
-                            blue: '#3b82f6',
-                            emerald: '#10b981',
-                            red: '#ef4444',
-                            amber: '#f59e0b'
+                            blue: '#007AFF',
+                            green: '#34C759',
+                            red: '#FF3B30',
+                            orange: '#FF9500',
+                            gray: '#8E8E93',
+                            bgDark: '#000000',
+                            cardDark: '#1C1C1E',
+                            borderDark: '#2C2C2E',
+                            inputDark: '#2C2C2E'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
                     }
                 }
             }
@@ -31,24 +34,26 @@
     </script>
     <style>
         :root {
-            --bg-body: #090d16;
-            --bg-card: #131b2e;
-            --bg-input: #090d16;
-            --border-color: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
+            --bg-body: #000000;
+            --bg-card: #1C1C1E;
+            --bg-input: #2C2C2E;
+            --border-color: #2C2C2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --header-glass: rgba(28, 28, 30, 0.75);
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
             background-color: var(--bg-body);
             color: var(--text-primary);
             -webkit-tap-highlight-color: transparent;
             user-select: none;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            -webkit-user-select: none;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            touch-action: manipulation;
         }
         
-        /* Dynamic Theme Applied Classes */
         .theme-card {
             background-color: var(--bg-card) !important;
             border-color: var(--border-color) !important;
@@ -60,73 +65,79 @@
             border-color: var(--border-color) !important;
             color: var(--text-primary) !important;
         }
-        
-        .theme-text-primary {
-            color: var(--text-primary) !important;
-        }
-        
-        .theme-text-secondary {
-            color: var(--text-secondary) !important;
-        }
 
-        /* Hide scrollbars for clean app look */
+        .theme-glass {
+            background-color: var(--header-glass) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .theme-text-primary { color: var(--text-primary) !important; }
+        .theme-text-secondary { color: var(--text-secondary) !important; }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Smooth safe-area padding for mobile notches */
-        .pt-safe { padding-top: env(safe-area-inset-top, 12px); }
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .pt-safe { padding-top: max(env(safe-area-inset-top), 12px); }
+        .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 16px); }
+
+        /* Smooth iOS Sheet Animations */
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .animate-sheet { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body id="appBody" class="min-h-screen flex flex-col justify-between max-w-md mx-auto border-x border-slate-800/60 shadow-2xl relative overflow-x-hidden text-sm">
+<body id="appBody" class="min-h-screen flex flex-col justify-between max-w-md mx-auto border-x border-slate-800/40 shadow-2xl relative overflow-x-hidden text-sm selection:bg-ios-blue selection:text-white">
 
-    <!-- TOP HEADER -->
-    <header class="sticky top-0 z-30 theme-card backdrop-blur-md border-b pt-safe pb-3 flex items-center justify-between dynamic-padding">
+    <!-- TOP iOS NAVIGATION BAR -->
+    <header class="sticky top-0 z-30 theme-glass border-b border-slate-800/40 pt-safe pb-2.5 flex items-center justify-between dynamic-padding transition-all">
         <div class="flex items-center space-x-2.5">
-            <div id="headerLogoContainer" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 overflow-hidden shrink-0">
-                <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-base"></i>
+            <div id="headerLogoContainer" class="w-8 h-8 rounded-xl bg-gradient-to-tr from-ios-blue to-indigo-600 flex items-center justify-center text-white shadow-md shadow-ios-blue/20 overflow-hidden shrink-0">
+                <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-sm"></i>
                 <img id="headerLogoImg" src="" alt="Logo" class="w-full h-full object-cover hidden">
             </div>
             <div>
-                <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 text-base">
+                <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-none flex items-center gap-1.5 cursor-pointer active:opacity-70 text-[15px]">
                     <span>Toko Sparepart Jaya</span>
-                    <i class="fa-solid fa-pen-to-square text-[10px] theme-text-secondary"></i>
+                    <i class="fa-solid fa-chevron-right text-[9px] theme-text-secondary opacity-60"></i>
                 </h1>
-                <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[11px] theme-text-secondary cursor-pointer active:opacity-70">Inventori Sparepart</span>
+                <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[11px] theme-text-secondary cursor-pointer active:opacity-70 font-normal">Inventori Sparepart</span>
             </div>
         </div>
 
-        <!-- Alert Badge / Quick Indicator -->
-        <button onclick="filterEmptyStock()" class="relative p-2.5 theme-card rounded-xl border active:scale-95 transition" title="Stok Habis">
-            <i class="fa-solid fa-triangle-exclamation text-red-400 text-sm"></i>
-            <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+        <!-- Alert Badge -->
+        <button onclick="filterEmptyStock()" class="relative w-8 h-8 theme-card rounded-full border border-slate-700/50 flex items-center justify-center active:scale-90 transition" title="Stok Habis">
+            <i class="fa-solid fa-triangle-exclamation text-ios-orange text-xs"></i>
+            <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-ios-red text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden border-2 border-black">0</span>
         </button>
     </header>
 
     <!-- MAIN CONTENT VIEW CANVAS -->
-    <main class="flex-1 py-2 space-y-2.5 pb-24 dynamic-padding">
+    <main class="flex-1 py-2.5 space-y-2.5 pb-28 dynamic-padding">
 
         <!-- VIEW 1: STOK / INVENTORY LIST -->
-        <section id="viewStock" class="space-y-2">
+        <section id="viewStock" class="space-y-2.5">
             
-            <!-- Quick Search Bar -->
+            <!-- iOS Style Search Bar -->
             <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 theme-text-secondary text-xs"></i>
-                <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari gabungan: Avanza Filter, JZ 02..." class="w-full theme-input border rounded-xl pl-8 pr-7 py-2 text-xs placeholder-slate-400 focus:outline-none focus:border-ios-blue transition">
-                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 theme-text-secondary hover:opacity-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 theme-text-secondary text-xs"></i>
+                <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari sparepart, kode SKU, mobil..." class="w-full theme-input border rounded-2xl pl-9 pr-8 py-2 text-xs placeholder:theme-text-secondary focus:outline-none focus:ring-2 focus:ring-ios-blue/50 transition shadow-inner">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 theme-text-secondary hover:opacity-80">
                     <i class="fa-solid fa-circle-xmark text-xs"></i>
                 </button>
             </div>
 
-            <!-- Filter Chips (Horizontal Scrollable) -->
+            <!-- iOS Filter Segment Chips -->
             <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px]">
-                <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-2.5 py-1 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm">Semua</button>
-                <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border text-red-400">Stok Habis</button>
-                <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Mesin</button>
-                <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">VBelt</button>
-                <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Rem</button>
-                <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Oli & Cairan</button>
-                <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-2.5 py-1 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary">Kelistrikan</button>
+                <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm transition active:scale-95">Semua</button>
+                <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border text-ios-red transition active:scale-95">Stok Habis</button>
+                <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Mesin</button>
+                <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">VBelt</button>
+                <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Rem</button>
+                <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Oli & Cairan</button>
+                <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95">Kelistrikan</button>
             </div>
 
             <!-- Spare Part Mobile Cards List -->
@@ -135,38 +146,41 @@
             </div>
 
             <!-- Empty State -->
-            <div id="emptyState" class="hidden py-8 text-center theme-text-secondary space-y-2">
-                <i class="fa-solid fa-boxes-packing text-2xl opacity-50"></i>
+            <div id="emptyState" class="hidden py-12 text-center theme-text-secondary space-y-2">
+                <i class="fa-solid fa-boxes-packing text-3xl opacity-40"></i>
                 <p class="text-xs font-medium">Tidak ada sparepart ditemukan</p>
             </div>
         </section>
 
 
         <!-- VIEW 2: TAMBAH SPAREPART BARU -->
-        <section id="viewAddPart" class="hidden space-y-4">
-            <div class="theme-card border rounded-2xl p-4 space-y-3.5 shadow-lg">
-                <h2 class="text-sm font-bold theme-text-primary flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle text-ios-blue"></i> Tambah Part Baru
-                </h2>
+        <section id="viewAddPart" class="hidden space-y-3">
+            <div class="theme-card border rounded-3xl p-4 space-y-3.5 shadow-lg">
+                <div class="flex items-center justify-between border-b border-slate-800/40 pb-2.5">
+                    <h2 class="text-sm font-bold theme-text-primary flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-ios-blue"></i> Tambah Part Baru
+                    </h2>
+                    <span class="text-[10px] theme-text-secondary">Lengkapi Form</span>
+                </div>
 
                 <form id="addPartForm" onsubmit="handleSaveNewPart(event)" class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kode / SKU</label>
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kode / SKU</label>
                         <div class="flex gap-2">
-                            <input type="text" id="addSKU" required placeholder="SKU-1001" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
-                            <button type="button" onclick="generateAddSKU()" class="theme-card border px-3 py-2.5 rounded-xl theme-text-secondary font-medium active:scale-95">Auto</button>
+                            <input type="text" id="addSKU" required placeholder="SKU-1001" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                            <button type="button" onclick="generateAddSKU()" class="theme-card border px-3.5 py-2.5 rounded-2xl theme-text-secondary font-medium active:scale-95 transition">Auto</button>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Nama Sparepart</label>
-                        <input type="text" id="addName" required placeholder="Contoh: Kampas Rem Depan Avanza" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Nama Sparepart</label>
+                        <input type="text" id="addName" required placeholder="Contoh: Kampas Rem Depan Avanza" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kategori</label>
-                            <select id="addCategory" required onchange="toggleVBeltField('add')" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kategori</label>
+                            <select id="addCategory" required onchange="toggleVBeltField('add')" class="w-full theme-input border rounded-2xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                                 <option value="Mesin">Mesin</option>
                                 <option value="VBelt">VBelt</option>
                                 <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
@@ -177,41 +191,41 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kesesuaian Mobil</label>
-                            <input type="text" id="addCarModel" required placeholder="Avanza / Xenia" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kesesuaian Mobil</label>
+                            <input type="text" id="addCarModel" required placeholder="Avanza / Xenia" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                     </div>
 
-                    <!-- KOLOM KHUSUS UKURAN VBELT (ADD) -->
+                    <!-- VBELT SIZE FIELD (ADD) -->
                     <div id="addVBeltSizeContainer" class="hidden">
-                        <label class="block text-[11px] font-semibold text-amber-400 uppercase mb-1 flex items-center gap-1">
+                        <label class="block text-[10px] font-semibold text-ios-orange uppercase mb-1 tracking-wider flex items-center gap-1">
                             <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
                         </label>
-                        <input type="text" id="addVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-amber-500/50 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-amber-400">
+                        <input type="text" id="addVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-ios-orange/40 rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-ios-orange">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Beli (Rp)</label>
-                            <input type="number" id="addBuyPrice" min="0" required placeholder="150000" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Beli (Rp)</label>
+                            <input type="number" id="addBuyPrice" min="0" required placeholder="150000" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Jual (Rp)</label>
-                            <input type="number" id="addSellPrice" min="0" required placeholder="200000" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Jual (Rp)</label>
+                            <input type="number" id="addSellPrice" min="0" required placeholder="200000" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Jumlah Stok Awal</label>
-                        <input type="number" id="addStock" min="0" required placeholder="10" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Jumlah Stok Awal</label>
+                        <input type="number" id="addStock" min="0" required placeholder="10" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
 
-                    <div class="flex gap-2 pt-1">
-                        <button type="button" onclick="cancelAddPart()" class="w-1/3 min-h-[44px] theme-card border theme-text-secondary font-semibold rounded-xl transition flex items-center justify-center space-x-1 active:scale-95">
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" onclick="cancelAddPart()" class="w-1/3 min-h-[44px] theme-card border theme-text-secondary font-semibold rounded-2xl transition flex items-center justify-center space-x-1 active:scale-95">
                             <i class="fa-solid fa-xmark"></i>
                             <span>Batal</span>
                         </button>
-                        <button type="submit" class="w-2/3 min-h-[44px] bg-ios-emerald hover:bg-emerald-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-emerald-500/20">
+                        <button type="submit" class="w-2/3 min-h-[44px] bg-ios-green hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-green/20">
                             <i class="fa-solid fa-floppy-disk"></i>
                             <span>Simpan Sparepart</span>
                         </button>
@@ -222,50 +236,50 @@
 
 
         <!-- VIEW 3: PENGATURAN & RINGKASAN DATA -->
-        <section id="viewSettings" class="hidden space-y-4">
+        <section id="viewSettings" class="hidden space-y-3">
             
             <!-- Quick Summary Metrics -->
             <div class="grid grid-cols-2 gap-2.5">
-                <div class="theme-card border p-3.5 rounded-2xl">
-                    <span class="text-[10px] theme-text-secondary uppercase font-semibold">Total Item</span>
+                <div class="theme-card border p-3.5 rounded-3xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold tracking-wider">Total Item</span>
                     <h4 id="summaryTotalTypes" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
                 </div>
-                <div class="theme-card border p-3.5 rounded-2xl">
-                    <span class="text-[10px] theme-text-secondary uppercase font-semibold">Total Unit Stok</span>
+                <div class="theme-card border p-3.5 rounded-3xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold tracking-wider">Total Unit Stok</span>
                     <h4 id="summaryTotalUnits" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
                 </div>
             </div>
 
             <!-- TAMPILAN & KUSTOMISASI -->
-            <div class="theme-card border rounded-2xl p-4 space-y-3.5">
+            <div class="theme-card border rounded-3xl p-4 space-y-3.5">
                 <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-palette text-ios-blue"></i> Pengaturan Tampilan Header & Tema
+                    <i class="fa-solid fa-palette text-ios-blue"></i> Tampilan Header & Tema
                 </h3>
 
                 <!-- Logo Header Picker -->
                 <div class="space-y-2">
-                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase">Logo Header</label>
+                    <label class="block text-[10px] font-semibold theme-text-secondary uppercase tracking-wider">Logo Header</label>
                     <div class="grid grid-cols-5 gap-2">
-                        <button onclick="setLogoPreset('fa-car-wrench')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                        <button onclick="setLogoPreset('fa-car-wrench')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
                             <i class="fa-solid fa-car-wrench"></i>
                         </button>
-                        <button onclick="setLogoPreset('fa-car')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                        <button onclick="setLogoPreset('fa-car')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
                             <i class="fa-solid fa-car"></i>
                         </button>
-                        <button onclick="setLogoPreset('fa-gear')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                        <button onclick="setLogoPreset('fa-gear')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
                             <i class="fa-solid fa-gear"></i>
                         </button>
-                        <button onclick="setLogoPreset('fa-screwdriver-wrench')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                        <button onclick="setLogoPreset('fa-screwdriver-wrench')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                         </button>
-                        <button onclick="setLogoPreset('fa-warehouse')" class="logo-preset-btn p-2 rounded-xl theme-input border flex items-center justify-center theme-text-primary active:scale-95 text-base">
+                        <button onclick="setLogoPreset('fa-warehouse')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
                             <i class="fa-solid fa-warehouse"></i>
                         </button>
                     </div>
 
                     <!-- Upload Gambar Logo dari Galeri -->
                     <div class="pt-1">
-                        <label for="logoFileInput" class="w-full min-h-[40px] theme-input border border-dashed hover:border-ios-blue rounded-xl px-3 flex items-center justify-center gap-2 text-xs theme-text-secondary cursor-pointer active:scale-98">
+                        <label for="logoFileInput" class="w-full min-h-[40px] theme-input border border-dashed rounded-2xl px-3 flex items-center justify-center gap-2 text-xs theme-text-secondary cursor-pointer active:scale-98 transition">
                             <i class="fa-solid fa-image text-ios-blue"></i>
                             <span id="uploadLogoText">Upload Logo dari Galeri</span>
                         </label>
@@ -289,9 +303,9 @@
                         <span id="textSizeText" class="theme-text-primary font-mono text-[11px]">Sedang</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setTextSize('sm')" id="btnTextSm" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Kecil</button>
-                        <button onclick="setTextSize('base')" id="btnTextBase" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Sedang</button>
-                        <button onclick="setTextSize('lg')" id="btnTextLg" class="px-2 py-1.5 theme-input border theme-text-secondary text-xs rounded-xl">Besar</button>
+                        <button onclick="setTextSize('sm')" id="btnTextSm" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Kecil</button>
+                        <button onclick="setTextSize('base')" id="btnTextBase" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Sedang</button>
+                        <button onclick="setTextSize('lg')" id="btnTextLg" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Besar</button>
                     </div>
                 </div>
 
@@ -299,26 +313,26 @@
                 <div class="space-y-1.5 pt-1">
                     <span class="block theme-text-secondary font-medium text-xs">Preset Tema Latar Belakang</span>
                     <div class="grid grid-cols-3 gap-2 mb-2">
-                        <button onclick="setTheme('dark-blue')" title="Gelap Biru" class="h-9 rounded-xl bg-[#090d16] border-2 border-blue-500/60 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Gelap</button>
-                        <button onclick="setTheme('midnight')" title="Midnight Black" class="h-9 rounded-xl bg-[#050508] border border-slate-800 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Hitam</button>
-                        <button onclick="setTheme('slate')" title="Slate Grey" class="h-9 rounded-xl bg-[#0f172a] border border-slate-700 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Slate</button>
+                        <button onclick="setTheme('dark-blue')" title="Gelap Biru" class="h-9 rounded-2xl bg-[#000000] border-2 border-ios-blue/60 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Gelap</button>
+                        <button onclick="setTheme('midnight')" title="Midnight Black" class="h-9 rounded-2xl bg-[#050508] border border-slate-800 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Hitam</button>
+                        <button onclick="setTheme('slate')" title="Slate Grey" class="h-9 rounded-2xl bg-[#0f172a] border border-slate-700 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Slate</button>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setTheme('emerald')" title="Emerald Green" class="h-9 rounded-xl bg-[#022c22] border border-emerald-800 active:scale-95 flex items-center justify-center text-xs text-slate-200 font-medium">Hijau</button>
-                        <button onclick="setTheme('light-clean')" title="Terang Putih" class="h-9 rounded-xl bg-[#f8fafc] border border-slate-300 active:scale-95 flex items-center justify-center text-xs text-slate-800 font-semibold">Terang</button>
-                        <button onclick="setTheme('light-soft')" title="Terang Soft Slate" class="h-9 rounded-xl bg-[#e2e8f0] border border-slate-400 active:scale-95 flex items-center justify-center text-xs text-slate-800 font-semibold">Soft Terang</button>
+                        <button onclick="setTheme('emerald')" title="Emerald Green" class="h-9 rounded-2xl bg-[#022c22] border border-emerald-800 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Hijau</button>
+                        <button onclick="setTheme('light-clean')" title="Terang Putih" class="h-9 rounded-2xl bg-[#f2f2f7] border border-slate-300 active:scale-95 transition flex items-center justify-center text-xs text-slate-800 font-semibold">Terang</button>
+                        <button onclick="setTheme('light-soft')" title="Terang Soft Slate" class="h-9 rounded-2xl bg-[#e5e5ea] border border-slate-400 active:scale-95 transition flex items-center justify-center text-xs text-slate-800 font-semibold">Soft Terang</button>
                     </div>
                 </div>
 
-                <!-- KUSTOMISASI WARNA BEBAS (CUSTOM COLOR PICKERS) -->
-                <div class="space-y-2 pt-2 border-t border-slate-700/50">
-                    <span class="block theme-text-secondary font-semibold text-[11px] uppercase tracking-wider">Kustom Warna Manual</span>
+                <!-- KUSTOMISASI WARNA BEBAS -->
+                <div class="space-y-2 pt-2 border-t border-slate-800/40">
+                    <span class="block theme-text-secondary font-semibold text-[10px] uppercase tracking-wider">Kustom Warna Manual</span>
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="theme-input p-2 rounded-xl border flex items-center justify-between">
+                        <div class="theme-input p-2 rounded-2xl border flex items-center justify-between">
                             <span class="theme-text-secondary text-[11px]">Warna Latar</span>
                             <input type="color" id="customBgPicker" onchange="setCustomBgColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
                         </div>
-                        <div class="theme-input p-2 rounded-xl border flex items-center justify-between">
+                        <div class="theme-input p-2 rounded-2xl border flex items-center justify-between">
                             <span class="theme-text-secondary text-[11px]">Warna Teks</span>
                             <input type="color" id="customTextPicker" onchange="setCustomTextColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
                         </div>
@@ -326,8 +340,8 @@
                 </div>
 
                 <!-- TOMBOL SIMPAN PENGATURAN -->
-                <div class="pt-2">
-                    <button onclick="saveAppSettingsExplicit()" class="w-full min-h-[44px] bg-ios-blue hover:bg-blue-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-blue-500/20">
+                <div class="pt-1">
+                    <button onclick="saveAppSettingsExplicit()" class="w-full min-h-[44px] bg-ios-blue hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-blue/20">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Pengaturan</span>
                     </button>
@@ -335,22 +349,22 @@
             </div>
 
             <!-- Store Actions Card -->
-            <div class="theme-card border rounded-2xl p-4 space-y-3">
+            <div class="theme-card border rounded-3xl p-4 space-y-2.5">
                 <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider">Pengelolaan Data</h3>
                 
                 <div class="space-y-2">
-                    <button onclick="openEditStoreModal()" class="w-full min-h-[44px] theme-input border rounded-xl px-3 flex items-center justify-between text-xs theme-text-primary active:scale-98">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-store text-ios-blue"></i> Ubah Nama & Subtitle Toko</span>
+                    <button onclick="openEditStoreModal()" class="w-full min-h-[44px] theme-input border rounded-2xl px-3.5 flex items-center justify-between text-xs theme-text-primary active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-store text-ios-blue"></i> Ubah Identitas Toko</span>
                         <i class="fa-solid fa-chevron-right theme-text-secondary text-[10px]"></i>
                     </button>
 
-                    <button onclick="exportToCSV()" class="w-full min-h-[44px] theme-input border rounded-xl px-3 flex items-center justify-between text-xs theme-text-primary active:scale-98">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-file-csv text-emerald-400"></i> Ekspor Laporan (CSV)</span>
+                    <button onclick="exportToCSV()" class="w-full min-h-[44px] theme-input border rounded-2xl px-3.5 flex items-center justify-between text-xs theme-text-primary active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-file-csv text-ios-green"></i> Ekspor Laporan (CSV)</span>
                         <i class="fa-solid fa-download theme-text-secondary text-[10px]"></i>
                     </button>
 
-                    <button onclick="resetToDemoData()" class="w-full min-h-[44px] theme-input border border-red-500/30 rounded-xl px-3 flex items-center justify-between text-xs text-red-400 active:scale-98">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-rotate-left"></i> Reset Data ke Demo Default</span>
+                    <button onclick="resetToDemoData()" class="w-full min-h-[44px] theme-input border border-ios-red/30 rounded-2xl px-3.5 flex items-center justify-between text-xs text-ios-red active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-rotate-left"></i> Reset Data ke Default</span>
                         <i class="fa-solid fa-trash-can text-[10px]"></i>
                     </button>
                 </div>
@@ -360,38 +374,41 @@
 
     </main>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR -->
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto theme-card backdrop-blur-md border-t z-40 px-3 py-2 pb-safe">
+    <!-- MOBILE BOTTOM TAB BAR (iOS NATIVE TAB BAR) -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto theme-glass border-t border-slate-800/40 z-40 px-6 py-2 pb-safe">
         <div class="grid grid-cols-3 gap-1 text-center">
             
-            <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn text-ios-blue flex flex-col items-center py-1 rounded-xl transition active:scale-90">
-                <i class="fa-solid fa-boxes-stacked text-base"></i>
-                <span class="text-[10px] font-medium mt-1">Stok</span>
+            <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn text-ios-blue flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                <i class="fa-solid fa-boxes-stacked text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Stok</span>
             </button>
 
-            <button onclick="switchTab('add')" id="nav-add" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90">
-                <i class="fa-solid fa-plus-circle text-base"></i>
-                <span class="text-[10px] font-medium mt-1">Tambah</span>
+            <button onclick="switchTab('add')" id="nav-add" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                <i class="fa-solid fa-circle-plus text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Tambah</span>
             </button>
 
-            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90">
-                <i class="fa-solid fa-gear text-base"></i>
-                <span class="text-[10px] font-medium mt-1">Pengaturan</span>
+            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                <i class="fa-solid fa-gear text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Pengaturan</span>
             </button>
 
         </div>
     </nav>
 
-    <!-- EDIT / DETAIL DRAWER MODAL -->
-    <div id="editDrawer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden">
-        <div class="theme-card border-t w-full max-w-md rounded-t-3xl p-5 space-y-4 max-h-[85vh] overflow-y-auto no-scrollbar">
+    <!-- EDIT / DETAIL iOS SHEET MODAL -->
+    <div id="editDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+        <div class="theme-card border-t border-slate-700/50 w-full max-w-md rounded-t-[32px] p-5 space-y-3.5 max-h-[85vh] overflow-y-auto no-scrollbar animate-sheet shadow-2xl">
             
-            <div class="flex items-center justify-between border-b border-slate-700/50 pb-3">
+            <!-- Sheet Drag Indicator Handle -->
+            <div class="w-12 h-1 bg-slate-600/50 rounded-full mx-auto mb-1"></div>
+
+            <div class="flex items-center justify-between border-b border-slate-800/40 pb-2.5">
                 <h3 class="text-sm font-bold theme-text-primary flex items-center gap-2">
                     <i class="fa-solid fa-pen-to-square text-ios-blue"></i> Edit Sparepart
                 </h3>
-                <button onclick="closeDrawer()" class="w-8 h-8 rounded-full theme-input border flex items-center justify-center theme-text-secondary active:scale-90">
-                    <i class="fa-solid fa-xmark"></i>
+                <button onclick="closeDrawer()" class="w-7 h-7 rounded-full theme-input border flex items-center justify-center theme-text-secondary active:scale-90 transition">
+                    <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
 
@@ -399,18 +416,18 @@
                 <input type="hidden" id="editPartId">
 
                 <div>
-                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Nama Part</label>
-                    <input type="text" id="editName" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Nama Part</label>
+                    <input type="text" id="editName" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                 </div>
 
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kode / SKU</label>
-                        <input type="text" id="editSKU" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kode / SKU</label>
+                        <input type="text" id="editSKU" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kategori</label>
-                        <select id="editCategory" required onchange="toggleVBeltField('edit')" class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kategori</label>
+                        <select id="editCategory" required onchange="toggleVBeltField('edit')" class="w-full theme-input border rounded-2xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                             <option value="Mesin">Mesin</option>
                             <option value="VBelt">VBelt</option>
                             <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
@@ -422,43 +439,43 @@
                     </div>
                 </div>
 
-                <!-- KOLOM KHUSUS UKURAN VBELT (EDIT) -->
+                <!-- VBELT SIZE FIELD (EDIT) -->
                 <div id="editVBeltSizeContainer" class="hidden">
-                    <label class="block text-[11px] font-semibold text-amber-400 uppercase mb-1 flex items-center gap-1">
+                    <label class="block text-[10px] font-semibold text-ios-orange uppercase mb-1 tracking-wider flex items-center gap-1">
                         <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
                     </label>
-                    <input type="text" id="editVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-amber-500/50 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-amber-400">
+                    <input type="text" id="editVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-ios-orange/40 rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-ios-orange">
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Kesesuaian Mobil</label>
-                    <input type="text" id="editCarModel" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kesesuaian Mobil</label>
+                    <input type="text" id="editCarModel" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                 </div>
 
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Beli (Rp)</label>
-                        <input type="number" id="editBuyPrice" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Beli (Rp)</label>
+                        <input type="number" id="editBuyPrice" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Harga Jual (Rp)</label>
-                        <input type="number" id="editSellPrice" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Jual (Rp)</label>
+                        <input type="number" id="editSellPrice" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold theme-text-secondary uppercase mb-1">Stok Saat Ini</label>
-                    <input type="number" id="editStock" required class="w-full theme-input border rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-ios-blue">
+                    <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Stok Saat Ini</label>
+                    <input type="number" id="editStock" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                 </div>
 
                 <div class="pt-2 flex gap-2">
-                    <button type="button" onclick="deletePartFromDrawer()" class="w-1/3 min-h-[44px] bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 font-semibold rounded-xl transition flex items-center justify-center space-x-1 active:scale-95">
+                    <button type="button" onclick="deletePartFromDrawer()" class="w-1/3 min-h-[44px] bg-ios-red/10 border border-ios-red/30 text-ios-red font-semibold rounded-2xl transition flex items-center justify-center space-x-1 active:scale-95">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>Hapus</span>
                     </button>
-                    <button type="submit" class="w-2/3 min-h-[44px] bg-ios-blue hover:bg-blue-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 active:scale-98 shadow-md shadow-blue-500/20">
+                    <button type="submit" class="w-2/3 min-h-[44px] bg-ios-blue hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-blue/20">
                         <i class="fa-solid fa-floppy-disk"></i>
-                        <span>Simpan Perubahan</span>
+                        <span>Simpan Edit</span>
                     </button>
                 </div>
             </form>
@@ -466,22 +483,22 @@
     </div>
 
     <!-- MODAL EDIT STORE NAME & SUBTITLE -->
-    <div id="storeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="theme-card border rounded-2xl w-full max-w-xs p-4 space-y-3 shadow-2xl">
-            <h3 class="text-xs font-bold theme-text-primary uppercase flex items-center gap-1.5">
-                <i class="fa-solid fa-store text-ios-blue"></i> Ubah Identitas Toko
+    <div id="storeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="theme-card border rounded-3xl w-full max-w-xs p-4 space-y-3 shadow-2xl animate-sheet">
+            <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-store text-ios-blue"></i> Identitas Toko
             </h3>
             <div>
-                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold">Nama Toko</label>
-                <input type="text" id="inputStoreName" placeholder="Toko Sparepart Jaya" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-ios-blue">
+                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold tracking-wider">Nama Toko</label>
+                <input type="text" id="inputStoreName" placeholder="Toko Sparepart Jaya" class="w-full theme-input border rounded-2xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
             </div>
             <div>
-                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold">Teks Subtitle (Dibawah Nama Toko)</label>
-                <input type="text" id="inputStoreSubtitle" placeholder="Inventori Sparepart" class="w-full theme-input border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-ios-blue">
+                <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold tracking-wider">Subtitle</label>
+                <input type="text" id="inputStoreSubtitle" placeholder="Inventori Sparepart" class="w-full theme-input border rounded-2xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
             </div>
             <div class="flex justify-end space-x-2 pt-1 text-xs">
-                <button type="button" onclick="closeStoreModal()" class="px-3 py-2 theme-input border theme-text-secondary rounded-xl font-medium active:scale-95">Batal</button>
-                <button type="button" onclick="saveStoreName()" class="px-3 py-2 bg-ios-blue text-white rounded-xl font-semibold active:scale-95 shadow-md shadow-blue-500/20">Simpan</button>
+                <button type="button" onclick="closeStoreModal()" class="px-3.5 py-2 theme-input border theme-text-secondary rounded-2xl font-medium active:scale-95 transition">Batal</button>
+                <button type="button" onclick="saveStoreName()" class="px-3.5 py-2 bg-ios-blue text-white rounded-2xl font-semibold active:scale-95 transition shadow-md shadow-ios-blue/20">Simpan</button>
             </div>
         </div>
     </div>
@@ -553,7 +570,7 @@
 
         function saveAppSettingsExplicit() {
             saveStorage();
-            showToast("Pengaturan tampilan berhasil disimpan!", "success");
+            showToast("Pengaturan tampilan disimpan", "success");
         }
 
         function formatRp(val) {
@@ -570,7 +587,6 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // DYNAMIC COLOR HELPER FUNCTIONS
         function adjustHexColor(hex, percent) {
             let num = parseInt(hex.replace('#',''), 16),
                 amt = Math.round(2.55 * percent),
@@ -605,9 +621,7 @@
 
             ['btnTextSm', 'btnTextBase', 'btnTextLg'].forEach(id => {
                 const btn = document.getElementById(id);
-                if (btn) {
-                    btn.classList.remove('bg-ios-blue', 'text-white');
-                }
+                if (btn) btn.classList.remove('bg-ios-blue', 'text-white');
             });
 
             if (appSettings.textSize === 'sm') document.getElementById('btnTextSm')?.classList.add('bg-ios-blue', 'text-white');
@@ -616,28 +630,28 @@
 
             const root = document.documentElement;
             
-            // THEME DEFINITIONS
             const themes = {
-                'dark-blue': { bg: '#090d16', card: '#131b2e', input: '#0d1322', border: '#1e293b', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
-                'midnight': { bg: '#050508', card: '#0f0f17', input: '#09090f', border: '#1e1e2e', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
-                'slate': { bg: '#0f172a', card: '#1e293b', input: '#0f172a', border: '#334155', textPrimary: '#f8fafc', textSecondary: '#94a3b8' },
-                'emerald': { bg: '#022c22', card: '#064e3b', input: '#022c22', border: '#047857', textPrimary: '#f8fafc', textSecondary: '#a7f3d0' },
-                'light-clean': { bg: '#f8fafc', card: '#ffffff', input: '#f1f5f9', border: '#cbd5e1', textPrimary: '#0f172a', textSecondary: '#64748b' },
-                'light-soft': { bg: '#e2e8f0', card: '#f1f5f9', input: '#ffffff', border: '#cbd5e1', textPrimary: '#1e293b', textSecondary: '#475569' }
+                'dark-blue': { bg: '#000000', card: '#1C1C1E', input: '#2C2C2E', border: '#2C2C2E', textPrimary: '#FFFFFF', textSecondary: '#8E8E93', glass: 'rgba(28, 28, 30, 0.75)' },
+                'midnight': { bg: '#050508', card: '#12121A', input: '#1A1A24', border: '#252536', textPrimary: '#FFFFFF', textSecondary: '#9A9AB0', glass: 'rgba(18, 18, 26, 0.75)' },
+                'slate': { bg: '#0F172A', card: '#1E293B', input: '#334155', border: '#334155', textPrimary: '#F8FAFC', textSecondary: '#94A3B8', glass: 'rgba(30, 41, 59, 0.75)' },
+                'emerald': { bg: '#022C22', card: '#064E3B', input: '#047857', border: '#047857', textPrimary: '#F8FAFC', textSecondary: '#A7F3D0', glass: 'rgba(6, 78, 59, 0.75)' },
+                'light-clean': { bg: '#F2F2F7', card: '#FFFFFF', input: '#E5E5EA', border: '#E5E5EA', textPrimary: '#000000', textSecondary: '#6C6C70', glass: 'rgba(255, 255, 255, 0.8)' },
+                'light-soft': { bg: '#E5E5EA', card: '#F2F2F7', input: '#FFFFFF', border: '#D1D1D6', textPrimary: '#000000', textSecondary: '#545456', glass: 'rgba(242, 242, 247, 0.85)' }
             };
 
             let activeTheme = themes[appSettings.theme] || themes['dark-blue'];
 
             if (appSettings.theme === 'custom') {
-                const bg = appSettings.customBg || '#090d16';
-                const text = appSettings.customText || '#f8fafc';
+                const bg = appSettings.customBg || '#000000';
+                const text = appSettings.customText || '#FFFFFF';
                 activeTheme = {
                     bg: bg,
                     card: adjustHexColor(bg, 12),
-                    input: adjustHexColor(bg, -5),
+                    input: adjustHexColor(bg, 20),
                     border: adjustHexColor(bg, 25),
                     textPrimary: text,
-                    textSecondary: adjustHexColor(text, -30)
+                    textSecondary: adjustHexColor(text, -35),
+                    glass: adjustHexColor(bg, 12) + 'C0'
                 };
             }
 
@@ -647,9 +661,9 @@
             root.style.setProperty('--border-color', activeTheme.border);
             root.style.setProperty('--text-primary', activeTheme.textPrimary);
             root.style.setProperty('--text-secondary', activeTheme.textSecondary);
+            root.style.setProperty('--header-glass', activeTheme.glass);
         }
 
-        // RENDER HEADER
         function renderHeader() {
             document.getElementById('storeNameText').querySelector('span').innerText = storeName;
             document.getElementById('storeSubtitleText').innerText = storeSubtitle;
@@ -664,7 +678,7 @@
             } else {
                 logoImg.classList.add('hidden');
                 logoIcon.classList.remove('hidden');
-                logoIcon.className = `fa-solid ${appSettings.logoValue || 'fa-car-wrench'} text-base`;
+                logoIcon.className = `fa-solid ${appSettings.logoValue || 'fa-car-wrench'} text-sm`;
             }
 
             const emptyCount = spareparts.filter(p => p.stock === 0).length;
@@ -677,13 +691,12 @@
             }
         }
 
-        // CUSTOMIZATION SETTINGS FUNCTIONS
         function setLogoPreset(iconClass) {
             appSettings.logoType = 'preset';
             appSettings.logoValue = iconClass;
             document.getElementById('uploadLogoText').innerText = 'Upload Logo dari Galeri';
             renderHeader();
-            showToast("Preset logo dipilih", "info");
+            showToast("Logo header dipilih", "info");
         }
 
         function handleLogoUpload(event) {
@@ -699,9 +712,9 @@
             reader.onload = function(e) {
                 appSettings.logoType = 'custom';
                 appSettings.logoValue = e.target.result;
-                document.getElementById('uploadLogoText').innerText = `Logo Terpasang: ${file.name.substring(0, 15)}...`;
+                document.getElementById('uploadLogoText').innerText = `Terpasang: ${file.name.substring(0, 12)}...`;
                 renderHeader();
-                showToast("Logo kustom dipilih dari galeri", "info");
+                showToast("Logo kustom dipasang", "info");
             };
             reader.readAsDataURL(file);
         }
@@ -722,7 +735,7 @@
             appSettings.customBg = '';
             appSettings.customText = '';
             applyAppSettings();
-            showToast("Preset tema dipilih", "info");
+            showToast("Tema dipilih", "info");
         }
 
         function setCustomBgColor(hexColor) {
@@ -737,7 +750,6 @@
             applyAppSettings();
         }
 
-        // TOGGLE VBELT FIELD VISIBILITY
         function toggleVBeltField(formPrefix) {
             const cat = document.getElementById(formPrefix + 'Category').value;
             const container = document.getElementById(formPrefix + 'VBeltSizeContainer');
@@ -749,7 +761,6 @@
             }
         }
 
-        // RENDER CARDS (HOME)
         function renderCards(data = null) {
             const list = data || getFilteredParts();
             const container = document.getElementById('partsListContainer');
@@ -765,53 +776,51 @@
             }
 
             list.forEach(p => {
-                let badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                let badgeColor = "bg-ios-green/15 text-ios-green border-ios-green/30";
                 let badgeText = "Aman";
 
                 if (p.stock === 0) {
-                    badgeColor = "bg-red-500/10 text-red-400 border-red-500/20";
+                    badgeColor = "bg-ios-red/15 text-ios-red border-ios-red/30";
                     badgeText = "Habis";
                 }
 
-                // VBelt Size Badge
                 const vbeltBadgeHtml = (p.category === 'VBelt' && p.vbeltSize) 
-                    ? `<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                    ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-ios-orange/20 text-ios-orange border border-ios-orange/30">
                         <i class="fa-solid fa-ruler-horizontal text-[8px] mr-1"></i>${escapeHtml(p.vbeltSize)}
                        </span>` 
                     : '';
 
                 const card = document.createElement('div');
-                card.className = "theme-card border rounded-xl p-2.5 shadow-sm flex flex-col justify-between space-y-1.5 active:opacity-90 transition";
+                card.className = "theme-card border rounded-2xl p-3 shadow-sm flex flex-col justify-between space-y-2 active:scale-[0.99] transition duration-150";
                 
                 card.innerHTML = `
                     <div class="flex items-start justify-between gap-1.5 cursor-pointer" onclick="openDrawer('${p.id}')">
-                        <div class="space-y-0.5">
-                            <div class="flex items-center gap-1 flex-wrap">
-                                <!-- HIGHLIGHTED COLOR BACKGROUND SKU BADGE -->
-                                <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold font-mono bg-blue-500/20 text-blue-400 border border-blue-400/30 shadow-sm">
-                                    <i class="fa-solid fa-barcode text-[8px] mr-1 opacity-70"></i>${escapeHtml(p.sku)}
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
+                                    <i class="fa-solid fa-barcode text-[8px] mr-1 opacity-80"></i>${escapeHtml(p.sku)}
                                 </span>
                                 ${vbeltBadgeHtml}
-                                <span class="text-[9px] theme-text-secondary">| ${escapeHtml(p.category)}</span>
+                                <span class="text-[9px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
                             </div>
                             <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
-                            <p class="text-[10px] theme-text-secondary leading-none"><i class="fa-solid fa-car text-[9px] mr-1"></i>${escapeHtml(p.carModel)}</p>
+                            <p class="text-[10px] theme-text-secondary leading-none flex items-center gap-1"><i class="fa-solid fa-car text-[9px]"></i> ${escapeHtml(p.carModel)}</p>
                         </div>
-                        <span class="px-1.5 py-0.2 text-[9px] font-semibold border rounded-full shrink-0 ${badgeColor}">
+                        <span class="px-2 py-0.5 text-[9px] font-bold border rounded-full shrink-0 ${badgeColor}">
                             ${badgeText}
                         </span>
                     </div>
 
-                    <div class="flex items-center justify-between border-t border-slate-700/50 pt-1.5">
+                    <div class="flex items-center justify-between border-t border-slate-800/40 pt-2">
                         <div class="flex items-baseline gap-1">
-                            <span class="text-[9px] theme-text-secondary uppercase">Harga:</span>
-                            <span class="text-xs font-bold text-emerald-400 font-mono">${formatRp(p.sellPrice)}</span>
+                            <span class="text-[9px] theme-text-secondary uppercase font-semibold">Harga:</span>
+                            <span class="text-xs font-bold text-ios-green font-mono">${formatRp(p.sellPrice)}</span>
                         </div>
 
-                        <div class="flex items-center theme-input border rounded-lg px-1 py-0.5 space-x-1.5">
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-6 h-6 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-red-500/20 active:text-red-400 text-xs">-</button>
-                            <span class="font-bold text-xs theme-text-primary min-w-[18px] text-center">${p.stock}</span>
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-6 h-6 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-emerald-500/20 active:text-emerald-400 text-xs">+</button>
+                        <div class="flex items-center theme-input border rounded-xl p-0.5 space-x-1">
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-6 h-6 rounded-lg theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-red/20 active:text-ios-red text-xs transition">-</button>
+                            <span class="font-bold text-xs theme-text-primary min-w-[20px] text-center">${p.stock}</span>
+                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-6 h-6 rounded-lg theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-green/20 active:text-ios-green text-xs transition">+</button>
                         </div>
                     </div>
                 `;
@@ -837,13 +846,12 @@
             }
         }
 
-        // FILTER CHIPS LOGIC
         function setFilterChip(chipValue, btnElem) {
             activeFilterChip = chipValue;
             document.querySelectorAll('.chip-btn').forEach(b => {
-                b.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary";
+                b.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95";
             });
-            btnElem.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm";
+            btnElem.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm transition active:scale-95";
             applyFilters();
         }
 
@@ -859,7 +867,6 @@
             applyFilters();
         }
 
-        // MULTI-FIELD & MULTI-KEYWORD COMBINATION SEARCH
         function getFilteredParts() {
             const queryRaw = (document.getElementById('searchInput').value || '').trim().toLowerCase();
             const clearBtn = document.getElementById('clearSearchBtn');
@@ -884,7 +891,6 @@
             renderCards(getFilteredParts());
         }
 
-        // TAB NAVIGATION
         function switchTab(tab) {
             const tabViewMap = {
                 'stock': 'viewStock',
@@ -900,10 +906,10 @@
                 if (view && nav) {
                     if (t === tab) {
                         view.classList.remove('hidden');
-                        nav.className = "nav-btn text-ios-blue flex flex-col items-center py-1 rounded-xl transition active:scale-90";
+                        nav.className = "nav-btn text-ios-blue flex flex-col items-center py-1 rounded-2xl transition active:scale-90";
                     } else {
                         view.classList.add('hidden');
-                        nav.className = "nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-xl transition active:scale-90";
+                        nav.className = "nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90";
                     }
                 }
             });
@@ -911,7 +917,6 @@
             if (tab === 'settings') renderSummary();
         }
 
-        // DRAWER (EDIT / DELETE)
         function openDrawer(id) {
             const p = spareparts.find(item => item.id === id);
             if (!p) return;
@@ -958,7 +963,7 @@
                 renderCards();
                 renderSummary();
                 closeDrawer();
-                showToast("Data sparepart diperbarui", "success");
+                showToast("Sparepart diperbarui", "success");
             }
         }
 
@@ -975,7 +980,6 @@
             }
         }
 
-        // ADD PART LOGIC
         function generateAddSKU() {
             const cat = document.getElementById('addCategory').value || 'PRT';
             const prefix = cat === 'VBelt' ? 'VBT' : cat.substring(0, 3).toUpperCase();
@@ -988,7 +992,7 @@
             toggleVBeltField('add');
             generateAddSKU();
             switchTab('stock');
-            showToast("Batal menambah sparepart", "info");
+            showToast("Batal menambah", "info");
         }
 
         function handleSaveNewPart(e) {
@@ -1015,11 +1019,10 @@
             e.target.reset();
             toggleVBeltField('add');
             generateAddSKU();
-            showToast("Sparepart baru ditambahkan!", "success");
+            showToast("Sparepart ditambahkan!", "success");
             switchTab('stock');
         }
 
-        // SETTINGS & SUMMARY
         function renderSummary() {
             document.getElementById('summaryTotalTypes').innerText = spareparts.length;
             
@@ -1050,13 +1053,13 @@
                 saveStorage();
                 renderHeader();
                 closeStoreModal();
-                showToast("Nama & Subtitle toko disimpan", "success");
+                showToast("Identitas toko disimpan", "success");
             }
         }
 
         function exportToCSV() {
             if (spareparts.length === 0) {
-                showToast("Tidak ada data untuk diekspor", "error");
+                showToast("Tidak ada data", "error");
                 return;
             }
 
@@ -1082,11 +1085,11 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            showToast("Laporan CSV berhasil diunduh", "success");
+            showToast("Laporan CSV diunduh", "success");
         }
 
         function resetToDemoData() {
-            if (confirm("Reset seluruh data ke sampel awal default?")) {
+            if (confirm("Reset seluruh data ke sampel default?")) {
                 spareparts = [...demoParts];
                 storeName = "Toko Sparepart Jaya";
                 storeSubtitle = "Inventori Sparepart";
@@ -1094,32 +1097,31 @@
                 renderHeader();
                 renderCards();
                 renderSummary();
-                showToast("Data di-reset ke data demo", "info");
+                showToast("Reset ke data demo", "info");
             }
         }
 
-        // TOAST NOTIFICATION
         function showToast(message, type = "info") {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             
-            let bg = "bg-slate-800 text-white border-slate-700";
-            if (type === "success") bg = "bg-emerald-600 text-white border-emerald-500";
-            if (type === "error") bg = "bg-red-600 text-white border-red-500";
+            let bg = "bg-slate-900/90 text-white border-slate-700/80";
+            if (type === "success") bg = "bg-ios-green text-white border-ios-green/80";
+            if (type === "error") bg = "bg-ios-red text-white border-ios-red/80";
 
-            toast.className = `px-3.5 py-2 rounded-xl border text-xs font-medium shadow-lg transition-all transform duration-300 opacity-0 translate-y-[-10px] pointer-events-auto ${bg}`;
+            toast.className = `px-4 py-2.5 rounded-full border text-xs font-semibold shadow-2xl backdrop-blur-md transition-all transform duration-300 opacity-0 translate-y-[-12px] pointer-events-auto ${bg}`;
             toast.innerText = message;
 
             container.appendChild(toast);
 
             setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-[-10px]');
+                toast.classList.remove('opacity-0', 'translate-y-[-12px]');
             }, 10);
 
             setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                toast.classList.add('opacity-0', 'translate-y-[-12px]');
                 setTimeout(() => toast.remove(), 300);
-            }, 2500);
+            }, 2200);
         }
     </script>
 </body>
