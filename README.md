@@ -78,8 +78,8 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        .pt-safe { padding-top: max(env(safe-area-inset-top), 12px); }
-        .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 16px); }
+        .pt-safe { padding-top: max(env(safe-area-inset-top), 8px); }
+        .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 12px); }
 
         /* Smooth iOS Sheet Animations */
         @keyframes slideUp {
@@ -89,7 +89,7 @@
         .animate-sheet { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body id="appBody" class="min-h-screen flex flex-col justify-between max-w-md mx-auto border-x border-slate-800/40 shadow-2xl relative overflow-x-hidden text-sm selection:bg-ios-blue selection:text-white">
+<body id="appBody" class="min-h-screen flex flex-col justify-between w-full max-w-sm mx-auto border-x border-slate-800/40 shadow-2xl relative overflow-x-hidden text-sm selection:bg-ios-blue selection:text-white">
 
     <!-- TOP iOS NAVIGATION BAR -->
     <header class="sticky top-0 z-30 theme-glass border-b border-slate-800/40 pt-safe pb-1.5 flex items-center justify-between dynamic-padding transition-all">
@@ -375,22 +375,22 @@
     </main>
 
     <!-- MOBILE BOTTOM TAB BAR (iOS NATIVE TAB BAR) -->
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto theme-glass border-t border-slate-800/40 z-40 px-6 py-2 pb-safe">
+    <nav class="fixed bottom-0 left-0 right-0 w-full max-w-sm mx-auto theme-glass border-t border-slate-800/40 z-40 px-4 py-1.5 pb-safe">
         <div class="grid grid-cols-3 gap-1 text-center">
             
             <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn text-ios-blue flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
-                <i class="fa-solid fa-boxes-stacked text-lg"></i>
-                <span class="text-[10px] font-medium mt-0.5">Stok</span>
+                <i class="fa-solid fa-boxes-stacked text-base"></i>
+                <span class="text-[9px] font-medium mt-0.5">Stok</span>
             </button>
 
             <button onclick="switchTab('add')" id="nav-add" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
-                <i class="fa-solid fa-circle-plus text-lg"></i>
-                <span class="text-[10px] font-medium mt-0.5">Tambah</span>
+                <i class="fa-solid fa-circle-plus text-base"></i>
+                <span class="text-[9px] font-medium mt-0.5">Tambah</span>
             </button>
 
             <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
-                <i class="fa-solid fa-gear text-lg"></i>
-                <span class="text-[10px] font-medium mt-0.5">Pengaturan</span>
+                <i class="fa-solid fa-gear text-base"></i>
+                <span class="text-[9px] font-medium mt-0.5">Pengaturan</span>
             </button>
 
         </div>
@@ -398,7 +398,7 @@
 
     <!-- EDIT / DETAIL iOS SHEET MODAL -->
     <div id="editDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end justify-center hidden">
-        <div class="theme-card border-t border-slate-700/50 w-full max-w-md rounded-t-[32px] p-5 space-y-3.5 max-h-[85vh] overflow-y-auto no-scrollbar animate-sheet shadow-2xl">
+        <div class="theme-card border-t border-slate-700/50 w-full max-w-sm rounded-t-[32px] p-4 space-y-3 max-h-[85vh] overflow-y-auto no-scrollbar animate-sheet shadow-2xl">
             
             <!-- Sheet Drag Indicator Handle -->
             <div class="w-12 h-1 bg-slate-600/50 rounded-full mx-auto mb-1"></div>
@@ -791,34 +791,51 @@
                     : '';
 
                 const card = document.createElement('div');
-                card.className = "theme-card border rounded-lg p-1.5 shadow-sm active:scale-[0.99] transition duration-150 cursor-pointer";
+                card.className = "theme-card border rounded-lg p-1.5 shadow-sm transition duration-150 cursor-pointer";
                 
                 card.innerHTML = `
-                    <div onclick="openDrawer('${p.id}')">
-                        <div class="flex items-center gap-1 flex-wrap mb-0.5">
-                            <span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
-                                <i class="fa-solid fa-barcode text-[7px] mr-0.5 opacity-80"></i>${escapeHtml(p.sku)}
-                            </span>
-                            ${vbeltBadgeHtml}
-                            <span class="text-[8px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
-                            <span class="px-1 py-0.2 text-[7px] font-bold border rounded-full shrink-0 ${badgeColor} ml-auto">
+                    <div>
+                        <!-- Baris Atas: SKU, Kategori, Badge Status -->
+                        <div onclick="openDrawer('${p.id}')" class="flex items-center justify-between gap-1 mb-1">
+                            <div class="flex items-center gap-1 flex-wrap">
+                                <span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
+                                    <i class="fa-solid fa-barcode text-[7px] mr-0.5 opacity-80"></i>${escapeHtml(p.sku)}
+                                </span>
+                                ${vbeltBadgeHtml}
+                                <span class="text-[8px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
+                            </div>
+                            <span class="px-1 py-0.2 text-[7px] font-bold border rounded-full shrink-0 ${badgeColor}">
                                 ${badgeText}
                             </span>
                         </div>
-                        <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
-                        <p class="text-[9px] theme-text-secondary leading-tight flex items-center gap-1 mt-0.5"><i class="fa-solid fa-car text-[7px]"></i> ${escapeHtml(p.carModel)}</p>
-                    </div>
 
-                    <div class="flex items-center justify-between mt-1 pt-1 border-t border-slate-800/30">
-                        <div class="flex items-baseline gap-1">
-                            <span class="text-[8px] theme-text-secondary uppercase font-semibold">Harga:</span>
-                            <span class="text-xs font-bold text-ios-green font-mono">${formatRp(p.sellPrice)}</span>
+                        <!-- Baris Tengah: Nama Sparepart -> Mobil -->
+                        <div onclick="openDrawer('${p.id}')" class="space-y-0.5">
+                            <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
+                            <div class="text-[9px] theme-text-secondary leading-tight flex items-center gap-1">
+                                <i class="fa-solid fa-car text-[7px]"></i> ${escapeHtml(p.carModel)}
+                            </div>
                         </div>
 
-                        <div class="flex items-center theme-input border rounded-md p-0.5 space-x-1 ml-2 shrink-0">
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', -1)" class="w-4 h-4 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-red/20 active:text-ios-red text-xs transition">-</button>
-                            <span class="font-bold text-[11px] theme-text-primary min-w-[14px] text-center">${p.stock}</span>
-                            <button onclick="event.stopPropagation(); quickStock('${p.id}', 1)" class="w-4 h-4 rounded theme-card theme-text-primary flex items-center justify-center font-bold active:bg-ios-green/20 active:text-ios-green text-xs transition">+</button>
+                        <!-- Baris Bawah: Harga & Tombol Kontrol Stok (+ / -) -->
+                        <div class="pt-1.5 flex items-center justify-between border-t border-slate-800/20 mt-1">
+                            <div onclick="openDrawer('${p.id}')">
+                                <span class="text-[8px] theme-text-secondary uppercase font-medium">Harga: </span>
+                                <span class="text-xs font-bold text-ios-green font-mono">${formatRp(p.sellPrice)}</span>
+                            </div>
+
+                            <!-- Tombol Penambahan & Pengurangan Stok Quick-Actions -->
+                            <div class="flex items-center space-x-1.5 bg-ios-input/40 p-0.5 rounded-lg border border-slate-800/40">
+                                <button onclick="event.stopPropagation(); updateStockQuick('${p.id}', -1)" class="w-6 h-6 rounded-md theme-card border border-slate-700/60 flex items-center justify-center text-ios-red active:scale-90 transition font-bold text-xs" title="Kurangi Stok">
+                                    <i class="fa-solid fa-minus text-[9px]"></i>
+                                </button>
+                                
+                                <span onclick="openDrawer('${p.id}')" class="font-bold text-xs theme-text-primary font-mono px-1 min-w-[28px] text-center">${p.stock}</span>
+                                
+                                <button onclick="event.stopPropagation(); updateStockQuick('${p.id}', 1)" class="w-6 h-6 rounded-md theme-card border border-slate-700/60 flex items-center justify-center text-ios-green active:scale-90 transition font-bold text-xs" title="Tambah Stok">
+                                    <i class="fa-solid fa-plus text-[9px]"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -827,94 +844,164 @@
             });
         }
 
-        function quickStock(id, delta) {
+        // QUICK STOCK UPDATE (+ / -)
+        function updateStockQuick(id, change) {
             const index = spareparts.findIndex(p => p.id === id);
-            if (index !== -1) {
-                const newStock = spareparts[index].stock + delta;
-                if (newStock < 0) {
-                    showToast("Stok minimal 0", "error");
-                    return;
-                }
-                spareparts[index].stock = newStock;
-                saveStorage();
-                renderHeader();
-                renderCards();
-                renderSummary();
-                showToast(`Stok ${spareparts[index].name}: ${newStock}`, "success");
+            if (index === -1) return;
+
+            const currentStock = spareparts[index].stock;
+            if (change < 0 && currentStock <= 0) {
+                showToast("Stok sudah 0", "error");
+                return;
             }
+
+            spareparts[index].stock += change;
+            saveStorage();
+            renderHeader();
+            renderCards();
+            renderSummary();
+
+            const newStock = spareparts[index].stock;
+            const actionText = change > 0 ? `+${change}` : `${change}`;
+            showToast(`Stok ${spareparts[index].sku}: ${newStock} (${actionText})`, change > 0 ? "success" : "info");
         }
 
-        function setFilterChip(chipValue, btnElem) {
-            activeFilterChip = chipValue;
-            document.querySelectorAll('.chip-btn').forEach(b => {
-                b.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap theme-card border theme-text-secondary transition active:scale-95";
-            });
-            btnElem.className = "chip-btn px-3 py-1.5 rounded-full font-medium whitespace-nowrap bg-ios-blue text-white shadow-sm transition active:scale-95";
-            applyFilters();
-        }
-
-        function filterEmptyStock() {
-            switchTab('stock');
-            const emptyBtn = document.querySelectorAll('.chip-btn')[1];
-            if (emptyBtn) setFilterChip('EMPTY', emptyBtn);
-        }
-
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('clearSearchBtn').classList.add('hidden');
-            applyFilters();
-        }
-
+        // FILTER & SEARCH LOGIC
         function getFilteredParts() {
-            const queryRaw = (document.getElementById('searchInput').value || '').trim().toLowerCase();
-            const clearBtn = document.getElementById('clearSearchBtn');
-            if (queryRaw) clearBtn.classList.remove('hidden');
-            else clearBtn.classList.add('hidden');
-
-            const tokens = queryRaw.split(/\s+/).filter(t => t.length > 0);
+            const searchVal = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
+            const searchTokens = searchVal.split(/\s+/).filter(t => t.length > 0);
 
             return spareparts.filter(p => {
-                const combinedField = `${p.sku} ${p.name} ${p.category} ${p.vbeltSize || ''} ${p.carModel}`.toLowerCase();
-                const matchesSearch = tokens.every(token => combinedField.includes(token));
+                // Category Filter Chip
+                if (activeFilterChip === 'EMPTY' && p.stock > 0) return false;
+                if (activeFilterChip !== 'ALL' && activeFilterChip !== 'EMPTY' && p.category !== activeFilterChip) return false;
 
-                let matchesChip = true;
-                if (activeFilterChip === 'EMPTY') matchesChip = (p.stock === 0);
-                else if (activeFilterChip !== 'ALL') matchesChip = (p.category === activeFilterChip);
+                // Search Query Tokens (All tokens must match somewhere in sku, name, category, vbeltSize, or carModel)
+                if (searchTokens.length > 0) {
+                    const combinedText = `${p.sku} ${p.name} ${p.category} ${p.vbeltSize || ''} ${p.carModel}`.toLowerCase();
+                    const matchesAllTokens = searchTokens.every(token => combinedText.includes(token));
+                    if (!matchesAllTokens) return false;
+                }
 
-                return matchesSearch && matchesChip;
+                return true;
             });
         }
 
         function applyFilters() {
-            renderCards(getFilteredParts());
+            const searchVal = document.getElementById('searchInput')?.value || '';
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                if (searchVal.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            renderCards();
         }
 
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            applyFilters();
+        }
+
+        function setFilterChip(chipValue, btnEl) {
+            activeFilterChip = chipValue;
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.classList.remove('active-chip', 'bg-ios-blue', 'text-white');
+                btn.classList.add('theme-card', 'theme-text-secondary');
+            });
+            if (btnEl) {
+                btnEl.classList.remove('theme-card', 'theme-text-secondary');
+                btnEl.classList.add('active-chip', 'bg-ios-blue', 'text-white');
+            }
+            renderCards();
+        }
+
+        function filterEmptyStock() {
+            activeFilterChip = 'EMPTY';
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.classList.remove('active-chip', 'bg-ios-blue', 'text-white');
+                btn.classList.add('theme-card', 'theme-text-secondary');
+            });
+            const emptyChip = Array.from(document.querySelectorAll('.chip-btn')).find(b => b.textContent.includes('Stok Habis'));
+            if (emptyChip) {
+                emptyChip.classList.remove('theme-card', 'theme-text-secondary');
+                emptyChip.classList.add('active-chip', 'bg-ios-blue', 'text-white');
+            }
+            switchTab('stock');
+            renderCards();
+        }
+
+        // VIEW NAVIGATION / TABS
         function switchTab(tab) {
-            const tabViewMap = {
-                'stock': 'viewStock',
-                'add': 'viewAddPart',
-                'settings': 'viewSettings'
-            };
+            document.getElementById('viewStock').classList.add('hidden');
+            document.getElementById('viewAddPart').classList.add('hidden');
+            document.getElementById('viewSettings').classList.add('hidden');
 
-            ['stock', 'add', 'settings'].forEach(t => {
-                const viewId = tabViewMap[t];
-                const view = document.getElementById(viewId);
-                const nav = document.getElementById('nav-' + t);
-
-                if (view && nav) {
-                    if (t === tab) {
-                        view.classList.remove('hidden');
-                        nav.className = "nav-btn text-ios-blue flex flex-col items-center py-1 rounded-2xl transition active:scale-90";
-                    } else {
-                        view.classList.add('hidden');
-                        nav.className = "nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90";
-                    }
-                }
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('text-ios-blue');
+                b.classList.add('theme-text-secondary');
             });
 
-            if (tab === 'settings') renderSummary();
+            if (tab === 'stock') {
+                document.getElementById('viewStock').classList.remove('hidden');
+                document.getElementById('nav-stock').classList.add('text-ios-blue');
+                document.getElementById('nav-stock').classList.remove('theme-text-secondary');
+                renderCards();
+            } else if (tab === 'add') {
+                document.getElementById('viewAddPart').classList.remove('hidden');
+                document.getElementById('nav-add').classList.add('text-ios-blue');
+                document.getElementById('nav-add').classList.remove('theme-text-secondary');
+            } else if (tab === 'settings') {
+                document.getElementById('viewSettings').classList.remove('hidden');
+                document.getElementById('nav-settings').classList.add('text-ios-blue');
+                document.getElementById('nav-settings').classList.remove('theme-text-secondary');
+                renderSummary();
+            }
         }
 
+        // FORM HANDLERS
+        function generateAddSKU() {
+            const nextNum = spareparts.length + 101;
+            document.getElementById('addSKU').value = `PRT-${nextNum}`;
+        }
+
+        function handleSaveNewPart(e) {
+            e.preventDefault();
+            const sku = document.getElementById('addSKU').value.trim();
+            const name = document.getElementById('addName').value.trim();
+            const category = document.getElementById('addCategory').value;
+            const vbeltSize = document.getElementById('addVBeltSize').value.trim();
+            const carModel = document.getElementById('addCarModel').value.trim();
+            const buyPrice = parseFloat(document.getElementById('addBuyPrice').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('addSellPrice').value) || 0;
+            const stock = parseInt(document.getElementById('addStock').value) || 0;
+
+            const newPart = {
+                id: Date.now().toString(),
+                sku, name, category, vbeltSize, carModel, buyPrice, sellPrice, stock
+            };
+
+            spareparts.unshift(newPart);
+            saveStorage();
+            showToast("Sparepart berhasil ditambahkan", "success");
+
+            // Reset form
+            document.getElementById('addPartForm').reset();
+            generateAddSKU();
+            toggleVBeltField('add');
+            switchTab('stock');
+            renderHeader();
+            renderSummary();
+        }
+
+        function cancelAddPart() {
+            document.getElementById('addPartForm').reset();
+            generateAddSKU();
+            toggleVBeltField('add');
+            switchTab('stock');
+        }
+
+        // DRAWER EDIT LOGIC
         function openDrawer(id) {
             const p = spareparts.find(item => item.id === id);
             if (!p) return;
@@ -941,97 +1028,39 @@
             e.preventDefault();
             const id = document.getElementById('editPartId').value;
             const index = spareparts.findIndex(p => p.id === id);
+            if (index === -1) return;
 
-            if (index !== -1) {
-                const category = document.getElementById('editCategory').value;
-                spareparts[index] = {
-                    id,
-                    name: document.getElementById('editName').value.trim(),
-                    sku: document.getElementById('editSKU').value.trim(),
-                    category: category,
-                    vbeltSize: category === 'VBelt' ? document.getElementById('editVBeltSize').value.trim() : '',
-                    carModel: document.getElementById('editCarModel').value.trim(),
-                    buyPrice: Number(document.getElementById('editBuyPrice').value),
-                    sellPrice: Number(document.getElementById('editSellPrice').value),
-                    stock: Number(document.getElementById('editStock').value)
-                };
+            spareparts[index].name = document.getElementById('editName').value.trim();
+            spareparts[index].sku = document.getElementById('editSKU').value.trim();
+            spareparts[index].category = document.getElementById('editCategory').value;
+            spareparts[index].vbeltSize = document.getElementById('editVBeltSize').value.trim();
+            spareparts[index].carModel = document.getElementById('editCarModel').value.trim();
+            spareparts[index].buyPrice = parseFloat(document.getElementById('editBuyPrice').value) || 0;
+            spareparts[index].sellPrice = parseFloat(document.getElementById('editSellPrice').value) || 0;
+            spareparts[index].stock = parseInt(document.getElementById('editStock').value) || 0;
 
-                saveStorage();
-                renderHeader();
-                renderCards();
-                renderSummary();
-                closeDrawer();
-                showToast("Sparepart diperbarui", "success");
-            }
+            saveStorage();
+            closeDrawer();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            showToast("Sparepart berhasil diperbarui", "success");
         }
 
         function deletePartFromDrawer() {
             const id = document.getElementById('editPartId').value;
-            if (confirm("Hapus sparepart ini?")) {
-                spareparts = spareparts.filter(p => p.id !== id);
-                saveStorage();
-                renderHeader();
-                renderCards();
-                renderSummary();
-                closeDrawer();
-                showToast("Sparepart dihapus", "info");
-            }
-        }
+            if (!id) return;
 
-        function generateAddSKU() {
-            const cat = document.getElementById('addCategory').value || 'PRT';
-            const prefix = cat === 'VBelt' ? 'VBT' : cat.substring(0, 3).toUpperCase();
-            document.getElementById('addSKU').value = `${prefix}-${Math.floor(100 + Math.random() * 900)}`;
-        }
-
-        function cancelAddPart() {
-            const form = document.getElementById('addPartForm');
-            if (form) form.reset();
-            toggleVBeltField('add');
-            generateAddSKU();
-            switchTab('stock');
-            showToast("Batal menambah", "info");
-        }
-
-        function handleSaveNewPart(e) {
-            e.preventDefault();
-            const category = document.getElementById('addCategory').value;
-            const newP = {
-                id: Date.now().toString(),
-                sku: document.getElementById('addSKU').value.trim(),
-                name: document.getElementById('addName').value.trim(),
-                category: category,
-                vbeltSize: category === 'VBelt' ? document.getElementById('addVBeltSize').value.trim() : '',
-                carModel: document.getElementById('addCarModel').value.trim(),
-                buyPrice: Number(document.getElementById('addBuyPrice').value),
-                sellPrice: Number(document.getElementById('addSellPrice').value),
-                stock: Number(document.getElementById('addStock').value)
-            };
-
-            spareparts.push(newP);
+            spareparts = spareparts.filter(p => p.id !== id);
             saveStorage();
+            closeDrawer();
             renderHeader();
             renderCards();
             renderSummary();
-
-            e.target.reset();
-            toggleVBeltField('add');
-            generateAddSKU();
-            showToast("Sparepart ditambahkan!", "success");
-            switchTab('stock');
+            showToast("Sparepart dihapus", "info");
         }
 
-        function renderSummary() {
-            document.getElementById('summaryTotalTypes').innerText = spareparts.length;
-            
-            let totalUnits = 0;
-            spareparts.forEach(p => {
-                totalUnits += p.stock;
-            });
-
-            document.getElementById('summaryTotalUnits').innerText = totalUnits.toLocaleString('id-ID');
-        }
-
+        // STORE MODAL
         function openEditStoreModal() {
             document.getElementById('inputStoreName').value = storeName;
             document.getElementById('inputStoreSubtitle').value = storeSubtitle;
@@ -1043,36 +1072,32 @@
         }
 
         function saveStoreName() {
-            const valName = document.getElementById('inputStoreName').value.trim();
-            const valSub = document.getElementById('inputStoreSubtitle').value.trim();
-            if (valName) {
-                storeName = valName;
-                storeSubtitle = valSub || "Inventori Sparepart";
-                saveStorage();
-                renderHeader();
-                closeStoreModal();
-                showToast("Identitas toko disimpan", "success");
-            }
+            const newName = document.getElementById('inputStoreName').value.trim();
+            const newSub = document.getElementById('inputStoreSubtitle').value.trim();
+            if (newName) storeName = newName;
+            if (newSub) storeSubtitle = newSub;
+
+            saveStorage();
+            renderHeader();
+            closeStoreModal();
+            showToast("Identitas toko disimpan", "success");
+        }
+
+        // SUMMARY & REPORTS
+        function renderSummary() {
+            const totalTypes = spareparts.length;
+            const totalUnits = spareparts.reduce((acc, p) => acc + p.stock, 0);
+
+            const elTypes = document.getElementById('summaryTotalTypes');
+            const elUnits = document.getElementById('summaryTotalUnits');
+            if (elTypes) elTypes.innerText = totalTypes;
+            if (elUnits) elUnits.innerText = totalUnits;
         }
 
         function exportToCSV() {
-            if (spareparts.length === 0) {
-                showToast("Tidak ada data", "error");
-                return;
-            }
-
             let csvContent = "data:text/csv;charset=utf-8,SKU,Nama Sparepart,Kategori,Ukuran VBelt,Kesesuaian Mobil,Harga Beli,Harga Jual,Stok\n";
             spareparts.forEach(p => {
-                const row = [
-                    `"${p.sku}"`,
-                    `"${p.name}"`,
-                    `"${p.category}"`,
-                    `"${p.vbeltSize || ''}"`,
-                    `"${p.carModel}"`,
-                    p.buyPrice,
-                    p.sellPrice,
-                    p.stock
-                ].join(",");
+                const row = `"${p.sku}","${p.name}","${p.category}","${p.vbeltSize || ''}","${p.carModel}",${p.buyPrice},${p.sellPrice},${p.stock}`;
                 csvContent += row + "\n";
             });
 
@@ -1083,43 +1108,38 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            showToast("Laporan CSV diunduh", "success");
+            showToast("File CSV berhasil diunduh", "success");
         }
 
         function resetToDemoData() {
-            if (confirm("Reset seluruh data ke sampel default?")) {
-                spareparts = [...demoParts];
-                storeName = "Toko Sparepart Jaya";
-                storeSubtitle = "Inventori Sparepart";
-                saveStorage();
-                renderHeader();
-                renderCards();
-                renderSummary();
-                showToast("Reset ke data demo", "info");
-            }
+            spareparts = [...demoParts];
+            saveStorage();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            showToast("Data direset ke default demo", "info");
         }
 
+        // TOAST NOTIFICATIONS
         function showToast(message, type = "info") {
             const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            
-            let bg = "bg-slate-900/90 text-white border-slate-700/80";
-            if (type === "success") bg = "bg-ios-green text-white border-ios-green/80";
-            if (type === "error") bg = "bg-ios-red text-white border-ios-red/80";
+            if (!container) return;
 
-            toast.className = `px-4 py-2.5 rounded-full border text-xs font-semibold shadow-2xl backdrop-blur-md transition-all transform duration-300 opacity-0 translate-y-[-12px] pointer-events-auto ${bg}`;
-            toast.innerText = message;
+            const toast = document.createElement('div');
+            let iconClass = "fa-circle-info text-ios-blue";
+            if (type === "success") iconClass = "fa-circle-check text-ios-green";
+            if (type === "error") iconClass = "fa-triangle-exclamation text-ios-red";
+
+            toast.className = "theme-card border px-3 py-2 rounded-2xl shadow-xl flex items-center gap-2 text-xs animate-sheet pointer-events-auto transition-all duration-300";
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i><span>${escapeHtml(message)}</span>`;
 
             container.appendChild(toast);
 
             setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-[-12px]');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-[-12px]');
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
                 setTimeout(() => toast.remove(), 300);
-            }, 2200);
+            }, 2500);
         }
     </script>
 </body>
