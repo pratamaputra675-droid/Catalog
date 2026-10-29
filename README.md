@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -208,11 +208,11 @@
                     <h3 class="text-xs font-semibold opacity-70 uppercase tracking-wider">Identitas Header</h3>
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Judul Utama</label>
-                        <input type="text" id="set-header-title" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <input type="text" id="set-header-title" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Subtitle</label>
-                        <input type="text" id="set-header-subtitle" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <input type="text" id="set-header-subtitle" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Logo Toko (Galeri)</label>
@@ -224,13 +224,13 @@
                     </div>
                 </div>
 
-                <!-- Tampilan Layar Utama & Tema (FUNGSI BARU) -->
+                <!-- Tampilan Layar Utama & Tema -->
                 <div class="app-bg-card border rounded-2xl p-4 space-y-3">
                     <h3 class="text-xs font-semibold opacity-70 uppercase tracking-wider">Tampilan & Tema</h3>
                     
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Tema Aplikasi</label>
-                        <select id="set-theme" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <select id="set-theme" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                             <option value="theme-dark">Gelap (Dark Mode)</option>
                             <option value="theme-light">Terang (Light Mode)</option>
                             <option value="theme-midnight">Midnight Blue</option>
@@ -239,7 +239,7 @@
 
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Ukuran Teks</label>
-                        <select id="set-text-size" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <select id="set-text-size" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                             <option value="text-size-sm">Kecil</option>
                             <option value="text-size-base">Sedang (Default)</option>
                             <option value="text-size-lg">Besar</option>
@@ -248,7 +248,7 @@
 
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Jarak Kanan-Kiri (Padding Sisi)</label>
-                        <select id="set-padding" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <select id="set-padding" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                             <option value="px-2">Rapat (Kecil - 8px)</option>
                             <option value="px-4">Normal (Sedang - 16px)</option>
                             <option value="px-6">Longgar (Besar - 24px)</option>
@@ -257,7 +257,7 @@
 
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Mode Kartu Item</label>
-                        <select id="set-view-mode" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <select id="set-view-mode" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                             <option value="detailed">Detail Lengkap</option>
                             <option value="compact">Ringkas (Compact)</option>
                         </select>
@@ -265,7 +265,7 @@
 
                     <div>
                         <label class="block text-xs opacity-70 mb-1">Urutkan Daftar Berdasarkan</label>
-                        <select id="set-sort-by" onchange="updateSettingsFromForm()" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
+                        <select id="set-sort-by" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
                             <option value="name-asc">Nama (A - Z)</option>
                             <option value="name-desc">Nama (Z - A)</option>
                             <option value="stock-asc">Stok Terkecil</option>
@@ -275,8 +275,18 @@
 
                     <div class="flex items-center justify-between pt-1">
                         <span class="text-xs">Tampilkan Banner Ringkasan</span>
-                        <input type="checkbox" id="set-show-stats" onchange="updateSettingsFromForm()" class="w-4 h-4 rounded accent-blue-600">
+                        <input type="checkbox" id="set-show-stats" class="w-4 h-4 rounded accent-blue-600">
                     </div>
+                </div>
+
+                <!-- TOMBOL SIMPAN PENGATURAN -->
+                <div class="space-y-2">
+                    <button onclick="saveSettings()" class="w-full bg-blue-600 hover:bg-blue-500 active:scale-98 text-white rounded-xl py-3 font-semibold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Simpan Pengaturan
+                    </button>
+                    <p id="save-settings-toast" class="text-center text-xs text-emerald-400 font-medium hidden">
+                        ✓ Pengaturan berhasil disimpan!
+                    </p>
                 </div>
 
                 <!-- Bagikan Data -->
@@ -746,6 +756,20 @@
 
             applySettings();
             renderItems();
+        }
+
+        // FUNGSI KHUSUS SIMPAN PENGATURAN
+        function saveSettings() {
+            updateSettingsFromForm();
+
+            // Tampilkan pesan sukses sementara
+            const toast = document.getElementById('save-settings-toast');
+            if (toast) {
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 2500);
+            }
         }
 
         function handleLogoUpload(event) {
