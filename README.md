@@ -2,819 +2,1198 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone AutoSpare Inventori</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Inventori Sparepart Mobil</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ios: {
+                            blue: '#007AFF',
+                            green: '#34C759',
+                            red: '#FF3B30',
+                            orange: '#FF9500',
+                            gray: '#8E8E93',
+                            bgDark: '#000000',
+                            cardDark: '#1C1C1E',
+                            borderDark: '#2C2C2E',
+                            inputDark: '#2C2C2E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        :root {
+            --bg-body: #000000;
+            --bg-card: #1C1C1E;
+            --bg-input: #2C2C2E;
+            --border-color: #2C2C2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --header-glass: rgba(28, 28, 30, 0.75);
+        }
+
+        html, body {
+            overflow: hidden !important;
+            height: 100% !important;
+            width: 100vw !important;
+            margin: 0;
+            padding: 0;
+            touch-action: pan-y;
+            background-color: #0d0d0f;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+            color: var(--text-primary);
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        /* Custom Scrollbar for iOS feel */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* TEMA: DARK (DEFAULT) */
-        body.theme-dark {
-            background-color: #0d0d0e;
-            color: #f3f4f6;
+        /* Outer iPhone Screen Simulation Frame */
+        .iphone-frame {
+            width: 100%;
+            max-width: 390px;
+            height: 100dvh;
+            max-height: 844px;
+            background-color: var(--bg-body);
+            border-radius: 0px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
-        body.theme-dark .app-bg-card {
-            background-color: #17171c;
-            border-color: #26262e;
-            color: #f3f4f6;
+
+        @media (min-height: 700px) and (min-width: 420px) {
+            .iphone-frame {
+                height: 94dvh;
+                border-radius: 40px;
+                border: 8px solid #222;
+            }
         }
-        body.theme-dark .app-input-bg {
-            background-color: #26262e;
-            border-color: #383842;
-            color: #ffffff;
+        
+        .theme-card {
+            background-color: var(--bg-card) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary);
         }
-        body.theme-dark .glass-nav {
-            background: rgba(18, 18, 22, 0.85);
+        
+        .theme-input {
+            background-color: var(--bg-input) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .theme-glass {
+            background-color: var(--header-glass) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-top-color: rgba(38, 38, 46, 0.8);
         }
+        
+        .theme-text-primary { color: var(--text-primary) !important; }
+        .theme-text-secondary { color: var(--text-secondary) !important; }
 
-        /* TEMA: LIGHT */
-        body.theme-light {
-            background-color: #f2f2f7;
-            color: #1c1c1e;
-        }
-        body.theme-light .app-bg-card {
-            background-color: #ffffff;
-            border-color: #e5e5ea;
-            color: #1c1c1e;
-        }
-        body.theme-light .app-input-bg {
-            background-color: #e5e5ea;
-            border-color: #d1d1d6;
-            color: #000000;
-        }
-        body.theme-light .glass-nav {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top-color: rgba(200, 200, 206, 0.8);
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .pt-safe { padding-top: max(env(safe-area-inset-top), 10px); }
+        .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 14px); }
 
-        /* TEMA: MIDNIGHT */
-        body.theme-midnight {
-            background-color: #091322;
-            color: #e2e8f0;
+        /* Smooth iOS Sheet Animations */
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
-        body.theme-midnight .app-bg-card {
-            background-color: #112240;
-            border-color: #1d3557;
-            color: #e2e8f0;
-        }
-        body.theme-midnight .app-input-bg {
-            background-color: #1d3557;
-            border-color: #2a4a75;
-            color: #ffffff;
-        }
-        body.theme-midnight .glass-nav {
-            background: rgba(10, 25, 47, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top-color: rgba(29, 53, 87, 0.8);
-        }
-
-        /* UKURAN TEKS */
-        .text-size-sm { font-size: 0.875rem; }
-        .text-size-base { font-size: 1rem; }
-        .text-size-lg { font-size: 1.125rem; }
+        .animate-sheet { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body class="theme-dark min-h-screen pb-24" id="app-body">
+<body id="appBody" class="text-sm selection:bg-ios-blue selection:text-white">
 
-    <!-- Container Utama App (Padding Horizontal & Max Width Diatur Dinamis) -->
-    <div class="max-w-md mx-auto transition-all duration-300 px-4" id="app-container">
+    <!-- IPHONE DEVICE SCREEN CONTAINER FRAME -->
+    <div class="iphone-frame relative">
 
-        <!-- HEADER UTAMA -->
-        <header class="pt-6 pb-4">
-            <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 overflow-hidden">
-                    <!-- Custom Logo Preview -->
-                    <img id="header-logo" src="" alt="Logo" class="w-12 h-12 rounded-2xl object-cover border border-neutral-700 shadow-md hidden shrink-0">
-                    <div class="truncate">
-                        <h1 id="header-title-text" class="text-2xl font-bold tracking-tight leading-tight truncate">
-                            Inventori Sparepart
-                        </h1>
-                        <p id="header-subtitle-text" class="text-xs font-medium opacity-70 truncate">
-                            AutoParts HQ
-                        </p>
-                    </div>
+        <!-- TOP iOS STATUS / NAVIGATION BAR -->
+        <header class="shrink-0 z-30 theme-glass border-b border-slate-800/40 pt-safe pb-2 dynamic-padding transition-all flex items-center justify-between">
+            <div class="flex items-center space-x-1.5">
+                <div id="headerLogoContainer" class="w-6 h-6 rounded-lg bg-gradient-to-tr from-ios-blue to-indigo-600 flex items-center justify-center text-white shadow-md shadow-ios-blue/20 overflow-hidden shrink-0">
+                    <i id="headerLogoIcon" class="fa-solid fa-car-wrench text-[11px]"></i>
+                    <img id="headerLogoImg" src="" alt="Logo" class="w-full h-full object-cover hidden">
                 </div>
-
-                <!-- Quick Action Modal trigger -->
-                <button onclick="openModal()" class="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 transition-transform shrink-0">
-                    <i data-lucide="plus" class="w-5 h-5"></i>
-                </button>
+                <div>
+                    <h1 id="storeNameText" onclick="openEditStoreModal()" class="font-bold theme-text-primary tracking-tight leading-none flex items-center gap-1 cursor-pointer active:opacity-70 text-[13px]">
+                        <span>Toko Sparepart Jaya</span>
+                        <i class="fa-solid fa-chevron-right text-[7px] theme-text-secondary opacity-60"></i>
+                    </h1>
+                    <span id="storeSubtitleText" onclick="openEditStoreModal()" class="text-[9px] theme-text-secondary cursor-pointer active:opacity-70 font-normal">Inventori Sparepart</span>
+                </div>
             </div>
+
+            <!-- Alert Badge -->
+            <button onclick="filterEmptyStock()" class="relative w-6 h-6 theme-card rounded-full border border-slate-700/50 flex items-center justify-center active:scale-90 transition" title="Stok Habis">
+                <i class="fa-solid fa-triangle-exclamation text-ios-orange text-[10px]"></i>
+                <span id="emptyStockBadge" class="absolute -top-1 -right-1 bg-ios-red text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center hidden border-2 border-black">0</span>
+            </button>
         </header>
 
-        <!-- VIEWS / PAGES -->
-        <main>
-            <!-- VIEW 1: UTAMA / INVENTORI -->
-            <section id="view-inventory" class="space-y-4">
-                
-                <!-- Summary Stats Bar -->
-                <div id="stats-banner" class="grid grid-cols-2 gap-3">
-                    <div class="app-bg-card border rounded-2xl p-3 flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">
-                            <i data-lucide="package" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] opacity-70 font-medium">Total Item</p>
-                            <p id="stat-total-items" class="text-base font-bold">0</p>
-                        </div>
-                    </div>
-                    <div class="app-bg-card border rounded-2xl p-3 flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
-                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] opacity-70 font-medium">Stok Kritis</p>
-                            <p id="stat-low-stock" class="text-base font-bold text-amber-500">0</p>
-                        </div>
-                    </div>
+        <!-- MAIN SCROLLABLE INNER VIEW CANVAS -->
+        <main class="flex-1 overflow-y-auto no-scrollbar py-1.5 space-y-1.5 pb-20 dynamic-padding">
+
+            <!-- VIEW 1: STOK / INVENTORY LIST -->
+            <section id="viewStock" class="space-y-1.5">
+
+                <!-- SEARCH & FILTER INPUT BAR -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 theme-text-secondary text-xs"></i>
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari nama, SKU, atau mobil..." class="w-full theme-input border rounded-2xl pl-8 pr-8 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full theme-card border flex items-center justify-center text-[10px] theme-text-secondary hidden">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
 
-                <!-- Control Bar: Search & Category Filter -->
-                <div class="space-y-2.5">
-                    <!-- Multi-term Search Field -->
-                    <div class="relative">
-                        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-neutral-400"></i>
-                        <input type="text" id="search-input" oninput="renderItems()" placeholder="Cari sparepart, kode, merek, atau mobil..." 
-                               class="w-full app-input-bg border rounded-xl py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-blue-500 transition-colors">
-                    </div>
-
-                    <!-- Category Chips -->
-                    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-none text-xs" id="category-chips">
-                        <!-- Populated by JS -->
-                    </div>
+                <!-- CATEGORY CHIPS SCROLLABLE HORIZONTAL -->
+                <div class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-[10px]">
+                    <button onclick="setFilterChip('ALL', this)" class="chip-btn active-chip px-2.5 py-1 rounded-full bg-ios-blue text-white font-semibold shrink-0 transition active:scale-95">Semua</button>
+                    <button onclick="setFilterChip('Mesin', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card theme-text-secondary font-medium shrink-0 transition active:scale-95 border">Mesin</button>
+                    <button onclick="setFilterChip('VBelt', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card theme-text-secondary font-medium shrink-0 transition active:scale-95 border">VBelt</button>
+                    <button onclick="setFilterChip('Rem & Kaki-kaki', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card theme-text-secondary font-medium shrink-0 transition active:scale-95 border">Rem & Kaki</button>
+                    <button onclick="setFilterChip('Oli & Cairan', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card theme-text-secondary font-medium shrink-0 transition active:scale-95 border">Oli & Cairan</button>
+                    <button onclick="setFilterChip('Kelistrikan', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card theme-text-secondary font-medium shrink-0 transition active:scale-95 border">Kelistrikan</button>
+                    <button onclick="setFilterChip('EMPTY', this)" class="chip-btn px-2.5 py-1 rounded-full theme-card text-ios-orange border border-ios-orange/30 font-medium shrink-0 transition active:scale-95">Stok Habis</button>
                 </div>
 
-                <!-- Inventory Item List Container -->
-                <div id="inventory-list" class="space-y-2.5">
-                    <!-- Populated dynamically -->
+                <!-- PARTS LIST CONTAINER -->
+                <div id="partsListContainer" class="space-y-1.5"></div>
+
+                <!-- EMPTY STATE SEARCH OR DATA -->
+                <div id="emptyState" class="hidden py-8 text-center space-y-2 theme-card rounded-2xl border">
+                    <i class="fa-solid fa-box-open text-2xl theme-text-secondary"></i>
+                    <p class="text-xs theme-text-secondary font-medium">Sparepart tidak ditemukan</p>
                 </div>
 
-                <!-- Empty State -->
-                <div id="empty-state" class="hidden text-center py-12">
-                    <i data-lucide="inbox" class="w-12 h-12 text-neutral-500 mx-auto mb-2 opacity-50"></i>
-                    <p class="text-sm font-medium opacity-70">Tidak ada sparepart ditemukan</p>
-                </div>
             </section>
 
-            <!-- VIEW 2: LAPORAN / STATISTIK -->
-            <section id="view-reports" class="hidden space-y-4">
-                <h2 class="text-lg font-bold">Ringkasan Laporan</h2>
-                <div class="app-bg-card border rounded-2xl p-4 space-y-3">
-                    <div class="flex justify-between items-center text-sm border-b border-neutral-700/40 pb-2">
-                        <span class="opacity-70">Total Jenis Barang</span>
-                        <span id="rep-total-types" class="font-bold">0</span>
-                    </div>
-                    <div class="flex justify-between items-center text-sm border-b border-neutral-700/40 pb-2">
-                        <span class="opacity-70">Total Kuantitas Stok</span>
-                        <span id="rep-total-qty" class="font-bold">0</span>
-                    </div>
-                    <div class="flex justify-between items-center text-sm border-b border-neutral-700/40 pb-2">
-                        <span class="opacity-70">Estimasi Nilai Modal</span>
-                        <span id="rep-total-cost" class="font-bold text-emerald-500">Rp 0</span>
-                    </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="opacity-70">Estimasi Nilai Jual</span>
-                        <span id="rep-total-asset" class="font-bold text-blue-500">Rp 0</span>
-                    </div>
+        <!-- VIEW 2: TAMBAH SPAREPART BARU -->
+        <section id="viewAddPart" class="hidden space-y-3">
+            <div class="theme-card border rounded-3xl p-4 space-y-3.5 shadow-lg">
+                <div class="flex items-center justify-between border-b border-slate-800/40 pb-2.5">
+                    <h2 class="text-sm font-bold theme-text-primary flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-ios-blue"></i> Tambah Part Baru
+                    </h2>
+                    <span class="text-[10px] theme-text-secondary">Lengkapi Form</span>
                 </div>
-            </section>
 
-            <!-- VIEW 3: PENGATURAN -->
-            <section id="view-settings" class="hidden space-y-5">
-                <h2 class="text-lg font-bold">Pengaturan Aplikasi</h2>
-
-                <!-- Atur Header & Logo -->
-                <div class="app-bg-card border rounded-2xl p-4 space-y-3">
-                    <h3 class="text-xs font-semibold opacity-70 uppercase tracking-wider">Identitas Header</h3>
+                <form id="addPartForm" onsubmit="handleSaveNewPart(event)" class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-xs opacity-70 mb-1">Judul Utama</label>
-                        <input type="text" id="set-header-title" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Subtitle</label>
-                        <input type="text" id="set-header-subtitle" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Logo Toko (Galeri)</label>
-                        <div class="flex items-center gap-2">
-                            <input type="file" id="logo-input" accept="image/*" onchange="handleLogoUpload(event)" class="hidden">
-                            <button onclick="document.getElementById('logo-input').click()" class="app-input-bg hover:opacity-80 border rounded-xl px-3 py-2 text-xs font-medium">Pilih Foto</button>
-                            <button onclick="removeLogo()" class="text-xs text-red-500 hover:underline">Hapus Logo</button>
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kode / SKU</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="addSKU" required placeholder="SKU-1001" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                            <button type="button" onclick="generateAddSKU()" class="theme-card border px-3.5 py-2.5 rounded-2xl theme-text-secondary font-medium active:scale-95 transition">Auto</button>
                         </div>
                     </div>
+
+                    <div>
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Nama Sparepart</label>
+                        <input type="text" id="addName" required placeholder="Contoh: Kampas Rem Depan Avanza" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kategori</label>
+                            <select id="addCategory" required onchange="toggleVBeltField('add')" class="w-full theme-input border rounded-2xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                                <option value="Mesin">Mesin</option>
+                                <option value="VBelt">VBelt</option>
+                                <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
+                                <option value="Oli & Cairan">Oli & Cairan</option>
+                                <option value="Kelistrikan">Kelistrikan</option>
+                                <option value="Bodi & Aksesoris">Bodi & Aksesoris</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kesesuaian Mobil</label>
+                            <input type="text" id="addCarModel" required placeholder="Avanza / Xenia" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                        </div>
+                    </div>
+
+                    <!-- VBELT SIZE FIELD (ADD) -->
+                    <div id="addVBeltSizeContainer" class="hidden">
+                        <label class="block text-[10px] font-semibold text-ios-orange uppercase mb-1 tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
+                        </label>
+                        <input type="text" id="addVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-ios-orange/40 rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-ios-orange">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Beli (Rp)</label>
+                            <input type="number" id="addBuyPrice" min="0" required placeholder="150000" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Jual (Rp)</label>
+                            <input type="number" id="addSellPrice" min="0" required placeholder="200000" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Jumlah Stok Awal</label>
+                        <input type="number" id="addStock" min="0" required placeholder="10" class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" onclick="cancelAddPart()" class="w-1/3 min-h-[44px] theme-card border theme-text-secondary font-semibold rounded-2xl transition flex items-center justify-center space-x-1 active:scale-95">
+                            <i class="fa-solid fa-xmark"></i>
+                            <span>Batal</span>
+                        </button>
+                        <button type="submit" class="w-2/3 min-h-[44px] bg-ios-green hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-green/20">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Simpan Sparepart</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- VIEW 3: PENGATURAN & RINGKASAN DATA -->
+        <section id="viewSettings" class="hidden space-y-3">
+            
+            <!-- Quick Summary Metrics -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="theme-card border p-3.5 rounded-3xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold tracking-wider">Total Item</span>
+                    <h4 id="summaryTotalTypes" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
+                </div>
+                <div class="theme-card border p-3.5 rounded-3xl">
+                    <span class="text-[10px] theme-text-secondary uppercase font-semibold tracking-wider">Total Unit Stok</span>
+                    <h4 id="summaryTotalUnits" class="text-xl font-bold theme-text-primary mt-0.5">0</h4>
+                </div>
+            </div>
+
+            <!-- TAMPILAN & KUSTOMISASI -->
+            <div class="theme-card border rounded-3xl p-4 space-y-3.5">
+                <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-palette text-ios-blue"></i> Tampilan Header & Tema
+                </h3>
+
+                <!-- Logo Header Picker -->
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-semibold theme-text-secondary uppercase tracking-wider">Logo Header</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        <button onclick="setLogoPreset('fa-car-wrench')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
+                            <i class="fa-solid fa-car-wrench"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-car')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
+                            <i class="fa-solid fa-car"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-gear')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-screwdriver-wrench')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </button>
+                        <button onclick="setLogoPreset('fa-warehouse')" class="logo-preset-btn p-2 rounded-2xl theme-input border flex items-center justify-center theme-text-primary active:scale-90 transition text-sm">
+                            <i class="fa-solid fa-warehouse"></i>
+                        </button>
+                    </div>
+
+                    <!-- Upload Gambar Logo dari Galeri -->
+                    <div class="pt-1">
+                        <label for="logoFileInput" class="w-full min-h-[40px] theme-input border border-dashed rounded-2xl px-3 flex items-center justify-center gap-2 text-xs theme-text-secondary cursor-pointer active:scale-98 transition">
+                            <i class="fa-solid fa-image text-ios-blue"></i>
+                            <span id="uploadLogoText">Upload Logo dari Galeri</span>
+                        </label>
+                        <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" class="hidden">
+                    </div>
                 </div>
 
-                <!-- Tampilan Layar Utama & Tema -->
-                <div class="app-bg-card border rounded-2xl p-4 space-y-3">
-                    <h3 class="text-xs font-semibold opacity-70 uppercase tracking-wider">Tampilan & Tema</h3>
-                    
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Tema Aplikasi</label>
-                        <select id="set-theme" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                            <option value="theme-dark">Gelap (Dark Mode)</option>
-                            <option value="theme-light">Terang (Light Mode)</option>
-                            <option value="theme-midnight">Midnight Blue</option>
-                        </select>
+                <!-- Penyesuaian Jarak Sisi Kanan/Kiri (Padding) -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="theme-text-secondary font-medium">Jarak Sisi Kanan/Kiri</span>
+                        <span id="paddingValText" class="theme-text-primary font-mono text-[11px]">px-2</span>
                     </div>
+                    <input type="range" id="paddingRange" min="1" max="6" step="1" value="2" oninput="changePadding(this.value)" class="w-full accent-ios-blue cursor-pointer">
+                </div>
 
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Ukuran Teks</label>
-                        <select id="set-text-size" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                            <option value="text-size-sm">Kecil</option>
-                            <option value="text-size-base">Sedang (Default)</option>
-                            <option value="text-size-lg">Besar</option>
-                        </select>
+                <!-- Ukuran Teks (Font Size) -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="theme-text-secondary font-medium">Ukuran Teks Aplikasi</span>
+                        <span id="textSizeText" class="theme-text-primary font-mono text-[11px]">Sedang</span>
                     </div>
-
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Jarak Kanan-Kiri (Padding Sisi)</label>
-                        <select id="set-padding" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                            <option value="px-2">Rapat (Kecil - 8px)</option>
-                            <option value="px-4">Normal (Sedang - 16px)</option>
-                            <option value="px-6">Longgar (Besar - 24px)</option>
-                        </select>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setTextSize('sm')" id="btnTextSm" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Kecil</button>
+                        <button onclick="setTextSize('base')" id="btnTextBase" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Sedang</button>
+                        <button onclick="setTextSize('lg')" id="btnTextLg" class="px-2 py-2 theme-input border theme-text-secondary text-xs rounded-2xl transition active:scale-95">Besar</button>
                     </div>
+                </div>
 
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Mode Kartu Item</label>
-                        <select id="set-view-mode" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                            <option value="detailed">Detail Lengkap</option>
-                            <option value="compact">Ringkas (Compact)</option>
-                        </select>
+                <!-- Tema Latar Belakang Presets -->
+                <div class="space-y-1.5 pt-1">
+                    <span class="block theme-text-secondary font-medium text-xs">Preset Tema Latar Belakang</span>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                        <button onclick="setTheme('dark-blue')" title="Gelap Biru" class="h-9 rounded-2xl bg-[#000000] border-2 border-ios-blue/60 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Gelap</button>
+                        <button onclick="setTheme('midnight')" title="Midnight Black" class="h-9 rounded-2xl bg-[#050508] border border-slate-800 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Hitam</button>
+                        <button onclick="setTheme('slate')" title="Slate Grey" class="h-9 rounded-2xl bg-[#0f172a] border border-slate-700 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Slate</button>
                     </div>
-
-                    <div>
-                        <label class="block text-xs opacity-70 mb-1">Urutkan Daftar Berdasarkan</label>
-                        <select id="set-sort-by" class="w-full app-input-bg border rounded-xl p-2.5 text-sm">
-                            <option value="name-asc">Nama (A - Z)</option>
-                            <option value="name-desc">Nama (Z - A)</option>
-                            <option value="stock-asc">Stok Terkecil</option>
-                            <option value="stock-desc">Stok Terbanyak</option>
-                        </select>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setTheme('emerald')" title="Emerald Green" class="h-9 rounded-2xl bg-[#022c22] border border-emerald-800 active:scale-95 transition flex items-center justify-center text-xs text-slate-200 font-medium">Hijau</button>
+                        <button onclick="setTheme('light-clean')" title="Terang Putih" class="h-9 rounded-2xl bg-[#f2f2f7] border border-slate-300 active:scale-95 transition flex items-center justify-center text-xs text-slate-800 font-semibold">Terang</button>
+                        <button onclick="setTheme('light-soft')" title="Terang Soft Slate" class="h-9 rounded-2xl bg-[#e5e5ea] border border-slate-400 active:scale-95 transition flex items-center justify-center text-xs text-slate-800 font-semibold">Soft Terang</button>
                     </div>
+                </div>
 
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="text-xs">Tampilkan Banner Ringkasan</span>
-                        <input type="checkbox" id="set-show-stats" class="w-4 h-4 rounded accent-blue-600">
+                <!-- KUSTOMISASI WARNA BEBAS -->
+                <div class="space-y-2 pt-2 border-t border-slate-800/40">
+                    <span class="block theme-text-secondary font-semibold text-[10px] uppercase tracking-wider">Kustom Warna Manual</span>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="theme-input p-2 rounded-2xl border flex items-center justify-between">
+                            <span class="theme-text-secondary text-[11px]">Warna Latar</span>
+                            <input type="color" id="customBgPicker" onchange="setCustomBgColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
+                        </div>
+                        <div class="theme-input p-2 rounded-2xl border flex items-center justify-between">
+                            <span class="theme-text-secondary text-[11px]">Warna Teks</span>
+                            <input type="color" id="customTextPicker" onchange="setCustomTextColor(this.value)" class="w-7 h-7 bg-transparent rounded cursor-pointer border-0">
+                        </div>
                     </div>
                 </div>
 
                 <!-- TOMBOL SIMPAN PENGATURAN -->
-                <div class="space-y-2">
-                    <button onclick="saveSettings()" class="w-full bg-blue-600 hover:bg-blue-500 active:scale-98 text-white rounded-xl py-3 font-semibold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all">
-                        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Simpan Pengaturan
+                <div class="pt-1">
+                    <button onclick="saveAppSettingsExplicit()" class="w-full min-h-[44px] bg-ios-blue hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-blue/20">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan</span>
                     </button>
-                    <p id="save-settings-toast" class="text-center text-xs text-emerald-400 font-medium hidden">
-                        ✓ Pengaturan berhasil disimpan!
-                    </p>
                 </div>
+            </div>
 
-                <!-- Bagikan Data -->
-                <div class="app-bg-card border rounded-2xl p-4 space-y-3">
-                    <h3 class="text-xs font-semibold opacity-70 uppercase tracking-wider">Bagikan Data</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="shareInventoryData('wa')" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl p-2.5 text-xs font-medium flex items-center justify-center gap-2">
-                            <i data-lucide="message-square" class="w-4 h-4"></i> WhatsApp
-                        </button>
-                        <button onclick="shareInventoryData('copy')" class="app-input-bg hover:opacity-80 border rounded-xl p-2.5 text-xs font-medium flex items-center justify-center gap-2">
-                            <i data-lucide="copy" class="w-4 h-4"></i> Salin Teks
-                        </button>
-                    </div>
+            <!-- Store Actions Card -->
+            <div class="theme-card border rounded-3xl p-4 space-y-2.5">
+                <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider">Pengelolaan Data</h3>
+                
+                <div class="space-y-2">
+                    <button onclick="openEditStoreModal()" class="w-full min-h-[44px] theme-input border rounded-2xl px-3.5 flex items-center justify-between text-xs theme-text-primary active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-store text-ios-blue"></i> Ubah Identitas Toko</span>
+                        <i class="fa-solid fa-chevron-right theme-text-secondary text-[10px]"></i>
+                    </button>
+
+                    <button onclick="exportToCSV()" class="w-full min-h-[44px] theme-input border rounded-2xl px-3.5 flex items-center justify-between text-xs theme-text-primary active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-file-csv text-ios-green"></i> Ekspor Laporan (CSV)</span>
+                        <i class="fa-solid fa-download theme-text-secondary text-[10px]"></i>
+                    </button>
+
+                    <button onclick="resetToDemoData()" class="w-full min-h-[44px] theme-input border border-ios-red/30 rounded-2xl px-3.5 flex items-center justify-between text-xs text-ios-red active:scale-98 transition">
+                        <span class="flex items-center gap-2.5"><i class="fa-solid fa-rotate-left"></i> Reset Data ke Default</span>
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
                 </div>
-            </section>
+            </div>
+
+        </section>
+
         </main>
 
-        <!-- NAVIGASI BAWAH (RATA & SIMETRIS) -->
-        <nav class="fixed bottom-0 left-0 right-0 glass-nav border-t z-40">
-            <div class="max-w-md mx-auto flex items-center justify-around px-2 py-2 text-center">
-                <button onclick="switchTab('inventory')" id="nav-inventory" class="flex-1 flex flex-col items-center py-1 text-blue-500 transition-colors">
-                    <i data-lucide="box" class="w-5 h-5 mb-0.5"></i>
-                    <span class="text-[10px] font-medium">Stok</span>
+        <!-- MOBILE BOTTOM TAB BAR (iOS NATIVE TAB BAR) -->
+        <nav class="absolute bottom-0 left-0 right-0 w-full theme-glass border-t border-slate-800/40 z-40 px-4 py-1.5 pb-safe">
+            <div class="grid grid-cols-3 gap-1 text-center">
+                
+                <button onclick="switchTab('stock')" id="nav-stock" class="nav-btn text-ios-blue flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                    <i class="fa-solid fa-boxes-stacked text-base"></i>
+                    <span class="text-[9px] font-medium mt-0.5">Stok</span>
                 </button>
-                <button onclick="switchTab('reports')" id="nav-reports" class="flex-1 flex flex-col items-center py-1 opacity-60 hover:opacity-100 transition-colors">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5 mb-0.5"></i>
-                    <span class="text-[10px] font-medium">Laporan</span>
+
+                <button onclick="switchTab('add')" id="nav-add" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                    <i class="fa-solid fa-circle-plus text-base"></i>
+                    <span class="text-[9px] font-medium mt-0.5">Tambah</span>
                 </button>
-                <button onclick="switchTab('settings')" id="nav-settings" class="flex-1 flex flex-col items-center py-1 opacity-60 hover:opacity-100 transition-colors">
-                    <i data-lucide="settings" class="w-5 h-5 mb-0.5"></i>
-                    <span class="text-[10px] font-medium">Pengaturan</span>
+
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn theme-text-secondary flex flex-col items-center py-1 rounded-2xl transition active:scale-90">
+                    <i class="fa-solid fa-gear text-base"></i>
+                    <span class="text-[9px] font-medium mt-0.5">Pengaturan</span>
                 </button>
-                <button onclick="openModal()" class="flex-1 flex flex-col items-center py-1 text-blue-500 hover:text-blue-400 transition-colors">
-                    <i data-lucide="plus-circle" class="w-5 h-5 mb-0.5"></i>
-                    <span class="text-[10px] font-medium">Tambah</span>
-                </button>
+
             </div>
         </nav>
 
-        <!-- MODAL FORM TAMBAH / EDIT ITEM (DENGAN TOMBOL HAPUS) -->
-        <div id="modal-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-            <div class="app-bg-card w-full max-w-md rounded-t-3xl sm:rounded-3xl border p-5 space-y-4 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center pb-2 border-b border-neutral-700/40">
-                    <h3 id="modal-title" class="font-bold text-base">Tambah Sparepart</h3>
-                    <button onclick="closeModal()" class="opacity-60 hover:opacity-100 p-1">
-                        <i data-lucide="x" class="w-5 h-5"></i>
+        <!-- EDIT / DETAIL iOS SHEET MODAL -->
+        <div id="editDrawer" class="absolute inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+            <div class="theme-card border-t border-slate-700/50 w-full rounded-t-[32px] p-4 space-y-3 max-h-[85%] overflow-y-auto no-scrollbar animate-sheet shadow-2xl">
+                
+                <!-- Sheet Drag Indicator Handle -->
+                <div class="w-12 h-1 bg-slate-600/50 rounded-full mx-auto mb-1"></div>
+
+                <div class="flex items-center justify-between border-b border-slate-800/40 pb-2.5">
+                    <h3 class="text-sm font-bold theme-text-primary flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square text-ios-blue"></i> Edit Sparepart
+                    </h3>
+                    <button onclick="closeDrawer()" class="w-7 h-7 rounded-full theme-input border flex items-center justify-center theme-text-secondary active:scale-90 transition">
+                        <i class="fa-solid fa-xmark text-xs"></i>
                     </button>
                 </div>
 
-                <form id="part-form" onsubmit="savePart(event)" class="space-y-3">
-                    <input type="hidden" id="part-id">
+                <form onsubmit="handleSaveEditPart(event)" class="space-y-3 text-xs">
+                    <input type="hidden" id="editPartId">
 
                     <div>
-                        <label class="block text-xs font-medium opacity-70 mb-1">Nama Sparepart *</label>
-                        <input type="text" id="part-name" required placeholder="Contoh: Kampas Rem Depan" 
-                               class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Nama Part</label>
+                        <input type="text" id="editName" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Kode OEM / Part *</label>
-                            <input type="text" id="part-code" required placeholder="Contoh: 04465-YZZE1" 
-                                   class="w-full app-input-bg border rounded-xl p-2.5 text-sm font-mono focus:outline-none focus:border-blue-500">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kode / SKU</label>
+                            <input type="text" id="editSKU" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Kategori *</label>
-                            <select id="part-category" onchange="toggleVbeltSizeField()" required class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kategori</label>
+                            <select id="editCategory" required onchange="toggleVBeltField('edit')" class="w-full theme-input border rounded-2xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                                 <option value="Mesin">Mesin</option>
-                                <option value="Rem">Rem</option>
-                                <option value="Kaki-kaki">Kaki-kaki</option>
+                                <option value="VBelt">VBelt</option>
+                                <option value="Rem & Kaki-kaki">Rem & Kaki-kaki</option>
+                                <option value="Oli & Cairan">Oli & Cairan</option>
                                 <option value="Kelistrikan">Kelistrikan</option>
-                                <option value="V-Belt">V-Belt</option>
+                                <option value="Bodi & Aksesoris">Bodi & Aksesoris</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Input Khusus V-Belt -->
-                    <div id="vbelt-field-container" class="hidden">
-                        <label class="block text-xs font-medium text-purple-400 mb-1">Ukuran V-Belt *</label>
-                        <input type="text" id="part-vbelt" placeholder="Contoh: 6PK1880" 
-                               class="w-full app-input-bg border border-purple-500/50 rounded-xl p-2.5 text-sm font-mono focus:outline-none focus:border-purple-500">
+                    <!-- VBELT SIZE FIELD (EDIT) -->
+                    <div id="editVBeltSizeContainer" class="hidden">
+                        <label class="block text-[10px] font-semibold text-ios-orange uppercase mb-1 tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-ruler-horizontal text-[10px]"></i> Ukuran VBelt
+                        </label>
+                        <input type="text" id="editVBeltSize" placeholder="Contoh: 4PK 855 / K-38 / 6PK 1210" class="w-full theme-input border border-ios-orange/40 rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-ios-orange">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium opacity-70 mb-1">Jenis Mobil / Compatibility</label>
-                        <input type="text" id="part-car" placeholder="Contoh: Avanza / Xenia 2012-2020" 
-                               class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Kesesuaian Mobil</label>
+                        <input type="text" id="editCarModel" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Stok Saat Ini</label>
-                            <input type="number" id="part-stock" min="0" required placeholder="10" 
-                                   class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Beli (Rp)</label>
+                            <input type="number" id="editBuyPrice" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Merek Sparepart</label>
-                            <input type="text" id="part-location" placeholder="Contoh: Denso / Aspira / Genuine" 
-                                   class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
+                            <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Harga Jual (Rp)</label>
+                            <input type="number" id="editSellPrice" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Harga Beli (Modal)</label>
-                            <input type="number" id="part-cost" min="0" placeholder="Rp 0" 
-                                   class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium opacity-70 mb-1">Harga Jual *</label>
-                            <input type="number" id="part-price" min="0" required placeholder="Rp 0" 
-                                   class="w-full app-input-bg border rounded-xl p-2.5 text-sm focus:outline-none focus:border-blue-500">
-                        </div>
+                    <div>
+                        <label class="block text-[10px] font-semibold theme-text-secondary uppercase mb-1 tracking-wider">Stok Saat Ini</label>
+                        <input type="number" id="editStock" required class="w-full theme-input border rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
                     </div>
 
-                    <div class="pt-2 flex flex-col gap-2">
-                        <div class="flex gap-3">
-                            <button type="button" onclick="closeModal()" class="flex-1 app-input-bg hover:opacity-80 py-3 rounded-xl font-medium text-sm">Batal</button>
-                            <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-medium text-sm">Simpan</button>
-                        </div>
-                        <!-- TOMBOL HAPUS SPAREPART -->
-                        <button type="button" id="btn-delete-part" onclick="deleteCurrentPart()" class="hidden w-full bg-red-600/20 hover:bg-red-600/30 text-red-500 border border-red-500/30 py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition-colors">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus Sparepart
+                    <div class="pt-2 flex gap-2">
+                        <button type="button" onclick="deletePartFromDrawer()" class="w-1/3 min-h-[44px] bg-ios-red/10 border border-ios-red/30 text-ios-red font-semibold rounded-2xl transition flex items-center justify-center space-x-1 active:scale-95">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>Hapus</span>
+                        </button>
+                        <button type="submit" class="w-2/3 min-h-[44px] bg-ios-blue hover:opacity-90 text-white font-semibold rounded-2xl transition flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-ios-blue/20">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Simpan Edit</span>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
 
+        <!-- MODAL EDIT STORE NAME & SUBTITLE -->
+        <div id="storeModal" class="absolute inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+            <div class="theme-card border rounded-3xl w-full max-w-xs p-4 space-y-3 shadow-2xl animate-sheet">
+                <h3 class="text-xs font-bold theme-text-primary uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-store text-ios-blue"></i> Identitas Toko
+                </h3>
+                <div>
+                    <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold tracking-wider">Nama Toko</label>
+                    <input type="text" id="inputStoreName" placeholder="Toko Sparepart Jaya" class="w-full theme-input border rounded-2xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                </div>
+                <div>
+                    <label class="block text-[10px] theme-text-secondary uppercase mb-1 font-semibold tracking-wider">Subtitle</label>
+                    <input type="text" id="inputStoreSubtitle" placeholder="Inventori Sparepart" class="w-full theme-input border rounded-2xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-ios-blue/50">
+                </div>
+                <div class="flex justify-end space-x-2 pt-1 text-xs">
+                    <button type="button" onclick="closeStoreModal()" class="px-3.5 py-2 theme-input border theme-text-secondary rounded-2xl font-medium active:scale-95 transition">Batal</button>
+                    <button type="button" onclick="saveStoreName()" class="px-3.5 py-2 bg-ios-blue text-white rounded-2xl font-semibold active:scale-95 transition shadow-md shadow-ios-blue/20">Simpan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOAST NOTIFICATION CONTAINER -->
+        <div id="toastContainer" class="absolute top-14 left-0 right-0 z-50 flex flex-col items-center pointer-events-none px-4 space-y-2"></div>
+
     </div>
 
-    <!-- Script Aplikasi -->
+    <!-- APP JAVASCRIPT LOGIC -->
     <script>
-        // Initial Mock Data
-        let inventory = [
-            { id: '1', name: 'Filter Oli Mesin', code: '15601-BZ010', category: 'Mesin', car: 'Avanza / Xenia / Rush', stock: 24, costPrice: 22000, price: 35000, location: 'Toyota OEM', vbeltSize: '' },
-            { id: '2', name: 'Kampas Rem Depan (Brake Pad)', code: '04465-YZZE1', category: 'Rem', car: 'Innova / Fortuner 2016+', stock: 3, costPrice: 270000, price: 380000, location: 'Akebono', vbeltSize: '' },
-            { id: '3', name: 'Shockbreaker Belakang', code: '48530-BZ120', category: 'Kaki-kaki', car: 'Xpander / Livina', stock: 6, costPrice: 410000, price: 520000, location: 'KYB Kayaba', vbeltSize: '' },
-            { id: '4', name: 'Busi Iridium Tough', code: 'VCH16', category: 'Kelistrikan', car: 'Brio / Jazz GK5', stock: 18, costPrice: 70000, price: 95000, location: 'Denso', vbeltSize: '' },
-            { id: '5', name: 'Fan Belt / Tali Kipas', code: '9004A-91049', category: 'V-Belt', car: 'Avanza / Xenia 1.3', stock: 12, costPrice: 78000, price: 110000, location: 'Bando', vbeltSize: '6PK1880' }
+        // DEMO INITIAL DATA
+        const demoParts = [
+            { id: '1', sku: 'AVZ-FLT-01', name: 'Filter Oli Avanza/Xenia', category: 'Oli & Cairan', vbeltSize: '', carModel: 'Avanza, Xenia, Rush', buyPrice: 28000, sellPrice: 40000, stock: 24 },
+            { id: '2', sku: 'JZ-BRK-02', name: 'Kampas Rem Depan Jazz RS', category: 'Rem & Kaki-kaki', vbeltSize: '', carModel: 'Honda Jazz GE8/GK5', buyPrice: 185000, sellPrice: 250000, stock: 3 },
+            { id: '3', sku: 'VBT-AVZ-03', name: 'Tali Kipas / Fan Belt Alternator', category: 'VBelt', vbeltSize: '4PK 855', carModel: 'Avanza / Xenia 1.3', buyPrice: 45000, sellPrice: 65000, stock: 8 },
+            { id: '4', sku: 'INV-SPK-04', name: 'Busi Iridium Tough Innova', category: 'Kelistrikan', vbeltSize: '', carModel: 'Innova Bensin 2.0', buyPrice: 75000, sellPrice: 110000, stock: 12 },
+            { id: '5', sku: 'XPN-OIL-05', name: 'Oli Shell Helix HX8 5W-30 (4L)', category: 'Oli & Cairan', vbeltSize: '', carModel: 'Xpander, Livina', buyPrice: 320000, sellPrice: 410000, stock: 1 },
+            { id: '6', sku: 'AGY-CLT-06', name: 'Kopling Set Agya/Ayla 1.2', category: 'Mesin', vbeltSize: '', carModel: 'Toyota Agya, Ayla', buyPrice: 650000, sellPrice: 820000, stock: 0 }
         ];
 
-        let categories = ['All', 'Mesin', 'Rem', 'Kaki-kaki', 'Kelistrikan', 'V-Belt', 'Lainnya'];
-        let selectedCategory = 'All';
+        // STATE
+        let spareparts = [];
+        let storeName = "Toko Sparepart Jaya";
+        let storeSubtitle = "Inventori Sparepart";
+        let activeFilterChip = "ALL";
 
-        let settings = {
-            title: 'Inventori Sparepart',
-            subtitle: 'AutoParts HQ',
-            logo: '',
-            viewMode: 'detailed',
-            sortBy: 'name-asc',
-            showStats: true,
-            theme: 'theme-dark',
-            textSize: 'text-size-base',
-            padding: 'px-4'
+        // APP SETTINGS STATE
+        let appSettings = {
+            logoType: 'preset',
+            logoValue: 'fa-car-wrench',
+            padding: 2,
+            textSize: 'base',
+            theme: 'dark-blue',
+            customBg: '',
+            customText: ''
         };
 
-        // Window Onload Initialization
+        // INIT
         window.onload = function() {
-            lucide.createIcons();
-            renderCategoryChips();
-            applySettings();
-            renderItems();
-            updateStats();
+            loadStorage();
+            applyAppSettings();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            generateAddSKU();
         };
 
-        // Tab Switching
-        function switchTab(tab) {
-            ['inventory', 'reports', 'settings'].forEach(t => {
-                const view = document.getElementById(`view-${t}`);
-                const nav = document.getElementById(`nav-${t}`);
-                if (t === tab) {
-                    view.classList.remove('hidden');
-                    nav.className = 'flex-1 flex flex-col items-center py-1 text-blue-500 transition-colors';
-                } else {
-                    view.classList.add('hidden');
-                    nav.className = 'flex-1 flex flex-col items-center py-1 opacity-60 hover:opacity-100 transition-colors';
+        function loadStorage() {
+            try {
+                const localParts = localStorage.getItem('mob_spareparts');
+                const localStore = localStorage.getItem('mob_store_name');
+                const localSub = localStorage.getItem('mob_store_sub');
+                const localSettings = localStorage.getItem('mob_app_settings');
+
+                spareparts = localParts ? JSON.parse(localParts) : [...demoParts];
+                storeName = localStore || "Toko Sparepart Jaya";
+                storeSubtitle = localSub || "Inventori Sparepart";
+                if (localSettings) {
+                    appSettings = { ...appSettings, ...JSON.parse(localSettings) };
                 }
-            });
-
-            if (tab === 'reports') renderReports();
-        }
-
-        // Render Category Filter Chips
-        function renderCategoryChips() {
-            const container = document.getElementById('category-chips');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="setCategory('${cat}')" 
-                        class="px-3 py-1.5 rounded-xl font-medium shrink-0 transition-all ${selectedCategory === cat ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'app-input-bg opacity-70 hover:opacity-100'}">
-                    ${cat}
-                </button>
-            `).join('');
-        }
-
-        function setCategory(cat) {
-            selectedCategory = cat;
-            renderCategoryChips();
-            renderItems();
-        }
-
-        // Render Main Inventory List
-        function renderItems() {
-            const searchInput = document.getElementById('search-input').value.toLowerCase().trim();
-            const searchTerms = searchInput ? searchInput.split(/\s+/).filter(term => term.length > 0) : [];
-            const listContainer = document.getElementById('inventory-list');
-            const emptyState = document.getElementById('empty-state');
-
-            let filtered = inventory.filter(item => {
-                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-                const itemFullText = `${item.name} ${item.code} ${item.category} ${item.car} ${item.vbeltSize || ''} ${item.location || ''}`.toLowerCase();
-                const matchesSearch = searchTerms.length === 0 || searchTerms.every(term => itemFullText.includes(term));
-                return matchesCategory && matchesSearch;
-            });
-
-            // Sorting
-            filtered.sort((a, b) => {
-                if (settings.sortBy === 'stock-asc') return a.stock - b.stock;
-                if (settings.sortBy === 'stock-desc') return b.stock - a.stock;
-                if (settings.sortBy === 'name-desc') return b.name.localeCompare(a.name);
-                return a.name.localeCompare(b.name);
-            });
-
-            listContainer.innerHTML = '';
-
-            if (filtered.length === 0) {
-                emptyState.classList.remove('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-                
-                filtered.forEach(item => {
-                    const isLow = parseInt(item.stock) <= 5;
-                    const card = document.createElement('div');
-
-                    if (settings.viewMode === 'compact') {
-                        card.className = `app-bg-card border rounded-xl p-2.5 flex items-center justify-between transition-all ${isLow ? 'border-amber-500/40 bg-amber-500/5' : ''}`;
-                        card.innerHTML = `
-                            <div class="flex items-center gap-2 overflow-hidden mr-2">
-                                <span class="text-[10px] font-semibold text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded shrink-0">${item.category}</span>
-                                <h3 class="font-semibold text-xs truncate">${item.name}</h3>
-                                <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded shrink-0">${item.code}</span>
-                            </div>
-                            <div class="flex items-center gap-2 shrink-0">
-                                <span class="text-xs font-semibold">Stok: ${item.stock}</span>
-                                <button onclick="openEditModal('${item.id}')" class="p-1 opacity-60 hover:opacity-100 text-blue-500">
-                                    <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="deletePartDirect('${item.id}')" class="p-1 opacity-60 hover:opacity-100 text-red-500">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                </button>
-                            </div>
-                        `;
-                    } else {
-                        card.className = `app-bg-card border rounded-2xl p-3.5 flex justify-between items-center transition-all ${isLow ? 'border-amber-500/40 bg-amber-500/5' : ''}`;
-                        card.innerHTML = `
-                            <div class="space-y-1 pr-2 flex-1">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <span class="text-[10px] font-semibold text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded-md">${item.category}</span>
-                                    <span class="text-[10px] font-semibold font-mono tracking-tight text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-md flex items-center gap-1 shrink-0">
-                                        <i data-lucide="tag" class="w-2.5 h-2.5 text-emerald-500"></i>
-                                        ${item.code}
-                                    </span>
-                                    ${item.vbeltSize ? `<span class="text-[10px] font-semibold font-mono text-purple-400 bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 rounded-md">Ukuran: ${item.vbeltSize}</span>` : ''}
-                                </div>
-                                <h3 class="font-semibold text-sm leading-snug pt-0.5">${item.name}</h3>
-                                <p class="text-xs opacity-70 flex items-center gap-1">
-                                    <i data-lucide="car" class="w-3 h-3 opacity-60"></i> ${item.car}
-                                </p>
-                                <div class="flex items-center gap-3 pt-1 text-xs">
-                                    <span class="font-semibold text-emerald-500">Rp ${Number(item.price).toLocaleString('id-ID')}</span>
-                                    <span class="opacity-40">•</span>
-                                    <span class="opacity-70 font-medium">${item.location || 'Tanpa Merek'}</span>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col items-end justify-between gap-3 shrink-0">
-                                <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${isLow ? 'bg-amber-500/20 text-amber-500 border border-amber-500/30' : 'app-input-bg opacity-80'}">
-                                    Stok: ${item.stock}
-                                </span>
-                                
-                                <div class="flex items-center gap-1">
-                                    <button onclick="quickAdjustStock('${item.id}', -1)" class="w-7 h-7 rounded-lg app-input-bg hover:opacity-80 active:scale-95 flex items-center justify-center text-sm font-bold border border-neutral-700/40 transition-transform">-</button>
-                                    <button onclick="quickAdjustStock('${item.id}', 1)" class="w-7 h-7 rounded-lg app-input-bg hover:opacity-80 active:scale-95 flex items-center justify-center text-sm font-bold border border-neutral-700/40 transition-transform">+</button>
-                                    <button onclick="openEditModal('${item.id}')" class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 active:scale-95 flex items-center justify-center border border-blue-500/20 transition-transform">
-                                        <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    }
-                    listContainer.appendChild(card);
-                });
+            } catch (e) {
+                console.warn('Gagal memuat dari localStorage:', e);
+                spareparts = [...demoParts];
             }
-
-            lucide.createIcons();
-            updateStats();
+            saveStorage();
         }
 
-        // Quick Stock Adjustments (+ / -)
-        function quickAdjustStock(id, delta) {
-            const item = inventory.find(i => i.id === id);
-            if (item) {
-                item.stock = Math.max(0, parseInt(item.stock) + delta);
-                renderItems();
+        function saveStorage() {
+            try {
+                localStorage.setItem('mob_spareparts', JSON.stringify(spareparts));
+                localStorage.setItem('mob_store_name', storeName);
+                localStorage.setItem('mob_store_sub', storeSubtitle);
+                localStorage.setItem('mob_app_settings', JSON.stringify(appSettings));
+            } catch (e) {
+                console.warn('Gagal menyimpan ke localStorage:', e);
             }
         }
 
-        // Update Statistics Banner
-        function updateStats() {
-            const totalItems = inventory.reduce((acc, curr) => acc + parseInt(curr.stock), 0);
-            const lowStockCount = inventory.filter(item => parseInt(item.stock) <= 5).length;
-
-            document.getElementById('stat-total-items').innerText = totalItems;
-            document.getElementById('stat-low-stock').innerText = lowStockCount;
+        function saveAppSettingsExplicit() {
+            saveStorage();
+            showToast("Pengaturan & file tersimpan otomatis", "success");
         }
 
-        // Render Reports Page Data
-        function renderReports() {
-            const totalTypes = inventory.length;
-            const totalQty = inventory.reduce((acc, curr) => acc + parseInt(curr.stock), 0);
-            const totalCost = inventory.reduce((acc, curr) => acc + (parseInt(curr.costPrice || 0) * parseInt(curr.stock)), 0);
-            const totalAsset = inventory.reduce((acc, curr) => acc + (parseInt(curr.price || 0) * parseInt(curr.stock)), 0);
-
-            document.getElementById('rep-total-types').innerText = totalTypes;
-            document.getElementById('rep-total-qty').innerText = totalQty;
-            document.getElementById('rep-total-cost').innerText = `Rp ${totalCost.toLocaleString('id-ID')}`;
-            document.getElementById('rep-total-asset').innerText = `Rp ${totalAsset.toLocaleString('id-ID')}`;
+        function formatRp(val) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(val);
         }
 
-        // Modal Controls
-        function toggleVbeltSizeField() {
-            const categorySelect = document.getElementById('part-category');
-            const vbeltContainer = document.getElementById('vbelt-field-container');
-            if (categorySelect.value === 'V-Belt') {
-                vbeltContainer.classList.remove('hidden');
-            } else {
-                vbeltContainer.classList.add('hidden');
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function adjustHexColor(hex, percent) {
+            let num = parseInt(hex.replace('#',''), 16),
+                amt = Math.round(2.55 * percent),
+                R = (num >> 16) + amt,
+                G = (num >> 8 & 0x00FF) + amt,
+                B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R<255?R<0?0:R:255)*0x10000 + (G<255?G<0?0:G:255)*0x100 + (B<255?B<0?0:B:255)).toString(16).slice(1);
+        }
+
+        function applyAppSettings() {
+            const paddingMap = { 1: 'px-1', 2: 'px-2', 3: 'px-3', 4: 'px-4', 5: 'px-5', 6: 'px-6' };
+            const selectedPaddingClass = paddingMap[appSettings.padding] || 'px-2';
+            
+            document.querySelectorAll('.dynamic-padding').forEach(el => {
+                el.className = el.className.replace(/px-\d/g, selectedPaddingClass);
+            });
+
+            const pRange = document.getElementById('paddingRange');
+            if (pRange) pRange.value = appSettings.padding;
+            const pText = document.getElementById('paddingValText');
+            if (pText) pText.innerText = selectedPaddingClass;
+
+            const frame = document.querySelector('.iphone-frame');
+            if (frame) {
+                frame.classList.remove('text-xs', 'text-sm', 'text-base');
+                if (appSettings.textSize === 'sm') frame.classList.add('text-xs');
+                else if (appSettings.textSize === 'lg') frame.classList.add('text-base');
+                else frame.classList.add('text-sm');
             }
-        }
 
-        function openModal() {
-            document.getElementById('part-form').reset();
-            document.getElementById('part-id').value = '';
-            document.getElementById('modal-title').innerText = 'Tambah Sparepart Baru';
-            document.getElementById('btn-delete-part').classList.add('hidden');
-            toggleVbeltSizeField();
-            document.getElementById('modal-backdrop').classList.remove('hidden');
-        }
+            const txtLabelMap = { 'sm': 'Kecil', 'base': 'Sedang', 'lg': 'Besar' };
+            const txtText = document.getElementById('textSizeText');
+            if (txtText) txtText.innerText = txtLabelMap[appSettings.textSize] || 'Sedang';
 
-        function openEditModal(id) {
-            const item = inventory.find(i => i.id === id);
-            if (!item) return;
+            ['btnTextSm', 'btnTextBase', 'btnTextLg'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('bg-ios-blue', 'text-white');
+            });
 
-            document.getElementById('part-id').value = item.id;
-            document.getElementById('part-name').value = item.name;
-            document.getElementById('part-code').value = item.code;
-            document.getElementById('part-category').value = item.category;
-            document.getElementById('part-vbelt').value = item.vbeltSize || '';
-            document.getElementById('part-car').value = item.car;
-            document.getElementById('part-stock').value = item.stock;
-            document.getElementById('part-location').value = item.location || '';
-            document.getElementById('part-cost').value = item.costPrice || '';
-            document.getElementById('part-price').value = item.price;
+            if (appSettings.textSize === 'sm') document.getElementById('btnTextSm')?.classList.add('bg-ios-blue', 'text-white');
+            if (appSettings.textSize === 'base') document.getElementById('btnTextBase')?.classList.add('bg-ios-blue', 'text-white');
+            if (appSettings.textSize === 'lg') document.getElementById('btnTextLg')?.classList.add('bg-ios-blue', 'text-white');
 
-            document.getElementById('modal-title').innerText = 'Edit Sparepart';
-            document.getElementById('btn-delete-part').classList.remove('hidden');
-            toggleVbeltSizeField();
-            document.getElementById('modal-backdrop').classList.remove('hidden');
-        }
+            const root = document.documentElement;
+            
+            const themes = {
+                'dark-blue': { bg: '#000000', card: '#1C1C1E', input: '#2C2C2E', border: '#2C2C2E', textPrimary: '#FFFFFF', textSecondary: '#8E8E93', glass: 'rgba(28, 28, 30, 0.75)' },
+                'midnight': { bg: '#050508', card: '#12121A', input: '#1A1A24', border: '#252536', textPrimary: '#FFFFFF', textSecondary: '#9A9AB0', glass: 'rgba(18, 18, 26, 0.75)' },
+                'slate': { bg: '#0F172A', card: '#1E293B', input: '#334155', border: '#334155', textPrimary: '#F8FAFC', textSecondary: '#94A3B8', glass: 'rgba(30, 41, 59, 0.75)' },
+                'emerald': { bg: '#022C22', card: '#064E3B', input: '#047857', border: '#047857', textPrimary: '#F8FAFC', textSecondary: '#A7F3D0', glass: 'rgba(6, 78, 59, 0.75)' },
+                'light-clean': { bg: '#F2F2F7', card: '#FFFFFF', input: '#E5E5EA', border: '#E5E5EA', textPrimary: '#000000', textSecondary: '#6C6C70', glass: 'rgba(255, 255, 255, 0.8)' },
+                'light-soft': { bg: '#E5E5EA', card: '#F2F2F7', input: '#FFFFFF', border: '#D1D1D6', textPrimary: '#000000', textSecondary: '#545456', glass: 'rgba(242, 242, 247, 0.85)' }
+            };
 
-        function closeModal() {
-            document.getElementById('modal-backdrop').classList.add('hidden');
-        }
+            let activeTheme = themes[appSettings.theme] || themes['dark-blue'];
 
-        function savePart(e) {
-            e.preventDefault();
-            const id = document.getElementById('part-id').value;
-            const name = document.getElementById('part-name').value;
-            const code = document.getElementById('part-code').value;
-            const category = document.getElementById('part-category').value;
-            const vbeltSize = category === 'V-Belt' ? document.getElementById('part-vbelt').value : '';
-            const car = document.getElementById('part-car').value;
-            const stock = parseInt(document.getElementById('part-stock').value) || 0;
-            const location = document.getElementById('part-location').value;
-            const costPrice = parseInt(document.getElementById('part-cost').value) || 0;
-            const price = parseInt(document.getElementById('part-price').value) || 0;
-
-            if (id) {
-                // Edit existing
-                const index = inventory.findIndex(i => i.id === id);
-                if (index !== -1) {
-                    inventory[index] = { id, name, code, category, car, stock, costPrice, price, location, vbeltSize };
-                }
-            } else {
-                // Add new
-                const newPart = {
-                    id: Date.now().toString(),
-                    name, code, category, car, stock, costPrice, price, location, vbeltSize
+            if (appSettings.theme === 'custom') {
+                const bg = appSettings.customBg || '#000000';
+                const text = appSettings.customText || '#FFFFFF';
+                activeTheme = {
+                    bg: bg,
+                    card: adjustHexColor(bg, 12),
+                    input: adjustHexColor(bg, 20),
+                    border: adjustHexColor(bg, 25),
+                    textPrimary: text,
+                    textSecondary: adjustHexColor(text, -35),
+                    glass: adjustHexColor(bg, 12) + 'C0'
                 };
-                inventory.unshift(newPart);
             }
 
-            closeModal();
-            renderItems();
+            root.style.setProperty('--bg-body', activeTheme.bg);
+            root.style.setProperty('--bg-card', activeTheme.card);
+            root.style.setProperty('--bg-input', activeTheme.input);
+            root.style.setProperty('--border-color', activeTheme.border);
+            root.style.setProperty('--text-primary', activeTheme.textPrimary);
+            root.style.setProperty('--text-secondary', activeTheme.textSecondary);
+            root.style.setProperty('--header-glass', activeTheme.glass);
         }
 
-        // HAPUS SPAREPART
-        function deleteCurrentPart() {
-            const id = document.getElementById('part-id').value;
-            if (!id) return;
-            deletePartDirect(id);
-            closeModal();
-        }
+        function renderHeader() {
+            document.getElementById('storeNameText').querySelector('span').innerText = storeName;
+            document.getElementById('storeSubtitleText').innerText = storeSubtitle;
+            
+            const logoIcon = document.getElementById('headerLogoIcon');
+            const logoImg = document.getElementById('headerLogoImg');
 
-        function deletePartDirect(id) {
-            const item = inventory.find(i => i.id === id);
-            if (!item) return;
-            inventory = inventory.filter(i => i.id !== id);
-            renderItems();
-        }
-
-        // Settings Page Handling
-        function applySettings() {
-            document.getElementById('header-title-text').innerText = settings.title;
-            document.getElementById('header-subtitle-text').innerText = settings.subtitle;
-            document.getElementById('set-header-title').value = settings.title;
-            document.getElementById('set-header-subtitle').value = settings.subtitle;
-            document.getElementById('set-view-mode').value = settings.viewMode;
-            document.getElementById('set-sort-by').value = settings.sortBy;
-            document.getElementById('set-show-stats').checked = settings.showStats;
-            document.getElementById('set-theme').value = settings.theme;
-            document.getElementById('set-text-size').value = settings.textSize;
-            document.getElementById('set-padding').value = settings.padding;
-
-            // Apply Theme
-            document.body.className = `${settings.theme} ${settings.textSize} min-h-screen pb-24`;
-
-            // Apply Container Padding
-            const container = document.getElementById('app-container');
-            container.className = `max-w-md mx-auto transition-all duration-300 ${settings.padding}`;
-
-            const banner = document.getElementById('stats-banner');
-            if (settings.showStats) {
-                banner.classList.remove('hidden');
-            } else {
-                banner.classList.add('hidden');
-            }
-
-            const logoImg = document.getElementById('header-logo');
-            if (settings.logo) {
-                logoImg.src = settings.logo;
+            if (appSettings.logoType === 'custom' && appSettings.logoValue) {
+                logoImg.src = appSettings.logoValue;
                 logoImg.classList.remove('hidden');
+                logoIcon.classList.add('hidden');
             } else {
                 logoImg.classList.add('hidden');
+                logoIcon.classList.remove('hidden');
+                logoIcon.className = `fa-solid ${appSettings.logoValue || 'fa-car-wrench'} text-sm`;
+            }
+
+            const emptyCount = spareparts.filter(p => p.stock === 0).length;
+            const badge = document.getElementById('emptyStockBadge');
+            if (emptyCount > 0) {
+                badge.innerText = emptyCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
             }
         }
 
-        function updateSettingsFromForm() {
-            settings.title = document.getElementById('set-header-title').value || 'Inventori Sparepart';
-            settings.subtitle = document.getElementById('set-header-subtitle').value || 'AutoParts HQ';
-            settings.viewMode = document.getElementById('set-view-mode').value;
-            settings.sortBy = document.getElementById('set-sort-by').value;
-            settings.showStats = document.getElementById('set-show-stats').checked;
-            settings.theme = document.getElementById('set-theme').value;
-            settings.textSize = document.getElementById('set-text-size').value;
-            settings.padding = document.getElementById('set-padding').value;
-
-            applySettings();
-            renderItems();
-        }
-
-        // FUNGSI KHUSUS SIMPAN PENGATURAN
-        function saveSettings() {
-            updateSettingsFromForm();
-
-            // Tampilkan pesan sukses sementara
-            const toast = document.getElementById('save-settings-toast');
-            if (toast) {
-                toast.classList.remove('hidden');
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 2500);
-            }
+        function setLogoPreset(iconClass) {
+            appSettings.logoType = 'preset';
+            appSettings.logoValue = iconClass;
+            document.getElementById('uploadLogoText').innerText = 'Upload Logo dari Galeri';
+            saveStorage();
+            renderHeader();
+            showToast("Logo header dipilih & disimpan", "info");
         }
 
         function handleLogoUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    settings.logo = e.target.result;
-                    applySettings();
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showToast("Ukuran foto maksimal 2MB", "error");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                appSettings.logoType = 'custom';
+                appSettings.logoValue = e.target.result;
+                document.getElementById('uploadLogoText').innerText = `Terpasang: ${file.name.substring(0, 12)}...`;
+                saveStorage();
+                renderHeader();
+                showToast("Foto logo disimpan", "info");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function changePadding(val) {
+            appSettings.padding = parseInt(val);
+            applyAppSettings();
+            saveStorage();
+        }
+
+        function setTextSize(size) {
+            appSettings.textSize = size;
+            applyAppSettings();
+            saveStorage();
+            showToast(`Ukuran teks: ${size === 'sm' ? 'Kecil' : size === 'lg' ? 'Besar' : 'Sedang'}`, "info");
+        }
+
+        function setTheme(themeKey) {
+            appSettings.theme = themeKey;
+            appSettings.customBg = '';
+            appSettings.customText = '';
+            applyAppSettings();
+            saveStorage();
+            showToast("Tema dipilih & disimpan", "info");
+        }
+
+        function setCustomBgColor(hexColor) {
+            appSettings.customBg = hexColor;
+            appSettings.theme = 'custom';
+            applyAppSettings();
+            saveStorage();
+        }
+
+        function setCustomTextColor(hexColor) {
+            appSettings.customText = hexColor;
+            appSettings.theme = 'custom';
+            applyAppSettings();
+            saveStorage();
+        }
+
+        function toggleVBeltField(formPrefix) {
+            const cat = document.getElementById(formPrefix + 'Category').value;
+            const container = document.getElementById(formPrefix + 'VBeltSizeContainer');
+            if (cat === 'VBelt') {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                document.getElementById(formPrefix + 'VBeltSize').value = '';
             }
         }
 
-        function removeLogo() {
-            settings.logo = '';
-            document.getElementById('logo-input').value = '';
-            applySettings();
+        function renderCards(data = null) {
+            const list = data || getFilteredParts();
+            const container = document.getElementById('partsListContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            list.forEach(p => {
+                let badgeColor = "bg-ios-green/15 text-ios-green border-ios-green/30";
+                let badgeText = "Aman";
+
+                if (p.stock === 0) {
+                    badgeColor = "bg-ios-red/15 text-ios-red border-ios-red/30";
+                    badgeText = "Habis";
+                }
+
+                const vbeltBadgeHtml = (p.category === 'VBelt' && p.vbeltSize) 
+                    ? `<span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold bg-ios-orange/20 text-ios-orange border border-ios-orange/30">
+                        <i class="fa-solid fa-ruler-horizontal text-[6px] mr-0.5"></i>${escapeHtml(p.vbeltSize)}
+                       </span>` 
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = "theme-card border rounded-lg p-1.5 shadow-sm transition duration-150 cursor-pointer";
+                
+                card.innerHTML = `
+                    <div>
+                        <!-- Baris Atas: SKU, Kategori, Badge Status -->
+                        <div onclick="openDrawer('${p.id}')" class="flex items-center justify-between gap-1 mb-1">
+                            <div class="flex items-center gap-1 flex-wrap">
+                                <span class="inline-flex items-center px-1 py-0.2 rounded text-[8px] font-bold font-mono bg-ios-blue/20 text-ios-blue border border-ios-blue/30">
+                                    <i class="fa-solid fa-barcode text-[7px] mr-0.5 opacity-80"></i>${escapeHtml(p.sku)}
+                                </span>
+                                ${vbeltBadgeHtml}
+                                <span class="text-[8px] theme-text-secondary font-medium">| ${escapeHtml(p.category)}</span>
+                            </div>
+                            <span class="px-1 py-0.2 text-[7px] font-bold border rounded-full shrink-0 ${badgeColor}">
+                                ${badgeText}
+                            </span>
+                        </div>
+
+                        <!-- Baris Tengah: Nama Sparepart -> Mobil -->
+                        <div onclick="openDrawer('${p.id}')" class="space-y-0.5">
+                            <h3 class="text-xs font-bold theme-text-primary leading-tight">${escapeHtml(p.name)}</h3>
+                            <div class="text-[9px] theme-text-secondary leading-tight flex items-center gap-1">
+                                <i class="fa-solid fa-car text-[7px]"></i> ${escapeHtml(p.carModel)}
+                            </div>
+                        </div>
+
+                        <!-- Baris Bawah: Harga & Tombol Kontrol Stok (+ / -) -->
+                        <div class="pt-1.5 flex items-center justify-between border-t border-slate-800/20 mt-1">
+                            <div onclick="openDrawer('${p.id}')">
+                                <span class="text-[8px] theme-text-secondary uppercase font-medium">Harga: </span>
+                                <span class="text-xs font-bold text-ios-green font-mono">${formatRp(p.sellPrice)}</span>
+                            </div>
+
+                            <!-- Tombol Penambahan & Pengurangan Stok Quick-Actions -->
+                            <div class="flex items-center space-x-1.5 bg-ios-input/40 p-0.5 rounded-lg border border-slate-800/40">
+                                <button onclick="event.stopPropagation(); updateStockQuick('${p.id}', -1)" class="w-6 h-6 rounded-md theme-card border border-slate-700/60 flex items-center justify-center text-ios-red active:scale-90 transition font-bold text-xs" title="Kurangi Stok">
+                                    <i class="fa-solid fa-minus text-[9px]"></i>
+                                </button>
+                                
+                                <span onclick="openDrawer('${p.id}')" class="font-bold text-xs theme-text-primary font-mono px-1 min-w-[28px] text-center">${p.stock}</span>
+                                
+                                <button onclick="event.stopPropagation(); updateStockQuick('${p.id}', 1)" class="w-6 h-6 rounded-md theme-card border border-slate-700/60 flex items-center justify-center text-ios-green active:scale-90 transition font-bold text-xs" title="Tambah Stok">
+                                    <i class="fa-solid fa-plus text-[9px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
         }
 
-        // Share Inventory Data
-        function shareInventoryData(method) {
-            const storeName = document.getElementById('header-title-text').innerText || 'Inventori Sparepart';
-            let message = `*RINGKASAN INVENTORI - ${storeName.toUpperCase()}*\n`;
-            message += `Total Item: ${inventory.reduce((acc, curr) => acc + parseInt(curr.stock), 0)} unit\n\n`;
-            message += `*DAFTAR STOK SPAREPART:*\n`;
+        // QUICK STOCK UPDATE (+ / -)
+        function updateStockQuick(id, change) {
+            const index = spareparts.findIndex(p => p.id === id);
+            if (index === -1) return;
 
-            inventory.forEach((item, index) => {
-                message += `${index + 1}. ${item.name} (${item.code})\n`;
-                if(item.location) message += `   • Merek: ${item.location}\n`;
-                message += `   • Mobil: ${item.car}\n`;
-                if(item.vbeltSize) message += `   • Ukuran: ${item.vbeltSize}\n`;
-                message += `   • Stok: ${item.stock} unit | Harga: Rp ${Number(item.price).toLocaleString('id-ID')}\n\n`;
+            const currentStock = spareparts[index].stock;
+            if (change < 0 && currentStock <= 0) {
+                showToast("Stok sudah 0", "error");
+                return;
+            }
+
+            spareparts[index].stock += change;
+            saveStorage();
+            renderHeader();
+            renderCards();
+            renderSummary();
+
+            const newStock = spareparts[index].stock;
+            const actionText = change > 0 ? `+${change}` : `${change}`;
+            showToast(`Stok ${spareparts[index].sku}: ${newStock} (${actionText})`, change > 0 ? "success" : "info");
+        }
+
+        // FILTER & SEARCH LOGIC
+        function getFilteredParts() {
+            const searchVal = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
+            const searchTokens = searchVal.split(/\s+/).filter(t => t.length > 0);
+
+            return spareparts.filter(p => {
+                // Category Filter Chip
+                if (activeFilterChip === 'EMPTY' && p.stock > 0) return false;
+                if (activeFilterChip !== 'ALL' && activeFilterChip !== 'EMPTY' && p.category !== activeFilterChip) return false;
+
+                // Search Query Tokens (All tokens must match somewhere in sku, name, category, vbeltSize, or carModel)
+                if (searchTokens.length > 0) {
+                    const combinedText = `${p.sku} ${p.name} ${p.category} ${p.vbeltSize || ''} ${p.carModel}`.toLowerCase();
+                    const matchesAllTokens = searchTokens.every(token => combinedText.includes(token));
+                    if (!matchesAllTokens) return false;
+                }
+
+                return true;
+            });
+        }
+
+        function applyFilters() {
+            const searchVal = document.getElementById('searchInput')?.value || '';
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                if (searchVal.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            renderCards();
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            applyFilters();
+        }
+
+        function setFilterChip(chipValue, btnEl) {
+            activeFilterChip = chipValue;
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.classList.remove('active-chip', 'bg-ios-blue', 'text-white');
+                btn.classList.add('theme-card', 'theme-text-secondary');
+            });
+            if (btnEl) {
+                btnEl.classList.remove('theme-card', 'theme-text-secondary');
+                btnEl.classList.add('active-chip', 'bg-ios-blue', 'text-white');
+            }
+            renderCards();
+        }
+
+        function filterEmptyStock() {
+            activeFilterChip = 'EMPTY';
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.classList.remove('active-chip', 'bg-ios-blue', 'text-white');
+                btn.classList.add('theme-card', 'theme-text-secondary');
+            });
+            const emptyChip = Array.from(document.querySelectorAll('.chip-btn')).find(b => b.textContent.includes('Stok Habis'));
+            if (emptyChip) {
+                emptyChip.classList.remove('theme-card', 'theme-text-secondary');
+                emptyChip.classList.add('active-chip', 'bg-ios-blue', 'text-white');
+            }
+            switchTab('stock');
+            renderCards();
+        }
+
+        // VIEW NAVIGATION / TABS
+        function switchTab(tab) {
+            document.getElementById('viewStock').classList.add('hidden');
+            document.getElementById('viewAddPart').classList.add('hidden');
+            document.getElementById('viewSettings').classList.add('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('text-ios-blue');
+                b.classList.add('theme-text-secondary');
             });
 
-            if (method === 'wa') {
-                const encodedMsg = encodeURIComponent(message);
-                window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
-            } else {
-                navigator.clipboard.writeText(message).then(() => {
-                    alert('Data inventori berhasil disalin ke clipboard!');
-                }).catch(() => {
-                    alert('Gagal menyalin data.');
-                });
+            if (tab === 'stock') {
+                document.getElementById('viewStock').classList.remove('hidden');
+                document.getElementById('nav-stock').classList.add('text-ios-blue');
+                document.getElementById('nav-stock').classList.remove('theme-text-secondary');
+                renderCards();
+            } else if (tab === 'add') {
+                document.getElementById('viewAddPart').classList.remove('hidden');
+                document.getElementById('nav-add').classList.add('text-ios-blue');
+                document.getElementById('nav-add').classList.remove('theme-text-secondary');
+            } else if (tab === 'settings') {
+                document.getElementById('viewSettings').classList.remove('hidden');
+                document.getElementById('nav-settings').classList.add('text-ios-blue');
+                document.getElementById('nav-settings').classList.remove('theme-text-secondary');
+                renderSummary();
             }
+        }
+
+        // FORM HANDLERS
+        function generateAddSKU() {
+            const nextNum = spareparts.length + 101;
+            document.getElementById('addSKU').value = `PRT-${nextNum}`;
+        }
+
+        function handleSaveNewPart(e) {
+            e.preventDefault();
+            const sku = document.getElementById('addSKU').value.trim();
+            const name = document.getElementById('addName').value.trim();
+            const category = document.getElementById('addCategory').value;
+            const vbeltSize = document.getElementById('addVBeltSize').value.trim();
+            const carModel = document.getElementById('addCarModel').value.trim();
+            const buyPrice = parseFloat(document.getElementById('addBuyPrice').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('addSellPrice').value) || 0;
+            const stock = parseInt(document.getElementById('addStock').value) || 0;
+
+            const newPart = {
+                id: Date.now().toString(),
+                sku, name, category, vbeltSize, carModel, buyPrice, sellPrice, stock
+            };
+
+            spareparts.unshift(newPart);
+            saveStorage();
+            showToast("Sparepart berhasil ditambahkan", "success");
+
+            // Reset form
+            document.getElementById('addPartForm').reset();
+            generateAddSKU();
+            toggleVBeltField('add');
+            switchTab('stock');
+            renderHeader();
+            renderSummary();
+        }
+
+        function cancelAddPart() {
+            document.getElementById('addPartForm').reset();
+            generateAddSKU();
+            toggleVBeltField('add');
+            switchTab('stock');
+        }
+
+        // DRAWER EDIT LOGIC
+        function openDrawer(id) {
+            const p = spareparts.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('editPartId').value = p.id;
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editSKU').value = p.sku;
+            document.getElementById('editCategory').value = p.category;
+            document.getElementById('editVBeltSize').value = p.vbeltSize || '';
+            document.getElementById('editCarModel').value = p.carModel;
+            document.getElementById('editBuyPrice').value = p.buyPrice;
+            document.getElementById('editSellPrice').value = p.sellPrice;
+            document.getElementById('editStock').value = p.stock;
+
+            toggleVBeltField('edit');
+            document.getElementById('editDrawer').classList.remove('hidden');
+        }
+
+        function closeDrawer() {
+            document.getElementById('editDrawer').classList.add('hidden');
+        }
+
+        function handleSaveEditPart(e) {
+            e.preventDefault();
+            const id = document.getElementById('editPartId').value;
+            const index = spareparts.findIndex(p => p.id === id);
+            if (index === -1) return;
+
+            spareparts[index].name = document.getElementById('editName').value.trim();
+            spareparts[index].sku = document.getElementById('editSKU').value.trim();
+            spareparts[index].category = document.getElementById('editCategory').value;
+            spareparts[index].vbeltSize = document.getElementById('editVBeltSize').value.trim();
+            spareparts[index].carModel = document.getElementById('editCarModel').value.trim();
+            spareparts[index].buyPrice = parseFloat(document.getElementById('editBuyPrice').value) || 0;
+            spareparts[index].sellPrice = parseFloat(document.getElementById('editSellPrice').value) || 0;
+            spareparts[index].stock = parseInt(document.getElementById('editStock').value) || 0;
+
+            saveStorage();
+            closeDrawer();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            showToast("Sparepart berhasil diperbarui", "success");
+        }
+
+        function deletePartFromDrawer() {
+            const id = document.getElementById('editPartId').value;
+            if (!id) return;
+
+            spareparts = spareparts.filter(p => p.id !== id);
+            saveStorage();
+            closeDrawer();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            showToast("Sparepart dihapus", "info");
+        }
+
+        // STORE MODAL
+        function openEditStoreModal() {
+            document.getElementById('inputStoreName').value = storeName;
+            document.getElementById('inputStoreSubtitle').value = storeSubtitle;
+            document.getElementById('storeModal').classList.remove('hidden');
+        }
+
+        function closeStoreModal() {
+            document.getElementById('storeModal').classList.add('hidden');
+        }
+
+        function saveStoreName() {
+            const newName = document.getElementById('inputStoreName').value.trim();
+            const newSub = document.getElementById('inputStoreSubtitle').value.trim();
+            if (newName) storeName = newName;
+            if (newSub) storeSubtitle = newSub;
+
+            saveStorage();
+            renderHeader();
+            closeStoreModal();
+            showToast("Identitas toko disimpan", "success");
+        }
+
+        // SUMMARY & REPORTS
+        function renderSummary() {
+            const totalTypes = spareparts.length;
+            const totalUnits = spareparts.reduce((acc, p) => acc + p.stock, 0);
+
+            const elTypes = document.getElementById('summaryTotalTypes');
+            const elUnits = document.getElementById('summaryTotalUnits');
+            if (elTypes) elTypes.innerText = totalTypes;
+            if (elUnits) elUnits.innerText = totalUnits;
+        }
+
+        function exportToCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,SKU,Nama Sparepart,Kategori,Ukuran VBelt,Kesesuaian Mobil,Harga Beli,Harga Jual,Stok\n";
+            spareparts.forEach(p => {
+                const row = `"${p.sku}","${p.name}","${p.category}","${p.vbeltSize || ''}","${p.carModel}",${p.buyPrice},${p.sellPrice},${p.stock}`;
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Inventori_Sparepart_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("File CSV berhasil diunduh", "success");
+        }
+
+        function resetToDemoData() {
+            spareparts = [...demoParts];
+            saveStorage();
+            renderHeader();
+            renderCards();
+            renderSummary();
+            showToast("Data direset ke default demo", "info");
+        }
+
+        // TOAST NOTIFICATIONS
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            let iconClass = "fa-circle-info text-ios-blue";
+            if (type === "success") iconClass = "fa-circle-check text-ios-green";
+            if (type === "error") iconClass = "fa-triangle-exclamation text-ios-red";
+
+            toast.className = "theme-card border px-3 py-2 rounded-2xl shadow-xl flex items-center gap-2 text-xs animate-sheet pointer-events-auto transition-all duration-300";
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i><span>${escapeHtml(message)}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
     </script>
 </body>
