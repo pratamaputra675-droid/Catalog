@@ -52,20 +52,27 @@
     </header>
 
     <main id="mainContainer" class="max-w-md mx-auto px-4 pt-4 space-y-4 transition-all">
-        <!-- Total Card -->
-        <div id="statCard" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
+        <!-- Total Card & Stat Asset -->
+        <div id="statCard" class="grid grid-cols-2 gap-3">
+            <div class="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-100 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-base shrink-0">
                     <i class="fa-solid fa-boxes-stacked"></i>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-400">Total Sparepart</p>
-                    <h2 class="text-xl font-bold text-slate-900" id="statTotalItems">0 <span class="text-xs font-normal text-slate-500">Item</span></h2>
+                <div class="min-w-0">
+                    <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Part</p>
+                    <h2 class="text-base font-bold text-slate-900 truncate" id="statTotalItems">0 <span class="text-xs font-normal text-slate-500">Item</span></h2>
                 </div>
             </div>
-            <button onclick="resetData()" class="p-2 text-slate-400 hover:text-red-500 active:scale-90 transition" title="Reset Data">
-                <i class="fa-solid fa-rotate-right text-sm"></i>
-            </button>
+
+            <div class="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-100 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base shrink-0">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Aset</p>
+                    <h2 class="text-xs sm:text-sm font-bold text-emerald-600 truncate" id="statTotalAsset">Rp 0</h2>
+                </div>
+            </div>
         </div>
 
         <!-- iOS Search Bar -->
@@ -570,7 +577,11 @@
                 return b.id - a.id;
             });
 
+            // Calculate total asset value based on buy price * stock
+            const totalAsset = spareparts.reduce((sum, item) => sum + ((item.buyPrice || 0) * (item.stock || 0)), 0);
+
             document.getElementById('statTotalItems').innerHTML = `${spareparts.length} <span class="text-xs font-normal text-slate-500">Item</span>`;
+            document.getElementById('statTotalAsset').textContent = formatRupiah(totalAsset);
 
             if (filtered.length === 0) {
                 emptyState.classList.remove('hidden');
@@ -581,23 +592,25 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "p-3.5 hover:bg-slate-50 transition flex items-center justify-between gap-3";
+                card.className = "p-2 sm:p-2.5 hover:bg-slate-50 transition flex items-center justify-between gap-2 border-b border-slate-100 last:border-b-0";
                 
                 const isLowStock = item.stock <= appSettings.lowStockThreshold;
 
                 if (appSettings.compactView) {
                     card.innerHTML = `
-                        <div class="flex-1 min-w-0">
-                            ${item.code ? `<span class="inline-block bg-indigo-50 text-indigo-700 font-bold text-[10px] font-mono px-1.5 py-0.2 rounded border border-indigo-200 mb-0.5">${item.code}</span>` : ''}
-                            ${item.vbeltSize ? `<span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border border-blue-200 mb-0.5 ml-1"><i class="fa-solid fa-ruler-horizontal text-[9px] mr-1"></i>${item.vbeltSize}</span>` : ''}
-                            <h3 class="font-semibold text-slate-900 text-sm truncate">${item.name}</h3>
-                            <span class="text-xs font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
+                        <div class="flex-1 min-w-0 leading-tight">
+                            <div class="flex items-center gap-1 mb-0.5 flex-wrap">
+                                ${item.code ? `<span class="bg-indigo-50 text-indigo-700 font-bold text-[10px] font-mono px-1.5 py-0.2 rounded border border-indigo-200">${item.code}</span>` : ''}
+                                ${item.vbeltSize ? `<span class="bg-blue-50 text-blue-700 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border border-blue-200"><i class="fa-solid fa-ruler-horizontal text-[9px] mr-1"></i>${item.vbeltSize}</span>` : ''}
+                            </div>
+                            <h3 class="font-semibold text-slate-900 text-xs sm:text-sm truncate leading-snug">${item.name}</h3>
+                            <span class="text-[11px] font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isLowStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${isLowStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
                                 ${item.stock} unit
                             </span>
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-0.5">
                                 <button onclick="openModal('edit', ${item.id})" class="p-1 text-slate-400 hover:text-blue-600 transition">
                                     <i class="fa-solid fa-pen-to-square text-xs"></i>
                                 </button>
@@ -609,25 +622,25 @@
                     `;
                 } else {
                     card.innerHTML = `
-                        <div class="flex-1 min-w-0">
+                        <div class="flex-1 min-w-0 leading-tight">
                             <div class="mb-0.5 flex flex-wrap gap-1 items-center">
                                 ${item.code ? `<span class="bg-indigo-50 text-indigo-700 font-bold text-[10px] font-mono px-1.5 py-0.2 rounded border border-indigo-200">${item.code}</span>` : ''}
                                 ${item.vbeltSize ? `<span class="bg-blue-50 text-blue-700 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border border-blue-200"><i class="fa-solid fa-ruler-horizontal text-[9px] mr-1"></i>${item.vbeltSize}</span>` : ''}
                             </div>
-                            <h3 class="font-semibold text-slate-900 text-sm truncate mb-0.5">${item.name}</h3>
-                            <p class="text-xs text-slate-500 truncate flex items-center gap-1">
-                                <i class="fa-solid fa-car text-[10px] text-slate-400"></i> ${item.car} ${item.year ? `(${item.year})` : ''}
+                            <h3 class="font-semibold text-slate-900 text-xs sm:text-sm truncate mb-0.5 leading-snug">${item.name}</h3>
+                            <p class="text-[11px] text-slate-500 truncate flex items-center gap-1">
+                                <i class="fa-solid fa-car text-[9px] text-slate-400"></i> ${item.car} ${item.year ? `(${item.year})` : ''}
                             </p>
-                            <div class="flex items-center gap-2 mt-1.5">
-                                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">${item.brand || 'Lainnya'}</span>
-                                <span class="text-xs font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[9px] font-semibold text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded-full">${item.brand || 'Lainnya'}</span>
+                                <span class="text-[11px] font-bold text-blue-600">${formatRupiah(item.sellPrice)}</span>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-2">
-                            <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isLowStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${isLowStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
                                 ${item.stock} unit
                             </span>
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-0.5">
                                 <button onclick="openModal('edit', ${item.id})" class="p-1 text-slate-400 hover:text-blue-600 transition">
                                     <i class="fa-solid fa-pen-to-square text-xs"></i>
                                 </button>
@@ -649,6 +662,7 @@
             
             form.reset();
             document.getElementById('partId').value = '';
+            document.getElementById('partVbeltSize').value = '';
 
             if (mode === 'edit' && id !== null) {
                 title.textContent = 'Edit Sparepart';
@@ -658,13 +672,13 @@
                     document.getElementById('partName').value = part.name;
                     document.getElementById('partCode').value = part.code || '';
                     document.getElementById('partYear').value = part.year || '';
-                    document.getElementById('partCategory').value = part.category || 'Mesin';
+                    document.getElementById('partCategory').value = part.category;
                     document.getElementById('partVbeltSize').value = part.vbeltSize || '';
                     document.getElementById('partBrand').value = part.brand || '';
                     document.getElementById('partCar').value = part.car;
                     document.getElementById('partStock').value = part.stock;
-                    document.getElementById('partBuyPrice').value = formatCurrencyInput(part.buyPrice.toString());
-                    document.getElementById('partSellPrice').value = formatCurrencyInput(part.sellPrice.toString());
+                    document.getElementById('partBuyPrice').value = formatCurrencyInput(part.buyPrice);
+                    document.getElementById('partSellPrice').value = formatCurrencyInput(part.sellPrice);
                 }
             } else {
                 title.textContent = 'Tambah Sparepart';
@@ -714,17 +728,12 @@
         }
 
         function deletePart(id) {
-            spareparts = spareparts.filter(i => i.id !== id);
-            saveData();
-            renderTable();
-            showToast("Sparepart dihapus.");
-        }
-
-        function resetData() {
-            spareparts = [...defaultParts];
-            saveData();
-            renderTable();
-            showToast("Data direset.");
+            if (confirm("Apakah Anda yakin ingin menghapus sparepart ini?")) {
+                spareparts = spareparts.filter(i => i.id !== id);
+                saveData();
+                renderTable();
+                showToast("Sparepart dihapus.");
+            }
         }
 
         window.onload = function() {
