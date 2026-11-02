@@ -54,24 +54,14 @@
     <main id="mainContainer" class="max-w-md mx-auto px-4 pt-4 space-y-4 transition-all">
         <!-- Total Card & Stat Asset -->
         <div id="statCard" class="grid grid-cols-2 gap-3">
-            <div class="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-100 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-base shrink-0">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                </div>
-                <div class="min-w-0">
-                    <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Part</p>
-                    <h2 class="text-base font-bold text-slate-900 truncate" id="statTotalItems">0 <span class="text-xs font-normal text-slate-500">Item</span></h2>
-                </div>
+            <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex flex-col justify-center">
+                <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Part</p>
+                <h2 class="text-base font-bold text-slate-900 truncate" id="statTotalItems">0 <span class="text-xs font-normal text-slate-500">Item</span></h2>
             </div>
 
-            <div class="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-100 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base shrink-0">
-                    <i class="fa-solid fa-sack-dollar"></i>
-                </div>
-                <div class="min-w-0">
-                    <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Aset</p>
-                    <h2 class="text-xs sm:text-sm font-bold text-emerald-600 truncate" id="statTotalAsset">Rp 0</h2>
-                </div>
+            <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex flex-col justify-center">
+                <p class="text-[10px] font-medium text-slate-400 uppercase tracking-wider truncate">Total Aset</p>
+                <h2 class="text-xs font-bold text-emerald-600 truncate" id="statTotalAsset">Rp 0</h2>
             </div>
         </div>
 
@@ -186,6 +176,26 @@
                             <option value="px-4">Sedang (Standar iOS)</option>
                             <option value="px-6">Longgar (Jarak Lebar)</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- Bagikan & Kirim Data ke Teman -->
+                <div class="bg-white rounded-xl p-3 space-y-3 shadow-sm border border-slate-100">
+                    <label class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider">Bagikan & Kirim ke Teman</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" onclick="shareAppUrl()" class="bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 text-xs font-semibold p-2.5 rounded-xl transition flex flex-col items-center justify-center gap-1">
+                            <i class="fa-solid fa-share-nodes text-base"></i>
+                            <span>Bagikan Link App</span>
+                        </button>
+                        <button type="button" onclick="shareDataToFriend()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold p-2.5 rounded-xl transition flex flex-col items-center justify-center gap-1">
+                            <i class="fa-solid fa-paper-plane text-base"></i>
+                            <span>Kirim Stok ke Teman</span>
+                        </button>
+                    </div>
+                    <div class="pt-1">
+                        <button type="button" onclick="copyAppUrl()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2 rounded-lg border border-slate-200 transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-copy"></i> Salin Link Akses Aplikasi
+                        </button>
                     </div>
                 </div>
 
@@ -420,6 +430,61 @@
 
         function closeSettingsModal() {
             document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function shareAppUrl() {
+            const currentUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: appSettings.headerTitle || 'Blantikautoparts',
+                    text: 'Akses Aplikasi Stok Sparepart Mobil ' + (appSettings.headerTitle || 'Blantikautoparts'),
+                    url: currentUrl
+                }).catch(() => {});
+            } else {
+                copyAppUrl();
+            }
+        }
+
+        function copyAppUrl() {
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            showToast("Link aplikasi berhasil disalin!");
+        }
+
+        function shareDataToFriend() {
+            if (spareparts.length === 0) {
+                showToast("Tidak ada stok sparepart untuk dikirim.", true);
+                return;
+            }
+
+            let textContent = `*STOK SPAREPART ${appSettings.headerTitle.toUpperCase()}*\n`;
+            textContent += `Total: ${spareparts.length} Item\n------------------------------\n`;
+
+            spareparts.forEach((item, index) => {
+                textContent += `${index + 1}. *${item.name}* ${item.code ? `(${item.code})` : ''}\n`;
+                if(item.vbeltSize) textContent += `   Ukuran: ${item.vbeltSize}\n`;
+                textContent += `   Mobil: ${item.car}\n`;
+                textContent += `   Stok: ${item.stock} unit | Harga: ${formatRupiah(item.sellPrice)}\n\n`;
+            });
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `Stok Sparepart ${appSettings.headerTitle}`,
+                    text: textContent
+                }).catch(() => {});
+            } else {
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = textContent;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                showToast("Daftar stok disalin! Siap ditempel di WhatsApp.");
+            }
         }
 
         function handleLogoUpload(event) {
